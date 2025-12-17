@@ -1,25 +1,7 @@
-//*********************************************************************************************************************
-//*********************************************************************************************************************
-//                                      Coin Clicker Update 7 Codename 'Animation'
-//                                              Build 5.2 Animation Beta
+// Spoilers ahead!
 //
-//                                                   Spoilers ahead!
-//
-//                           This project is licensed under the GNU General Public License.
-//                                           For more info, see docs/COPYING
-//*********************************************************************************************************************
-//*********************************************************************************************************************
-
-
-
-//***************************************/
-//  Loading screen and error handler
-//***************************************/
-
-const loadingScreen = document.getElementById('loadingscreen'),
-  hiddenWhileLoading = document.getElementById('hideloading'),
-  error = document.createElement('p'),
-  errorStack = document.createElement('p');
+// This project is licensed under the GNU General Public License v2.
+// For more info, see docs/COPYING
 
 function errorHandler(err) {
   error.className = 'err';
@@ -32,65 +14,17 @@ function errorHandler(err) {
   document.body.appendChild(errorStack);
 }
 
-// Create initial variables and call system check function
-const runningBrowserString = document.getElementById('runningbrowserstring'),
-  titleScreen = document.getElementById('titlescreen');
-var debugConsole = document.getElementById('debugconsole').textContent,
-  browserStr = 'Undetected',
-  os = 'Undetected',
-  url = window.location.href;
-sysCheck();
+var debugConsole = document.getElementById('debugConsole').textContent;
 
-// Snoop through the client's user agent string to find various aspects of the system such as browser and OS.
-function sysCheck() {
-  // Shorthands, arrays, and indexes
-  let userAgent = navigator.userAgent,
-    userAgentData = navigator.userAgentData,
-    browsers = ['MSIE', 'Firefox', 'Safari', 'Chrome', 'OPR', 'Edg'],
-    oses = ['X11', 'Windows', 'Mac', 'Linux'],
-    index = browsers.length - 1,
-    osIndex = oses.length - 1;
-
-  // Find the browser brand
-  while (index > -1 && userAgent.indexOf(browsers[index]) == -1) index--;
-  if (index > -1) browserStr = browsers[index];
-
-  // Use user agent data to easily find the client's platform if their browser supports it
-  if (userAgentData != undefined) os = userAgentData.platform;
-
-  // Manually set PlayStation as the OS if it's found in the user agent string.
-  else if (userAgent.includes('PlayStation')) os = 'PlayStation';
-
-  // Perform a similar user agent string snoop to find the OS.
-  else {
-    while (osIndex > -1 && userAgent.indexOf(oses[osIndex]) == -1) osIndex--;
-    if (osIndex > -1) os = oses[osIndex];
-    if (os == 'X11') os = 'Unix';
-  }
-
-  // Normalize browser strings
-  if (browserStr == 'Edg') browserStr = 'Edge'; else if (browserStr == 'OPR') browserStr = 'Opera';
-
-  // Attempt to detect and shorten proper URL
-  if (url == 'https://coin-clicker.surge.sh/') url = 'Surge';
-  else if (window.location.pathname.includes('index.html')) url = 'Local File';
-
-  // Assemble a title screen string and display the title screen.
-  // This will also hide any outside hrefs if the Electron build is being played.
-  if (userAgent.indexOf('Electron') < 0) runningBrowserString.textContent = `${browserStr} on ${os} saying hello from ${url}`;
-  else {
-    runningBrowserString.textContent = `Running Electron build on ${os}`;
-    document.getElementById('surgelink').style.display = 'none';
-    document.getElementById('basedonbuildstring').style.display = 'none';
-  }
-  titleScreen.style.display = 'block';
-}
+const error = document.createElement('p'),
+  errorStack = document.createElement('p'),
 
 //***************************************/
 //             Title screen
 //***************************************/
 
-const sourceNote = document.getElementById('sourcenote'),
+  titleScreen = document.getElementById('titleScreen'),
+  sourceNote = document.getElementById('sourcenote'),
   buildString = document.getElementById('buildstring'),
   basedOnBuildString = document.getElementById('basedonbuildstring'),
   skipIntroString = document.getElementById('skipintrostring'),
@@ -513,9 +447,7 @@ Typing any command into the console that isn't recognized will have the same eff
 
 // CSS style variables for modifying the color of the browser console text
 let yellow = 'color: yellow;',
-  def = 'color: inherit;',
-  // Strings to log to the browser console
-  debugLogs = [`${browserStr}, ${os}, ${url}`, `Running beta ${buildInfo.UpdNum} codename '${buildInfo.UpdName}' build ${buildInfo.BuildStr}`];
+  def = 'color: inherit;';
 
 // Set the backgroundImage style element of the document body. This affects nothing visually, but will allow this setting to be modified appropriately by the player.
 document.body.style.backgroundImage = 'radial-gradient(rgb(250, 224, 65), rgb(249, 160, 40))';
@@ -778,7 +710,7 @@ function updateScreen() {
             unlockString.textContent = `Achievement Unlocked: ${ach[i][0]}`;
             newAchUnlocked = true;
           }
-          setTimeout(function () { unlockString.style.display = 'block'; }, 1);
+          setTimeout(function() { unlockString.style.display = 'block'; }, 1);
           SHT = 500;
         }
       }
@@ -895,10 +827,10 @@ function createBgElem() {
 }
 
 /**
- * Format numbers to be easy to read for the player. This function can format numbers in two different ways:  
- *   
- * toLocaleString (or a regex pattern if unsupported) to add commas to numbers. Integers with values over 1 quadrillion will become exponents  
- *   
+ * Format numbers to be easy to read for the player. This function can format numbers in two different ways:
+ *
+ * toLocaleString (or a regex pattern if unsupported) to add commas to numbers. Integers with values over 1 quadrillion will become exponents
+ *
  * A simpler variant that uses a combination of two arrays to display a small number with its corresponding name (thousand, million, etc)
  */
 function numberFix() {
@@ -1085,7 +1017,7 @@ function loadGame() {
           // Clicker
           if (shop.ClickersOwned >= 1 && graphicsMode == 'Quality') {
             clickerImg.style.animation = 'clickermov 2s forwards';
-            setTimeout(function () {
+            setTimeout(function() {
               clickerImg.style.transform = 'translate3d(35.5vw, 7.2vw, 0) rotate(172deg)';
               clickerImg.style.animation = 'clickerclick 0.5s 0.5s infinite ease-in alternate';
             }, 3000);
@@ -1094,7 +1026,7 @@ function loadGame() {
           // Super Clicker
           if (shop.SuperClickersOwned >= 1 && graphicsMode == 'Quality') {
             superClickerImg.style.animation = 'superclickermov 2s forwards';
-            setTimeout(function () {
+            setTimeout(function() {
               superClickerImg.style.transform = 'translate3d(44.5vw, 2vw, 0) rotate(175deg)';
               superClickerImg.style.animation = 'superclickerclick 0.5s 0.5s infinite ease-in alternate';
             }, 3000);
@@ -1103,7 +1035,7 @@ function loadGame() {
           // Double Pointer
           if (shop.DoublePointersOwned >= 1 && graphicsMode == 'Quality') {
             doublePointerImg.style.animation = 'doublepointermov 2s forwards';
-            setTimeout(function () {
+            setTimeout(function() {
               doublePointerImg.style.transform = 'translate3d(40.2vw, 6.9vw, 0) rotate(90deg)';
               doublePointerImg.style.animation = 'doublepointerclick 0.5s 0.5s infinite ease-in alternate';
             }, 3000);
@@ -1132,7 +1064,7 @@ function loadGame() {
             employeeImg.parentNode.removeChild(employeeImg);
             game.appendChild(employeeImg);
             employeeImg.style.animationPlayState = 'running';
-            setTimeout(function () {
+            setTimeout(function() {
               employeeImg.style.transform = 'translate3d(39.8vw, -5vw, 0)';
               employeeImg.style.animation = 'employeerock 2s linear infinite alternate';
             }, 3000);
@@ -1158,7 +1090,7 @@ function loadGame() {
           if (stats.Clicks != stats.TrueClicks) stats.HiddenAchievementsUnlocked++;
 
           // Set load flag
-          setTimeout(function () { init.DataLoaded = true; }, 150);
+          setTimeout(function() { init.DataLoaded = true; }, 150);
 
           // Remove save data if autoplay was enabled on the previous save.
         } else { localStorage.removeItem('saveData', saveData); if (!achCheck) init.DataLoaded = true; }
@@ -1607,7 +1539,7 @@ coin.addEventListener('click', (event) => {
   } catch (error) { errorHandler(error); }
 });
 
-clickerBuy.addEventListener('click', function () {
+clickerBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= shop.ClickerCost) {
     sfx5.play();
@@ -1628,7 +1560,7 @@ clickerBuy.addEventListener('click', function () {
       // Clicker CpS formula: Amount of clickers owned x2 + 3% of raw CpS + random number between 3 and 15.
       shop.ClickerCPS += Math.abs(Math.round(shop.ClickersOwned * 2 + Math.abs(0.03 * stats.RawClicksPS) + lib.rng(3, 15)));
 
-      // Clicker cost formula: Amount of clickers owned + clicker scale x raw CpS + amount of clickers owned x3 + random number between 100 and 200. 
+      // Clicker cost formula: Amount of clickers owned + clicker scale x raw CpS + amount of clickers owned x3 + random number between 100 and 200.
       shop.ClickerCost += Math.round(shop.ClickersOwned + (shop.ClickerScale * stats.RawClicksPS) + shop.ClickersOwned * 3 + lib.rng(100, 200));
 
     } else {
@@ -1643,7 +1575,7 @@ clickerBuy.addEventListener('click', function () {
     // Enable shop animation if this is the first clicker the player has bought.
     if (shop.ClickersOwned == 1) {
       clickerImg.style.animation = 'clickermov 2s forwards';
-      setTimeout(function () {
+      setTimeout(function() {
         clickerImg.style.transform = 'translate3d(35.5vw, 7.2vw, 0) rotate(172deg)';
         clickerImg.style.animation = 'clickerclick 0.5s 0.5s infinite ease-in alternate';
       }, 3000);
@@ -1655,7 +1587,7 @@ clickerBuy.addEventListener('click', function () {
   }
 });
 
-superClickerBuy.addEventListener('click', function () {
+superClickerBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= shop.SuperClickerCost) {
     sfx5.play();
@@ -1688,7 +1620,7 @@ superClickerBuy.addEventListener('click', function () {
 
     if (shop.SuperClickersOwned == 1) {
       superClickerImg.style.animation = 'superclickermov 2s forwards';
-      setTimeout(function () {
+      setTimeout(function() {
         superClickerImg.style.transform = 'translate3d(44.5vw, 2vw, 0) rotate(175deg)';
         superClickerImg.style.animation = 'superclickerclick 0.5s 0.5s infinite ease-in alternate';
       }, 3000);
@@ -1699,7 +1631,7 @@ superClickerBuy.addEventListener('click', function () {
   }
 });
 
-doublePointerBuy.addEventListener('click', function () {
+doublePointerBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= shop.DoublePointerCost) {
     sfx5.play();
@@ -1732,7 +1664,7 @@ doublePointerBuy.addEventListener('click', function () {
 
     if (shop.DoublePointersOwned == 1) {
       doublePointerImg.style.animation = 'doublepointermov 2s forwards';
-      setTimeout(function () {
+      setTimeout(function() {
         doublePointerImg.style.transform = 'translate3d(40.2vw, 6.9vw, 0) rotate(90deg)';
         doublePointerImg.style.animation = 'doublepointerclick 0.5s 0.5s infinite ease-in alternate';
       }, 3000);
@@ -1743,7 +1675,7 @@ doublePointerBuy.addEventListener('click', function () {
   }
 });
 
-upgradeButton.addEventListener('click', function () {
+upgradeButton.addEventListener('click', function() {
   sfx.play();
   sfx5 = new Audio();
   sfx5.src = './snd/shopbuy.mp3';
@@ -1763,7 +1695,7 @@ upgradeButton.addEventListener('click', function () {
   if (uShop.ClickerFusionUnlocked) clickerFusionImg.style.display = 'block';
 });
 
-upgradeRTS.addEventListener('click', function () {
+upgradeRTS.addEventListener('click', function() {
   sfx.play();
   shopPanel.style.display = 'block';
   upgradeShopPanel.style.display = 'none';
@@ -1781,7 +1713,7 @@ upgradeRTS.addEventListener('click', function () {
   if (!uShop.ClickerFusionOwned) clickerFusionImg.style.display = 'none';
 });
 
-cursorBuy.addEventListener('click', function () {
+cursorBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= uShop.CursorCost && !uShop.CursorOwned) {
     sfx5.play();
@@ -1809,7 +1741,7 @@ cursorBuy.addEventListener('click', function () {
   }
 });
 
-superCursorBuy.addEventListener('click', function () {
+superCursorBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= uShop.SuperCursorCost && !uShop.SuperCursorOwned) {
     sfx5.play();
@@ -1836,7 +1768,7 @@ superCursorBuy.addEventListener('click', function () {
   }
 });
 
-employeeBuy.addEventListener('click', function () {
+employeeBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= uShop.EmployeeCost) {
     sfx5.play();
@@ -1860,14 +1792,14 @@ employeeBuy.addEventListener('click', function () {
       employeeImg.parentNode.removeChild(employeeImg);
       game.appendChild(employeeImg);
       employeeImg.style.animationPlayState = 'running';
-      setTimeout(function () { employeeImg.style.transform = 'translate3d(39.8vw, -5vw, 0)'; employeeImg.style.animation = 'employeerock 2s linear infinite alternate'; }, 3000);
+      setTimeout(function() { employeeImg.style.transform = 'translate3d(39.8vw, -5vw, 0)'; employeeImg.style.animation = 'employeerock 2s linear infinite alternate'; }, 3000);
     }
 
     offlineCPSString.style.display = 'block';
   }
 });
 
-godFingerBuy.addEventListener('click', function () {
+godFingerBuy.addEventListener('click', function() {
   sfx.play();
   if (stats.Clicks >= uShop.GodFingerCost && !uShop.GodFingerOwned) {
     sfx5.play();
@@ -1889,7 +1821,7 @@ godFingerBuy.addEventListener('click', function () {
   }
 });
 
-clickerFusionBuy.addEventListener('click', function () {
+clickerFusionBuy.addEventListener('click', function() {
   sfx.play();
   if (shop.ClickersOwned >= 150 && !uShop.ClickerFusionOwned) {
     sfx5.play();
@@ -1911,13 +1843,13 @@ clickerFusionBuy.addEventListener('click', function () {
 });
 
 // Save button event listeners
-saveButton.addEventListener('click', function () { sfx.play(); manualSave = true; saveGame(); }); // Click
-saveButton.addEventListener('mouseover', function () { savingString.style.top = '4vw'; }); // Hover
-saveButton.addEventListener('mouseleave', function () { savingString.style.top = '2.6vw'; }); // Hover leave
-wipeSaveButton.addEventListener('click', function () { sfx.play(); wipeSave(); }); // Wipe save
+saveButton.addEventListener('click', function() { sfx.play(); manualSave = true; saveGame(); }); // Click
+saveButton.addEventListener('mouseover', function() { savingString.style.top = '4vw'; }); // Hover
+saveButton.addEventListener('mouseleave', function() { savingString.style.top = '2.6vw'; }); // Hover leave
+wipeSaveButton.addEventListener('click', function() { sfx.play(); wipeSave(); }); // Wipe save
 
 // Achievements
-achievementsButton.addEventListener('click', function () {
+achievementsButton.addEventListener('click', function() {
   game.style.display = 'none';
   achievementsPanel.style.display = 'block';
   lib.achLabelSwitch(0);
@@ -1927,43 +1859,43 @@ achievementsButton.addEventListener('click', function () {
   achievementsButtonIcon.style.color = 'rgb(0, 0, 0)';
 });
 
-backToGame.addEventListener('click', function () { sfx.play(); game.style.display = 'block'; achievementsPanel.style.display = 'none'; });
-journeyBegins.addEventListener('click', function () { lib.achLabelSwitch(0); });
-aGoodStart.addEventListener('click', function () { lib.achLabelSwitch(1); });
-gettingThere.addEventListener('click', function () { lib.achLabelSwitch(2); });
-millionare.addEventListener('click', function () { lib.achLabelSwitch(3); });
-coinPool.addEventListener('click', function () { lib.achLabelSwitch(4); });
-abundance.addEventListener('click', function () { lib.achLabelSwitch(5); });
-billionare.addEventListener('click', function () { lib.achLabelSwitch(6); });
-excess.addEventListener('click', function () { lib.achLabelSwitch(7); });
-planetOfClicks.addEventListener('click', function () { lib.achLabelSwitch(8); });
-trillionare.addEventListener('click', function () { lib.achLabelSwitch(9); });
-pocketDimension.addEventListener('click', function () { lib.achLabelSwitch(10); });
-farTooMany.addEventListener('click', function () { lib.achLabelSwitch(11); });
-quadrillionare.addEventListener('click', function () { lib.achLabelSwitch(12); });
-coinVortex.addEventListener('click', function () { lib.achLabelSwitch(13); });
-coinShapedBlackHole.addEventListener('click', function () { lib.achLabelSwitch(14); });
-quintillionare.addEventListener('click', function () { lib.achLabelSwitch(15); });
-clickBeyond.addEventListener('click', function () { lib.achLabelSwitch(16); });
-distantBeginning.addEventListener('click', function () { lib.achLabelSwitch(17); });
-sextillionare.addEventListener('click', function () { lib.achLabelSwitch(18); });
-numberOverflow.addEventListener('click', function () { lib.achLabelSwitch(19); });
-coinUniverse.addEventListener('click', function () { lib.achLabelSwitch(20); });
-septillionare.addEventListener('click', function () { lib.achLabelSwitch(21); });
-why.addEventListener('click', function () { lib.achLabelSwitch(22); });
-twentyFingers.addEventListener('click', function () { lib.achLabelSwitch(23); });
-forTheWorthy.addEventListener('click', function () { lib.achLabelSwitch(24); });
-breakpoint.addEventListener('click', function () { lib.achLabelSwitch(25); });
-cheater.addEventListener('click', function () { lib.achLabelSwitch(26); });
+backToGame.addEventListener('click', function() { sfx.play(); game.style.display = 'block'; achievementsPanel.style.display = 'none'; });
+journeyBegins.addEventListener('click', function() { lib.achLabelSwitch(0); });
+aGoodStart.addEventListener('click', function() { lib.achLabelSwitch(1); });
+gettingThere.addEventListener('click', function() { lib.achLabelSwitch(2); });
+millionare.addEventListener('click', function() { lib.achLabelSwitch(3); });
+coinPool.addEventListener('click', function() { lib.achLabelSwitch(4); });
+abundance.addEventListener('click', function() { lib.achLabelSwitch(5); });
+billionare.addEventListener('click', function() { lib.achLabelSwitch(6); });
+excess.addEventListener('click', function() { lib.achLabelSwitch(7); });
+planetOfClicks.addEventListener('click', function() { lib.achLabelSwitch(8); });
+trillionare.addEventListener('click', function() { lib.achLabelSwitch(9); });
+pocketDimension.addEventListener('click', function() { lib.achLabelSwitch(10); });
+farTooMany.addEventListener('click', function() { lib.achLabelSwitch(11); });
+quadrillionare.addEventListener('click', function() { lib.achLabelSwitch(12); });
+coinVortex.addEventListener('click', function() { lib.achLabelSwitch(13); });
+coinShapedBlackHole.addEventListener('click', function() { lib.achLabelSwitch(14); });
+quintillionare.addEventListener('click', function() { lib.achLabelSwitch(15); });
+clickBeyond.addEventListener('click', function() { lib.achLabelSwitch(16); });
+distantBeginning.addEventListener('click', function() { lib.achLabelSwitch(17); });
+sextillionare.addEventListener('click', function() { lib.achLabelSwitch(18); });
+numberOverflow.addEventListener('click', function() { lib.achLabelSwitch(19); });
+coinUniverse.addEventListener('click', function() { lib.achLabelSwitch(20); });
+septillionare.addEventListener('click', function() { lib.achLabelSwitch(21); });
+why.addEventListener('click', function() { lib.achLabelSwitch(22); });
+twentyFingers.addEventListener('click', function() { lib.achLabelSwitch(23); });
+forTheWorthy.addEventListener('click', function() { lib.achLabelSwitch(24); });
+breakpoint.addEventListener('click', function() { lib.achLabelSwitch(25); });
+cheater.addEventListener('click', function() { lib.achLabelSwitch(26); });
 
 // Debug command line
-cmdForm.addEventListener("submit", function (event) { event.preventDefault(); commandInterpret(); });
+cmdForm.addEventListener("submit", function(event) { event.preventDefault(); commandInterpret(); });
 
 // Settings panel
-settingsButton.addEventListener('click', function () { sfx.play(); settingsPanel.style.display = 'block'; game.style.display = 'none'; });
-backToGame2.addEventListener('click', function () { sfx.play(); game.style.display = 'block'; settingsPanel.style.display = 'none'; });
+settingsButton.addEventListener('click', function() { sfx.play(); settingsPanel.style.display = 'block'; game.style.display = 'none'; });
+backToGame2.addEventListener('click', function() { sfx.play(); game.style.display = 'block'; settingsPanel.style.display = 'none'; });
 
-volumeInput.addEventListener('change', function () {
+volumeInput.addEventListener('change', function() {
   try {
     let sndArr = [sfx, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx7point1];
     if (volumeInput.value >= 0 && volumeInput.value <= 100 && readyToSave) {
@@ -1973,15 +1905,15 @@ volumeInput.addEventListener('change', function () {
   } catch (error) { errorHandler(error); }
 });
 
-autoBuyBtn.addEventListener('click', function () { if (shop.DoAutobuy) { autoBuyBtn.textContent = 'OFF'; shop.DoAutobuy = false; } else { autoBuyBtn.textContent = 'ON'; shop.DoAutobuy = true; } });
+autoBuyBtn.addEventListener('click', function() { if (shop.DoAutobuy) { autoBuyBtn.textContent = 'OFF'; shop.DoAutobuy = false; } else { autoBuyBtn.textContent = 'ON'; shop.DoAutobuy = true; } });
 
-bgGradCenterInput.addEventListener('change', function () { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
+bgGradCenterInput.addEventListener('change', function() { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
 
-bgGradEdgeInput.addEventListener('change', function () { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
+bgGradEdgeInput.addEventListener('change', function() { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
 
-graphicsBtn.addEventListener('click', function () { sfx.play(); if (graphicsMode == 'Quality') graphicsMode = 'Performance'; else graphicsMode = 'Quality'; graphicsBtn.textContent = graphicsMode; });
+graphicsBtn.addEventListener('click', function() { sfx.play(); if (graphicsMode == 'Quality') graphicsMode = 'Performance'; else graphicsMode = 'Quality'; graphicsBtn.textContent = graphicsMode; });
 
-resetBgButton.addEventListener('click', function () {
+resetBgButton.addEventListener('click', function() {
   let prompt = confirm('This is completely irreversible! Are you sure you wish to continue? (You will need to save again for these changes to stay.)');
   if (prompt) {
     bgGradCenterInput.value = '250, 224, 65';
@@ -1992,7 +1924,7 @@ resetBgButton.addEventListener('click', function () {
 
 // Remove background particles that could slow down the reload process, and save the game
 // If the game cannot be saved, prompt
-window.addEventListener('beforeunload', function (event) {
+window.addEventListener('beforeunload', function(event) {
   event.stopImmediatePropagation();
   $('.bg').remove();
   $('.coinparticle').remove();
@@ -2006,17 +1938,17 @@ window.addEventListener('beforeunload', function (event) {
 });
 
 // Vibrate the connected gamepad twice and set it up for input polling
-window.addEventListener('gamepadconnected', function (event) {
+window.addEventListener('gamepadconnected', function(event) {
   event.gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 100, weakMagnitude: 1.0, strongMagnitude: 1.0 });
-  setTimeout(function () { event.gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 100, weakMagnitude: 1.0, strongMagnitude: 1.0 }); }, 500);
+  setTimeout(function() { event.gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 100, weakMagnitude: 1.0, strongMagnitude: 1.0 }); }, 500);
   globalThis.gamepad = event.gamepad;
-  this.setInterval(function () { gamepad = navigator.getGamepads()[0] }, 1);
+  this.setInterval(function() { gamepad = navigator.getGamepads()[0] }, 1);
   unlockString.textContent = `Gamepad connected: ${event.gamepad.id}`;
   SHT = 500;
 });
 
 // Add intro animations over time to the title screen to prevent the title screen from behaving strangely if a prompt is displayed
-document.addEventListener('loadevt', function () {
+document.addEventListener('loadevt', function() {
   try {
     //Hide loading screen
     loadingScreen.style.display = 'none';
@@ -2027,7 +1959,7 @@ document.addEventListener('loadevt', function () {
     $('.coins').css('-webkit-animation-play-state', 'running');
     $('#skipintrostring').css('-webkit-animation-play-state', 'running');
 
-    setTimeout(function () {
+    setTimeout(function() {
       if (!init.GameStarted) sfx6.play();
 
       // Coin animations
@@ -2035,12 +1967,12 @@ document.addEventListener('loadevt', function () {
       smallCoin4.style.animation = 'smallCoinMove4 1.5s 0.5s forwards';
       sfx6 = new Audio();
       sfx6.src = './snd/coinwhoosh.mp3';
-      setTimeout(function () { if (!init.GameStarted) sfx6.play(); }, 500);
+      setTimeout(function() { if (!init.GameStarted) sfx6.play(); }, 500);
       smallCoin1.style.animation = 'smallCoinMove1 1.5s 0.8s forwards';
       smallCoin2.style.animation = 'smallCoinMove2 1.5s 0.8s forwards';
 
-      setTimeout(function () {
-        setTimeout(function () {
+      setTimeout(function() {
+        setTimeout(function() {
           if (!init.GameStarted) sfx7.play();
 
           // Title string and cosmetic clicker icon
@@ -2051,17 +1983,17 @@ document.addEventListener('loadevt', function () {
           // Hide the skip intro string
           skipIntroString.style.animation = 'btmstringmov 1s ease-in forwards';
 
-          setTimeout(function () {
+          setTimeout(function() {
             if (!init.GameStarted) sfx7point1.play();
             // Beta text string
             if (!prompting) $('#betastring').css('-webkit-animation-play-state', 'running');
 
-            setTimeout(function () {
+            setTimeout(function() {
               if (!init.GameStarted) sfx7.play();
               // Update name string
               if (!prompting) $('#updatestring').css('-webkit-animation-play-state', 'running');
 
-              setTimeout(function () {
+              setTimeout(function() {
                 // Spinning coins
                 smallCoin3.style.rotate = '270deg';
                 smallCoin4.style.rotate = '270deg';
@@ -2070,11 +2002,11 @@ document.addEventListener('loadevt', function () {
                 smallCoin3.style.animation = 'smallCoinSpin3 10s linear infinite';
                 smallCoin4.style.animation = 'smallCoinSpin4 10s linear infinite';
 
-                setTimeout(function () {
+                setTimeout(function() {
                   // Start button
                   if (!prompting) $('#startbutton').css('-webkit-animation-play-state', 'running');
 
-                  setTimeout(function () {
+                  setTimeout(function() {
                     if (!prompting) {
                       // Bottom information strings (build info, browser and client strings, etc)
                       $('.btmstr').css('-webkit-animation-play-state', 'running');
@@ -2090,7 +2022,7 @@ document.addEventListener('loadevt', function () {
   } catch (error) { errorHandler(error); }
 });
 
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', function(event) {
   try {
     // Ctrl-S to save
     if ((event.key == 's' || event.key == 'S') && event.ctrlKey && debugScreenState == 'closed' && !debugAutoplay) {
@@ -2175,10 +2107,10 @@ document.addEventListener('keydown', function (event) {
 });
 
 // Space to click the coin
-document.addEventListener('keyup', function (event) { if (event.key == ' ' && game.style.display == 'block') coin.click(); });
+document.addEventListener('keyup', function(event) { if (event.key == ' ' && game.style.display == 'block') coin.click(); });
 
 // Shift the position of info labels so they follow the cursor
-document.addEventListener('mousemove', function (event) {
+document.addEventListener('mousemove', function(event) {
   let left = event.clientX,
     top = event.clientY;
 
@@ -2203,7 +2135,7 @@ document.addEventListener('mousemove', function (event) {
   settingsLabel.style.top = `${top}px`;
 });
 
-betaString.addEventListener('animationend', function () { startBgCreate = !startBgCreate /*True*/ });
+betaString.addEventListener('animationend', function() { startBgCreate = !startBgCreate /*True*/ });
 
 //***************************************/
 //          Function intervals
@@ -2217,10 +2149,10 @@ setInterval(rgChange, 25);
 
 // If a buff is inactive, autosave
 // Otherwise, keep the autosave pending until the buff finishes
-setInterval(function () { if (doAutosave && buff == 'none' && init.GameStarted && ach[0][3]) { manualSave = false; saveGame(); } else if (buff != 'none') autosavePending = !autosavePending /*True*/ }, 60000);
+setInterval(function() { if (doAutosave && buff == 'none' && init.GameStarted && ach[0][3]) { manualSave = false; saveGame(); } else if (buff != 'none') autosavePending = !autosavePending /*True*/ }, 60000);
 
 // Update the save information string 
-setInterval(function () {
+setInterval(function() {
   if (textSwitch && !debugAutoplay) {
     saveInfoString.textContent = `Last saved: ${lastSavedTime}`;
     textSwitch = false;
@@ -2232,9 +2164,9 @@ setInterval(function () {
 var buttonPressed = false;
 
 // Increment the playtime if 'Journey Begins' is unlocked.
-setInterval(function () { if (ach[0][3]) stats.Playtime += 1000; buffRNGCalc(); }, 1000);
+setInterval(function() { if (ach[0][3]) stats.Playtime += 1000; buffRNGCalc(); }, 1000);
 
-setInterval(function () {
+setInterval(function() {
   // Timeout to hide certain labels
   SHT--;
   if (SHT == 0) {
