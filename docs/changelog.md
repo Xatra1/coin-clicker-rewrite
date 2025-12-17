@@ -132,3 +132,5 @@ If your gamepad is detected, it's name should appear near the bottom of the scre
 - The debug screen toggle is now Alt-D
 - The debug mode keybind is now Ctrl-Alt-D
 - The debug mode + debug autoplay keybind is now Ctrl-Alt-B
+
+# Build 6.0

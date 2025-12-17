@@ -37,16 +37,16 @@ a {
 /* General + Multi-class */
 
 .buttons,
-.statstrs,
+.statStrings,
 .label,
-.shopinfostr,
-.shopbuttons {
+.shopInfoString,
+.shopButtons {
   border: solid black 0.05vw;
 }
 
-.shopstrings,
-.ushopstrings,
-.statstrs {
+.shopStrings,
+.upgradeShopStrings,
+.statStrings {
   text-align: center;
   cursor: default;
 }
@@ -57,7 +57,7 @@ a {
 }
 
 .buttons,
-.tsclicker {
+.titleScreenClicker {
   background: transparent no-repeat center;
   background-size: 90%;
   font-family: CourierReg;
@@ -77,7 +77,7 @@ a {
   display: none;
 }
 
-.bgelement {
+.backgroundElement {
   z-index: -1;
 }
 
@@ -99,14 +99,14 @@ a {
   animation: coinOpacity 2.5s forwards;
 }
 
-.titlestr {
+.titleStrings {
   font-weight: 100;
-  animation: titlestrsmov 1s ease-out forwards;
+  animation: titleStringsMove 1s ease-out forwards;
 }
 
-.btmstr {
+.bottomStrings {
   top: 100.5vh;
-  animation: btmstringmov 1s ease-out forwards;
+  animation: bottomStringsMove 1s ease-out forwards;
 }
 
 /* Game screen */
@@ -120,7 +120,7 @@ a {
 
 /* Shop panel */
 
-.shopbuttons {
+.shopButtons {
   background: transparent no-repeat center;
   background-size: 90%;
   transition: width 0.3s, height 0.3s;
@@ -130,36 +130,36 @@ a {
   cursor: pointer;
 }
 
-.shopbuttons:hover {
+.shopButtons:hover {
   height: 3.2vw;
   width: 3.2vw;
 }
 
-.shopstrings {
+.shopStrings {
   font-size: 0.9vw;
   left: 10.8vw;
 }
 
-.shophover:hover {
+.shopHover:hover {
   height: 3.2vw;
   width: 3.2vw;
 }
 
-.shophover:active {
+.shopHover:active {
   height: 3vw;
   width: 3vw;
 }
 
 /* Upgrade shop panel */
 
-.ushopstrings {
+.upgradeShopStrings {
   font-size: 0.9vw;
   left: 10.8vw;
 }
 
 /* Stats panel */
 
-.statstrs {
+.statStrings {
   position: relative;
   width: 28vw;
   left: 70vw;
@@ -167,14 +167,14 @@ a {
 
 /* Achievements panel */
 
-.ach.buttons {
+.achievements.buttons {
   background: transparent no-repeat center;
   background-size: 90%;
   height: 3vw;
   width: 3vw;
 }
 
-.ach.icons {
+.achievements.icons {
   font-size: 2.2vw;
   vertical-align: middle;
   line-height: 3vw;
@@ -197,27 +197,27 @@ a {
 
 /* Multi-ID */
 
-#savebuttonhovercontainer .hover-trigger:hover+.hover-target,
-#achievementsbtnhovercontainer .hover-trigger:hover+.hover-target,
-#settingsbtnhovercontainer .hover-trigger:hover+.hover-target,
-#clickerhovercontainer .hover-trigger:hover+.hover-target,
-#superclickerhovercontainer .hover-trigger:hover+.hover-target,
-#doublepointerhovercontainer .hover-trigger:hover+.hover-target {
+#saveButtonHoverContainer .hover-trigger:hover+.hover-target,
+#achievementsButtonHoverContainer .hover-trigger:hover+.hover-target,
+#settingsButtonHoverContainer .hover-trigger:hover+.hover-target,
+#clickerHoverContainer .hover-trigger:hover+.hover-target,
+#superClickerHoverContainer .hover-trigger:hover+.hover-target,
+#doublePointerHoverContainer .hover-trigger:hover+.hover-target {
   display: block;
 }
 
-#fortheworthy:hover,
+#forTheWorthy:hover,
 #breakpoint:hover {
   box-shadow: 0.05vw 0.05vw 0.2px lightgreen, -0.05vw -0.05vw 0.2px lightgreen;
 }
 
-#wipesavebutton:hover,
+#wipeSaveButton:hover,
 #cheater:hover {
   box-shadow: 0.05vw 0.05vw 0.2px red, -0.05vw -0.05vw 0.2px red;
 }
 
-#upgradebutton,
-#shopreturnbutton {
+#upgradeButton,
+#shopReturnButton {
   height: 3vw;
   width: 10vw;
   top: 90vh;
@@ -226,7 +226,7 @@ a {
 
 /* Loading screen */
 
-#loadstring {
+#loadString {
   font-weight: 100;
 }
 
@@ -238,26 +238,21 @@ a {
   top: -4vh;
   opacity: 40%;
   z-index: -1;
-  animation: bgmove 4s linear forwards;
+  animation: backgroundMove 4s linear forwards;
 }
 
-#skipintrostring {
+#skipIntroString {
   top: -0.1vh;
   left: 35.3vw;
   animation: coinOpacity 2.5s forwards;
 }
 
-#basedonbuildstring {
+#basedOnBuildString {
   top: 102.5vh;
   left: 86.5vw;
 }
 
-#surgelink {
-  top: 100.5vh;
-  left: 87vw;
-}
-
-#runningbrowserstring {
+#runningBrowserString {
   left: 31vw;
   width: 37vw;
 }
@@ -269,13 +264,13 @@ a {
   left: 42.2vw;
 }
 
-#betastring {
+#betaString {
   font-size: 2.5vw;
   top: -26.5vh;
   left: 44.2vw;
 }
 
-#updatestring {
+#updateString {
   font-size: 1.5vw;
   width: 37vw;
   height: 37vw;
@@ -283,26 +278,26 @@ a {
   left: 31.2vw;
 }
 
-#startbutton {
+#startButton {
   height: 3vw;
   width: 10vw;
   top: 100vh;
   left: 45vw;
-  animation: startmov 1.5s ease-out forwards;
+  animation: startButtonMove 1.5s ease-out forwards;
 }
 
-#tsclicker {
+#titleScreencCicker {
   background-image: url('../img/shop/clicker.png');
   opacity: 0%;
   height: 4vw;
   width: 4vw;
   top: -35.2vh;
   left: 48.1vw;
-  animation: titlestrsmov 1.5s forwards, tsclickermov 1.5s 1s forwards;
+  animation: titleStringssMove 1.5s forwards, titleScreenClickerMove 1.5s 1s forwards;
   cursor: default;
 }
 
-#sourcenote {
+#sourceNote {
   font-size: 0.9vw;
 }
 
@@ -331,7 +326,7 @@ a {
   background-size: 80%;
 }
 
-#coinparticle {
+#coinParticle {
   background-image: url('../img/coin.png');
   border: none;
   height: 2.5vw;
@@ -339,54 +334,54 @@ a {
   pointer-events: none;
 }
 
-#clickstring {
+#clickString {
   width: 37vw;
   top: 26.7vw;
   left: 31vw;
   cursor: default;
 }
 
-#cpsstring {
+#cpsString {
   width: 37vw;
   top: 28.3vw;
   left: 31vw;
   cursor: default;
 }
 
-#clickvaluestring {
+#clickValueString {
   width: 37vw;
   top: 30vw;
   left: 31vw;
   cursor: default;
 }
 
-#savebutton {
+#saveButton {
   height: 3vw;
   width: 10vw;
   top: 0.5vw;
   left: 44.5vw;
 }
 
-#savingstring {
+#savingString {
   width: 37vw;
   top: 2.6vw;
   left: 31vw;
 }
 
-#saveinfo {
+#saveInfo {
   width: 37vw;
   top: 3vw;
   left: 30.4vw;
   font-size: 0.8vw;
 }
 
-#unlockstring {
+#unlockString {
   width: 37vw;
   top: 39vw;
   left: 30.5vw;
 }
 
-#bufflabel {
+#buffLabel {
   width: 37vw;
   top: 35vw;
   left: 31vw;
@@ -396,37 +391,37 @@ a {
   top: -0.1vw;
 }
 
-#leftborder {
+#leftBorder {
   left: 29vw;
 }
 
-#rightborder {
+#rightBorder {
   left: 69.5vw;
 }
 
-#achievementslabel {
+#achievementsLabel {
   width: 7.7vw;
 }
 
-#achievementsbutton {
+#achievementsButton {
   height: 3vw;
   width: 3vw;
   top: 0.5vw;
   left: 30vw;
 }
 
-#achievementsbtnicon {
+#achievementsButtonIcon {
   height: 3.2vw;
   width: 3.2vw;
   top: 0.5vw;
   left: 29.9vw;
 }
 
-#settingslabel {
+#settingsLabel {
   width: 6.8vw;
 }
 
-#settingsbutton {
+#settingsButton {
   background-image: url('../img/settings/settings.png');
   height: 3vw;
   width: 3vw;
@@ -434,400 +429,370 @@ a {
   left: 65.7vw;
 }
 
-#fpslabel {
+#fpsLabel {
   display: none;
   top: -0.5vw;
 }
 
 /* Shop panel elements */
 
-#shopicon {
+#shopIcon {
   height: 3.5vw;
   width: 3.5vw;
   top: 1.28vw;
   left: 8.3vw;
 }
 
-#shopstring {
+#shopString {
   font-size: 2.5vw;
   top: -0.5vw;
   left: 12.5vw;
 }
 
-#autobuystring {
+#autoBuyString {
   width: 15vw;
   font-size: 0.8vw;
   top: 4vw;
   left: 6vw;
 }
 
-#clickerinfo {
+#clickerInfo {
   font-size: 0.8vw;
   width: 13.5vw;
 }
 
-#clickerimg {
+#clickerImage {
   background-image: url('../img/shop/clicker.png');
   border: none;
   top: 7vw;
 }
 
-#clickerbuy {
+#clickerBuy {
   background-image: url('../img/shop/clicker.png');
   top: 7vw;
 }
 
-#clickerstring {
+#clickerString {
   top: 5vw;
   left: 7.2vw;
 }
 
-#clickercpsstring {
+#clickerCpsString {
   top: 6.2vw;
 }
 
-#clickercoststring {
+#clickerCostString {
   top: 7.2vw;
 }
 
-#clickersownedstring {
+#clickersOwnedString {
   top: 8.2vw;
 }
 
-#superclickerinfo {
+#superClickerInfo {
   font-size: 0.8vw;
   width: 13.5vw;
 }
 
-#superclickerimg {
+#superClickerImage {
   background-image: url('../img/shop/superclicker.png');
   border: none;
   top: 12vw;
-  animation: superclickermov 2s forwards;
+  animation: superClickerMove 2s forwards;
 }
 
-#superclickerbuy {
+#superClickerBuy {
   background-image: url('../img/shop/superclicker.png');
   top: 12vw;
 }
 
-#superclickerstring {
+#superClickerString {
   top: 10vw;
   left: 5.6vw;
 }
 
-#superclickercpsstring {
+#superClickerCpsString {
   top: 11.2vw;
 }
 
-#superclickercoststring {
+#superClickerCostString {
   top: 12.2vw;
 }
 
-#superclickersownedstring {
+#superClickersOwnedString {
   top: 13.2vw;
 }
 
-#doublepointerinfo {
+#doublePointerInfo {
   font-size: 0.8vw;
   width: 13.5vw;
 }
 
-#doublepointerimg {
+#doublePointerImage {
   background-image: url('../img/shop/doublepointer.png');
   border: none;
   top: 17vw;
-  animation: doublepointermov 2s forwards;
+  animation: doublePointerMove 2s forwards;
 }
 
-#doublepointerbuy {
+#doublePointerBuy {
   background-image: url('../img/shop/doublepointer.png');
   top: 17vw;
 }
 
-#doublepointerstring {
+#doublePointerString {
   top: 15vw;
   left: 5.5vw;
 }
 
-#doublepointercpsstring {
+#doublePointerCpsString {
   top: 16.2vw;
 }
 
-#doublepointercoststring {
+#doublePointerCostString {
   top: 17.2vw;
 }
 
-#doublepointersownedstring {
+#doublePointersOwnedString {
   top: 18.2vw;
 }
 
 /* Upgrade shop panel elements */
 
-#upgradeshopicon {
+#upgradeShopIcon {
   height: 3.5vw;
   width: 3.5vw;
   top: 1.28vw;
   left: 5.8vw;
 }
 
-#upgradestring {
+#upgradeString {
   font-size: 2.5vw;
   top: -0.5vw;
   left: 10vw;
 }
 
-#cursorimg {
+#cursorImage {
   background-image: url('../img/shop/cursor.png');
   border: none;
   top: 7vw;
-  animation: cursormov 2s ease-out forwards;
+  animation: cursorMove 2s ease-out forwards;
   cursor: default;
 }
 
-#cursorbuy {
+#cursorBuy {
   background-image: url('../img/shop/cursor.png');
   top: 7vw;
   display: block;
 }
 
-#cursorstring {
+#cursorString {
   top: 5vw;
   left: 7.55vw;
 }
 
-#cursorcpsstring {
+#cursorCpsString {
   top: 6.2vw;
 }
 
-#cursorcoststring {
+#cursorCostString {
   top: 7.2vw;
 }
 
-#cursorownedstring {
+#cursorOwnedString {
   top: 8.2vw;
 }
 
-#supercursorimg {
+#superCursorImage {
   background-image: url('../img/shop/supercursor.png');
   border: none;
   top: 12vw;
-  animation: supercursormov 2s forwards;
+  animation: superCursorMove 2s forwards;
   cursor: default;
 }
 
-#supercursorbuy {
+#superCursorBuy {
   background-image: url('../img/shop/supercursor.png');
   top: 12vw;
 }
 
-#supercursorstring {
+#superCursorString {
   top: 10vw;
   left: 6vw;
 }
 
-#supercursorcpsstring {
+#superCursorCpsString {
   top: 11.2vw;
 }
 
-#supercursorcoststring {
+#superCursorCostString {
   top: 12.2vw;
 }
 
-#supercursorownedstring {
+#superCursorOwnedString {
   top: 13.2vw;
 }
 
-#employeeimg {
+#employeeImage {
   background-image: url('../img/shop/employee.png');
   border: none;
   top: 17vw;
-  animation: employeemov 2s forwards;
+  animation: employeeMove 2s forwards;
   cursor: default;
 }
 
-#employeebuy {
+#employeeBuy {
   background-image: url('../img/shop/employee.png');
   top: 17vw;
 }
 
-#employeestring {
+#employeeString {
   top: 15vw;
   left: 7vw;
 }
 
-#employeecpsstring {
+#employeeCpsString {
   top: 16.2vw;
 }
 
-#employeecoststring {
+#employeeCostString {
   top: 17.2vw;
 }
 
-#employeesownedstring {
+#employeesOwnedString {
   top: 18.2vw;
 }
 
-#godfingerimg {
+#godFingerImage {
   background-image: url('../img/shop/godfinger.png');
   border: none;
   top: 22vw;
-  animation: godfingermov 2s forwards;
+  animation: godFingerMove 2s forwards;
   cursor: default;
 }
 
-#godfingerbuy {
+#godFingerBuy {
   background-image: url('../img/shop/godfinger.png');
   top: 22vw;
 }
 
-#godfingerstring {
+#godFingerString {
   top: 20vw;
   left: 6.6vw;
 }
 
-#godfingerperkstring {
+#godFingerPerkString {
   top: 21.2vw;
 }
 
-#godfingercoststring {
+#godFingerCostString {
   top: 22.2vw;
 }
 
-#godfingerownedstring {
+#godFingerOwnedString {
   top: 23.2vw;
 }
 
-#clickerfusioninfo {
+#clickerFusionInfo {
   font-size: 0.8vw;
   width: 13.5vw;
 }
 
-#clickerfusionimg {
+#clickerFusionImage {
   background-image: url('../img/shop/clicker.png');
   border: none;
   top: 27vw;
-  animation: clickerfusionmov 2s forwards;
+  animation: clickerFusionMove 2s forwards;
 }
 
-#clickerfusionbuy {
+#clickerFusionBuy {
   background-image: url('../img/shop/clicker.png');
   top: 27vw;
 }
 
-#clickerfusionstring {
+#clickerFusionString {
   top: 25vw;
   left: 5.5vw;
 }
 
-#clickerfusionperkstring {
+#clickerFusionPerkString {
   top: 26.2vw;
 }
 
-#clickerfusioncoststring {
+#clickerFusionCostString {
   top: 27.2vw;
 }
 
-#clickerfusionownedstring {
+#clickerFusionOwnedString {
   top: 28.2vw;
 }
 
 /* Stats panel elements */
-#statsstring {
+#statsString {
   font-size: 2.5vw;
   width: 7.5vw;
   top: -0.5vw;
   left: 82vw;
 }
 
-#statsicon {
+#statsIcon {
   height: 3.5vw;
   width: 3.5vw;
   top: 1.28vw;
   left: 78vw;
 }
 
-#timestring {
+#timeString {
   top: 5.5vw;
 }
 
-#lifetimeclicksstring {
+#lifetimeClicksString {
   top: 6vw;
 }
 
-#lifetimemanualclicksstring {
+#lifetimeManualClicksString {
   top: 6.5vw;
 }
 
-#coinclickcountstring {
+#coinClickCountString {
   top: 7vw;
 }
 
-#totalclickhelpersstring {
+#totalClickHelpersString {
   top: 7.5vw;
 }
 
-#achievementsunlockedstring {
+#achievementsUnlockedString {
   top: 8vw;
 }
 
-#rawcpsstring {
+#rawCpsString {
   top: 8.5vw;
 }
 
-#rawcvstring {
+#rawClickValueString {
   top: 9vw;
 }
 
-#offlinecpsstring {
+#offlineCpsString {
   top: 9.5vw;
 }
 
 /* Debug screen elements */
 
-#debugscreenlabel {
+#debugScreenLabel {
   font-weight: 100;
   font-size: 2.4vw;
   top: 15vw;
   left: 41.5vw;
 }
 
-#debuginputfield {
+#debugInputField {
   background: transparent;
 }
 
-#dbip {
-  font-size: 1.3vw;
-  top: 21.5vw;
-  left: 39.3vw;
-}
 
-#debugkeyinput {
-  border: solid 0.05vw black;
-  background: transparent;
-  font-family: inherit;
-  position: fixed;
-  resize: none;
-  height: 2vw;
-  width: 20vw;
-  top: 25vw;
-  left: 39vw;
-}
-
-#debugkeysubmit {
-  height: 2vw;
-  width: 7vw;
-  top: 28vw;
-  left: 45.5vw;
-}
-
-#incorrectkeyentered {
-  font-size: 15px;
-  top: 29.5vw;
-  left: 45.8vw;
-}
-
-#debugconsole {
+#debugConsole {
   border: solid 0.05vw black;
   background: transparent;
   font-family: inherit;
@@ -838,7 +803,7 @@ a {
   left: 31vw;
 }
 
-#debugcmdinput {
+#debugCommandInput {
   border: solid 0.05vw black;
   background: transparent;
   font-family: inherit;
@@ -851,44 +816,44 @@ a {
 
 /* Achievements screen element */
 
-#achievementsheader {
+#achievementsHeader {
   font-weight: 100;
   font-size: 2vw;
   top: 0vw;
   left: 42.5vw;
 }
 
-#achievementnamestring {
+#achievementNameString {
   width: 18vw;
   top: 4vw;
   left: 40.5vw;
 }
 
-#achievementdescriptionstring {
+#achievementDescriptionString {
   width: 36vw;
   top: 6vw;
   left: 31.5vw;
 }
 
-#achievementunlockedstring {
+#achievementUnlockedString {
   width: 36vw;
   top: 9.5vw;
   left: 31.5vw;
 }
 
-#journeybegins {
+#journeyBegins {
   background-image: url('../img/achievements/thousandachievements.png');
   top: 13vw;
   left: 31.5vw;
 }
 
-#agoodstart {
+#aGoodStart {
   background-image: url('../img/achievements/thousandachievements.png');
   top: 13vw;
   left: 34.5vw;
 }
 
-#gettingthere {
+#gettingThere {
   background-image: url('../img/achievements/thousandachievements.png');
   top: 13vw;
   left: 37.5vw;
@@ -900,7 +865,7 @@ a {
   left: 40.5vw;
 }
 
-#coinpool {
+#coinPool {
   background-image: url('../img/achievements/millionachievements.png');
   top: 13vw;
   left: 43.5vw;
@@ -924,7 +889,7 @@ a {
   left: 52.5vw;
 }
 
-#planetofclicks {
+#planetOfClicks {
   background-image: url('../img/achievements/billionachievements.png');
   top: 13vw;
   left: 55.5vw;
@@ -936,13 +901,13 @@ a {
   left: 58.5vw;
 }
 
-#pocketdimension {
+#pocketDimension {
   background-image: url('../img/achievements/trillionachievements.png');
   top: 13vw;
   left: 61.5vw;
 }
 
-#fartoomany {
+#farTooMany {
   background-image: url('../img/achievements/trillionachievements.png');
   top: 13vw;
   left: 64.5vw;
@@ -954,13 +919,13 @@ a {
   left: 31.5vw;
 }
 
-#coinvortex {
+#coinVortex {
   background-image: url('../img/achievements/quadrillionachievements.png');
   top: 16vw;
   left: 34.5vw;
 }
 
-#coinshapedblackhole {
+#coinShapedBlackHole {
   background-image: url('../img/achievements/quadrillionachievements.png');
   top: 16vw;
   left: 37.5vw;
@@ -972,13 +937,13 @@ a {
   left: 40.5vw;
 }
 
-#clickbeyond {
+#clickBeyond {
   background-image: url('../img/achievements/quintillionachievements.png');
   top: 16vw;
   left: 43.5vw;
 }
 
-#distantbeginning {
+#distantBeginning {
   background-image: url('../img/achievements/quintillionachievements.png');
   top: 16vw;
   left: 46.5vw;
@@ -990,13 +955,13 @@ a {
   left: 49.5vw;
 }
 
-#numberoverflow {
+#numberOverflow {
   background-image: url('../img/achievements/sextillionachievements.png');
   top: 16vw;
   left: 52.5vw;
 }
 
-#coinuniverse {
+#coinUniverse {
   background-image: url('../img/achievements/sextillionachievements.png');
   top: 16vw;
   left: 55.5vw;
@@ -1014,18 +979,18 @@ a {
   left: 61.5vw;
 }
 
-#twentyfingers {
+#twentyFingers {
   background-image: url('../img/achievements/septillionachievements.png');
   top: 16vw;
   left: 64.5vw;
 }
 
-#fortheworthy {
+#forTheWorthy {
   top: 19vw;
   left: 48vw;
 }
 
-#fortheworthyicon {
+#forTheWorthyIcon {
   top: 19vw;
   left: 48vw;
 }
@@ -1035,7 +1000,7 @@ a {
   left: 48vw;
 }
 
-#breakpointicon {
+#breakpointIcon {
   top: 25vw;
   left: 48vw;
 }
@@ -1045,26 +1010,26 @@ a {
   left: 48vw;
 }
 
-#cheatericon {
+#cheaterIcon {
   top: 22vw;
   left: 48vw;
 }
 
-#backtogame {
+#backToGame {
   height: 3vw;
   width: 10vw;
   top: 90vh;
   left: 44.5vw;
 }
 
-#settingsheader {
+#settingsHeader {
   font-weight: 100;
   font-size: 2.5vw;
   top: 0vw;
   left: 43.5vw;
 }
 
-#volumeinput {
+#volumeInput {
   border: solid 0.05vw black;
   background: transparent;
   font-family: inherit;
@@ -1075,62 +1040,62 @@ a {
   left: 56vw;
 }
 
-#volumestring {
+#volumeString {
   font-size: 0.9vw;
   top: 8.9vh;
   left: 35vw;
 }
 
-#autobuysettingstr {
+#autoBuySettingString {
   font-size: 0.9vw;
   position: fixed;
   top: 12.2vh;
   left: 39vw;
 }
 
-#autobuysetting {
+#autoBuySetting {
   height: 1.5vw;
   width: 5vw;
   top: 13.4vh;
   left: 54vw;
 }
 
-#graphicssetting {
+#graphicsSetting {
   height: 2vw;
   width: 9vw;
   top: 17vh;
   left: 53vw;
 }
 
-#graphicssettingstr {
+#graphicsSettingString {
   font-size: 0.9vw;
   top: 16.3vh;
   left: 35vw;
 }
 
-#bggrad1input {
+#backgroundGradientCenterInput {
   top: 22vh;
   left: 56.3vw;
 }
 
-#bggrad1string {
+#backgroundGradientCenterString {
   font-size: 0.9vw;
   top: 20.5vh;
   left: 31.5vw;
 }
 
-#bggrad2input {
+#backgroundGradientEdgeInput {
   top: 26vh;
   left: 55.7vw;
 }
 
-#bggrad2string {
+#backgroundGradientEdgeString {
   font-size: 0.9vw;
   top: 24.5vh;
   left: 31.8vw;
 }
 
-#wipesavebutton {
+#wipeSaveButton {
   border: solid 0.05vw red;
   color: red;
   height: 3vw;
@@ -1139,14 +1104,14 @@ a {
   left: 44vw;
 }
 
-#resetbgbutton {
+#resetBackgroundButton {
   height: 3vw;
   width: 10vw;
   top: 76vh;
   left: 44vw;
 }
 
-#backtogame2 {
+#backToGameSettings {
   height: 3vw;
   width: 10vw;
   top: 90vh;

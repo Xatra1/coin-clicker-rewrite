@@ -8,7 +8,7 @@
     }
   }
   
-  @keyframes bgmove {
+  @keyframes backgroundMove {
     from {
       opacity: 40%;
       transform: translate3d(0, 0, 0)
@@ -20,13 +20,13 @@
     }
   }
   
-  @keyframes titlestrsmov {
+  @keyframes titleStringsMove {
     100% {
       transform: translate3d(0, 71.5vh, 0);
     }
   }
   
-  @keyframes btmstringmov {
+  @keyframes bottomStringsMove {
     from {
       transform: translate3d(0, 0, 0)
     }
@@ -36,7 +36,7 @@
     }
   }
   
-  @keyframes dbgstringmov {
+  @keyframes debugStringMove {
     from {
       transform: translate3d(0, 0, 0)
     }
@@ -130,7 +130,7 @@
     }
   }
   
-  @keyframes tsclickermov {
+  @keyframes titleScreenClickerMove {
     from {
       transform: translate3d(0, 71.5vh, 0) rotate(0deg);
       opacity: 0%;
@@ -142,7 +142,7 @@
     }
   }
   
-  @keyframes startmov {
+  @keyframes startButtonMove {
     from {
       transform: translate3d(0, 0, 0)
     }
@@ -152,7 +152,7 @@
     }
   }
   
-  @keyframes coinpartmov {
+  @keyframes coinParticleMove {
     from {
       opacity: 100%;
       transform: translate3d(0, 0, 0) rotate(0deg);
@@ -164,7 +164,7 @@
     }
   }
   
-  @keyframes clickermov {
+  @keyframes clickerMove {
     from {
       transform: translate3d(0, 0, 0) rotate(0deg)
     }
@@ -174,7 +174,7 @@
     }
   }
   
-  @keyframes clickerclick {
+  @keyframes clickerClick {
     from {
       transform: translate3d(35.5vw, 7.2vw, 0) rotate(172deg)
     }
@@ -184,7 +184,7 @@
     }
   }
   
-  @keyframes superclickermov {
+  @keyframes superClickerMove {
     from {
       transform: translate3d(0, 0, 0) rotate(0deg)
     }
@@ -194,7 +194,7 @@
     }
   }
   
-  @keyframes superclickerclick {
+  @keyframes superClickerClick {
     from {
       transform: translate3d(44.5vw, 2vw, 0) rotate(175deg)
     }
@@ -204,7 +204,7 @@
     }
   }
   
-  @keyframes doublepointermov {
+  @keyframes doublePointerMove {
     from {
       transform: translate3d(0, 0, 0) rotate(0deg)
     }
@@ -214,7 +214,7 @@
     }
   }
   
-  @keyframes doublepointerclick {
+  @keyframes doublePointerClick {
     from {
       transform: translate3d(40.2vw, 6.9vw, 0) rotate(90deg)
     }
@@ -224,7 +224,7 @@
     }
   }
   
-  @keyframes cursormov {
+  @keyframes cursorMove {
     from {
       transform: translate3d(0, 0, 0) rotate(0deg);
       height: 3vw;
@@ -238,7 +238,7 @@
     }
   }
   
-  @keyframes supercursormov {
+  @keyframes superCursorMove {
     from {
       transform: translate3d(0, 0, 0);
       height: 3vw;
@@ -252,7 +252,7 @@
     }
   }
   
-  @keyframes employeemov {
+  @keyframes employeeMove {
     from {
       transform: translate3d(0, 0, 0);
     }
@@ -262,7 +262,7 @@
     }
   }
   
-  @keyframes employeerock {
+  @keyframes employeeRock {
     from {
       transform: translate3d(40.4vw, -5vw, 0);
     }
@@ -272,7 +272,7 @@
     }
   }
   
-  @keyframes godfingermov {
+  @keyframes godFingerMove {
     from {
       transform: translate3d(0, 0, 0);
       height: 3vw;
@@ -286,7 +286,7 @@
     }
   }
   
-  @keyframes clickerfusionmov {
+  @keyframes clickerFusionMove {
     from {
       transform: translate3d(0, 0, 0) rotate(0deg);
       height: 3vw;

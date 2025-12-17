@@ -1,40 +1,40 @@
-#titlescreen {
+#titleScreen {
   display: none;
 }
 
-#gamescreen {
+#gameScreen {
   display: none;
 }
 
-#shoppanel {
+#shopPanel {
   display: none;
 }
 
-#upgradeshoppanel {
+#upgradeShopPanel {
   display: none;
 }
 
-#statspanel {
+#statsPanel {
   display: none;
 }
 
-#achievementsscreen {
+#achievementsScreen {
   display: none;
 }
 
-#debuginputscreen {
+#debugInputScreen {
   display: none;
 }
 
-#debugscreen {
+#debugScreen {
   display: none;
 }
 
-#settingsscreen {
+#settingsScreen {
   display: none;
 }
 
-#loadingscreen {
+#loadingScreen {
   display: none;
 }
 
