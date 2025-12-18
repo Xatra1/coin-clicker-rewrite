@@ -29,9 +29,7 @@ window.addEventListener('gamepadconnected', function(event) {
   }, 500);
 
   globalThis.gamepad = event.gamepad;
-  this.setInterval(function() {
-    gamepad = navigator.getGamepads()[0];
-  }, 1);
+  this.setInterval(function() { gamepad = navigator.getGamepads()[0]; }, 1);
 
   unlockString.textContent = `Gamepad connected: ${event.gamepad.id}`;
   labelHideTimeout = 500;
@@ -56,94 +54,165 @@ window.addEventListener('gamepadconnected', function(event) {
 // Right (when achievements screen is visible) - Moves forwards through the achievements list
 setInterval(() => {
   if (gamepad) {
-    cross = gamepad.buttons[0].pressed;
-    circle = gamepad.buttons[1].pressed;
-    square = gamepad.buttons[2].pressed;
-    triangle = gamepad.buttons[3].pressed;
-    l1 = gamepad.buttons[4].pressed;
-    r1 = gamepad.buttons[5].pressed;
-    l2 = gamepad.buttons[6].pressed;
-    r2 = gamepad.buttons[7].pressed;
-    share = gamepad.buttons[8].pressed;
-    options = gamepad.buttons[9].pressed;
-    l3 = gamepad.buttons[10].pressed;
-    r3 = gamepad.buttons[11].pressed;
-    dpadUp = gamepad.buttons[12].pressed;
-    dpadDown = gamepad.buttons[13].pressed;
-    dpadLeft = gamepad.buttons[14].pressed;
-    dpadRight = gamepad.buttons[15].pressed;
+    buttonsPressed = [
+      gamepad.buttons[0].pressed, // Cross
+      gamepad.buttons[1].pressed, // Circle
+      gamepad.buttons[2].pressed, // Square
+      gamepad.buttons[3].pressed, // Triangle
+      gamepad.buttons[4].pressed, // L1
+      gamepad.buttons[5].pressed, // R1
+      gamepad.buttons[6].pressed, // L2
+      gamepad.buttons[7].pressed, // R2
+      gamepad.buttons[8].pressed, // Share
+      gamepad.buttons[9].pressed, // Options
+      //gamepad.buttons[10].pressed, // L3
+      gamepad.buttons[11].pressed, // R3
+      gamepad.buttons[12].pressed, // Up
+      gamepad.buttons[13].pressed, // Down
+      gamepad.buttons[14].pressed, // Left
+      gamepad.buttons[15].pressed // Right
+    ]
 
-    if (!cross && !circle && !square && !triangle && !l1 && !r1 && !l2 && !r2 && !share && !options && !l3 && !r3 && !dpadUp && !dpadDown && !dpadLeft && !dpadRight) buttonPressed = false;
-
-    if (cross && !init.GameStarted) startButton.click();
-
-    if ((circle || cross) && init.GameStarted && !buttonPressed) { buttonPressed = true; coin.click(); }
-
-    if (square && init.GameStarted && !buttonPressed) {
-      buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
-      if (shopPanel.style.display == 'block') upgradeButton.click();
-      else if (upgradeShopPanel.style.display == 'block') upgradeRTS.click();
+    for (let i = 0; i < buttonsPressed.length; i++) {
+      if (!buttonsPressed[i]) buttonsPressed = false;
     }
 
-    if (triangle && init.GameStarted && !buttonPressed) {
+    if (buttonsPressed[0] && !init.GameStarted) startButton.click();
+
+    if ((buttonsPressed[0] || buttonsPressed[1]) && gameStarted && !buttonPressed) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      coin.click();
+    }
+
+    if (buttonsPressed[2] && gameStarted && !buttonPressed) {
+      buttonPressed = true;
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
+      if (shopPanel.style.display == 'block') upgradeButton.click();
+      else if (upgradeShopPanel.style.display == 'block') upgradeShopReturn.click();
+    }
+
+    if (buttonsPressed[3] && gameStarted && !buttonPressed) {
+      buttonPressed = true;
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
       manualSave = true;
       saveGame();
     }
 
-    if (share && init.GameStarted && !buttonPressed) {
+    if (buttonsPressed[8] && init.GameStarted && !buttonPressed) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
-      if (game.style.display == 'block') achievementsButton.click();
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
+      if (gamePanel.style.display == 'block') achievementsButton.click();
       else if (achievementsPanel.style.display == 'block') backToGame.click();
     }
 
-    if (options && init.GameStarted && !buttonPressed) {
+    if (buttonsPressed[9] && gameStarted && !buttonPressed) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
       if (game.style.display == 'block') settingsButton.click();
-      else if (settingsPanel.style.display == 'block') backToGame2.click();
+      else if (settingsPanel.style.display == 'block') backToGameSettings.click();
     }
 
-    if (l1 && init.GameStarted && !buttonPressed) {
+    if (buttonsPressed[4] && gameStarted && !buttonPressed) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
       if (upgradeShopPanel.style.display == 'none') clickerBuy.click();
       else cursorBuy.click();
     }
 
-    if (r1 && init.GameStarted && !buttonPressed && (shop.SuperClickerUnlocked || uShop.SuperCursorUnlocked)) {
+    if (buttonsPressed[5] && init.GameStarted && !buttonPressed && (shop.SuperClickerUnlocked || upgradeShop.SuperCursorUnlocked)) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
       if (upgradeShopPanel.style.display == 'none') superClickerBuy.click();
       else superCursorBuy.click();
     }
 
-    if (l2 && init.GameStarted && !buttonPressed && (shop.DoublePointerUnlocked || uShop.EmployeeUnlocked)) {
+    if (buttonsPressed[6] && gameStarted && !buttonPressed && (shop.DoublePointerUnlocked || upgradeShop.EmployeeUnlocked)) {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+
+        });
       if (upgradeShopPanel.style.display == 'none') doublePointerBuy.click();
       else employeeBuy.click();
     }
 
-    if (r2 && init.GameStarted && !buttonPressed && uShop.GodFingerUnlocked) { buttonPressed = true; gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 }); if (upgradeShopPanel.style.display == 'block') godFingerBuy.click(); }
-
-    if (r3) location.reload();
-
-    if (dpadUp) { let gamepadActive = true; wipeSave(gamepadActive); }
-
-    if (dpadLeft && init.GameStarted && !buttonPressed && achievementsPanel.style.display == 'block') {
+    if (buttonsPressed[7] && gameStarted && !buttonPressed && upgradeShop.GodFingerUnlocked) {
       buttonPressed = true;
-      if (gpAchIndex > 0) gpAchIndex--;
-      lib.achLabelSwitch(gpAchIndex);
-    } else if (dpadLeft && init.GameStarted && !buttonPressed && upgradeShopPanel.style.display == 'block' && uShop.ClickerFusionUnlocked) {
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+
+        });
+      if (upgradeShopPanel.style.display == 'block') godFingerBuy.click();
+    }
+
+    if (buttonsPressed[11]) location.reload();
+
+    if (buttonsPressed[12]) wipeSave(true);
+
+    if (buttonPressed[14] && gameStarted && !buttonPressed && achievementsPanel.style.display == 'block') {
       buttonPressed = true;
-      gamepad.vibrationActuator.playEffect('dual-rumble', { startDelay: 0, duration: 50, weakMagnitude: 1.0, strongMagnitude: 1.0 });
+      if (gamepadAchievementIndex > 0) gamepadAchievementIndex--;
+      loadAchievementStrings(gamepadAchievementIndex);
+    } else if (buttonsPressed[14] && gameStarted && !buttonPressed && upgradeShopPanel.style.display == 'block' && uShop.ClickerFusionUnlocked) {
+      buttonPressed = true;
+      gamepad.vibrationActuator.playEffect('dual-rumble',
+        {
+          startDelay: 0,
+          duration: 50,
+          weakMagnitude: 1.0,
+          strongMagnitude: 1.0
+        });
       clickerFusionBuy.click();
     }
 
-    if (dpadRight && init.GameStarted && !buttonPressed && achievementsPanel.style.display == 'block') { buttonPressed = true; if (gpAchIndex < 24) gpAchIndex++; lib.achLabelSwitch(gpAchIndex); }
+    if (buttonPressed[15] && gameStarted && !buttonPressed && achievementsPanel.style.display == 'block') {
+      buttonPressed = true;
+      if (gamepadAchievementIndex < 24) gamepadAchievementIndex++;
+      loadAchievementStrings(gamepadAchievementIndex);
+    }
   }
 }, 1000 / 60)

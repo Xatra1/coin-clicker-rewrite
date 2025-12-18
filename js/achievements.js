@@ -5,35 +5,36 @@
 
 // Achievement menu stuff
 
-const achievements = [
-  { name: 'Journey Begins', description: 'Obtain 1 lifetime coin.', coinRequirement: 1, unlocked: false },
-  { name: 'A Good Start', description: 'Obtain 10 thousand lifetime coins.', coinRequirement: 10000, unlocked: false },
-  { name: 'Getting There', description: 'Obtain 100 thousand lifetime coins', coinRequirement: 100000, unlocked: false },
-  { name: 'Millionaire', description: 'Obtain 1 million lifetime coins', coinRequirement: 1e+6, unlocked: false },
-  { name: 'Coin Pool', description: 'Obtain 10 million lifetime coins.', coinRequirement: 1e+7, unlocked: false },
-  { name: 'Abundance', description: 'Obtain 100 million lifetime coins.', coinRequirement: 1e+8, unlocked: false },
-  { name: 'Billionaire', description: 'Obtain 1 billion lifetime coins.', coinRequirement: 1e+9, unlocked: false },
-  { name: 'Excess', description: 'Obtain 10 billion lifetime coins.', coinRequirement: 1e+10, unlocked: false },
-  { name: 'Planet of Coins', description: 'Obtain 100 billion lifetime coins.', coinRequirement: 1e+11, unlocked: false },
-  { name: 'Trillionaire', description: 'Obtain 1 trillion lifetime coins.', coinRequirement: 1e+12, unlocked: false },
-  { name: 'Pocket Dimension', description: 'Obtain 10 trillion lifetime coins.', coinRequirement: 1e+13, unlocked: false },
-  { name: 'Pocket Universe', description: 'Obtain 100 trillion lifetime coins.', coinRequirement: 1e+14, unlocked: false },
-  { name: 'Quadrillionaire', description: 'Obtain 1 quadrillion lifetime coins.', coinRequirement: 1e+15, unlocked: false },
-  { name: 'Coin Vortex', description: 'Obtain 10 quadrillion lifetime coins.', coinRequirement: 1e+16, unlocked: false },
-  { name: 'Coin-Shaped Black Hole', description: 'Obtain 100 quadrillion lifetime coins.', coinRequirement: 1e+17, unlocked: false },
-  { name: 'Quintillionaire', description: 'Obtain 1 quintillion lifetime coins.', coinRequirement: 1e+18, unlocked: false },
-  { name: 'Click Beyond', description: 'Obtain 10 quintillion lifetime coins.', coinRequirement: 1e+19, unlocked: false },
-  { name: 'Distant Beginning', description: 'Obtain 100 quintillion lifetime coins.', coinRequirement: 1e+20, unlocked: false },
-  { name: 'Sextillionaire', description: 'Obtain 1 sextillion lifetime coins.', coinRequirement: 1e+21, unlocked: false },
-  { name: 'Number Overflow', description: 'Obtain 10 sextillion lifetime coins.', coinRequirement: 1e+22, unlocked: false },
-  { name: 'Coin Universe', description: 'Obtain 100 sextillion lifetime coins.', coinRequirement: 1e+23, unlocked: false },
-  { name: 'Septillionaire', description: 'Obtain 1 septillion lifetime coins.', coinRequirement: 1e+24, unlocked: false },
-  { name: 'Why are you still here?', description: 'Obtain 10 septillion lifetime coins.', coinRequirement: 1e+25, unlocked: false },
-  { name: '20 Fingers', description: 'Obtain 100 septillion lifetime coins.', coinRequirement: 1e+26, unlocked: false },
-  { name: 'For The Worthy', description: 'Obtain 1 octillion lifetime coins.', coinRequirement: 1e+27, unlocked: false },
-  { name: 'Breaking Point', description: 'Obtain far more lifetime coins than you should have.', coinRequirement: Number.MAX_VALUE, unlocked: false },
-  { name: 'Cheater', description: 'Hack in some money using the debug console.', coinRequirement: null, unlocked: false }
-];
+const achievements =
+  [
+    { name: 'Journey Begins', description: 'Obtain 1 lifetime coin.', coinRequirement: 1, unlocked: false },
+    { name: 'A Good Start', description: 'Obtain 10 thousand lifetime coins.', coinRequirement: 10000, unlocked: false },
+    { name: 'Getting There', description: 'Obtain 100 thousand lifetime coins', coinRequirement: 100000, unlocked: false },
+    { name: 'Millionaire', description: 'Obtain 1 million lifetime coins', coinRequirement: 1e+6, unlocked: false },
+    { name: 'Coin Pool', description: 'Obtain 10 million lifetime coins.', coinRequirement: 1e+7, unlocked: false },
+    { name: 'Abundance', description: 'Obtain 100 million lifetime coins.', coinRequirement: 1e+8, unlocked: false },
+    { name: 'Billionaire', description: 'Obtain 1 billion lifetime coins.', coinRequirement: 1e+9, unlocked: false },
+    { name: 'Excess', description: 'Obtain 10 billion lifetime coins.', coinRequirement: 1e+10, unlocked: false },
+    { name: 'Planet of Coins', description: 'Obtain 100 billion lifetime coins.', coinRequirement: 1e+11, unlocked: false },
+    { name: 'Trillionaire', description: 'Obtain 1 trillion lifetime coins.', coinRequirement: 1e+12, unlocked: false },
+    { name: 'Pocket Dimension', description: 'Obtain 10 trillion lifetime coins.', coinRequirement: 1e+13, unlocked: false },
+    { name: 'Pocket Universe', description: 'Obtain 100 trillion lifetime coins.', coinRequirement: 1e+14, unlocked: false },
+    { name: 'Quadrillionaire', description: 'Obtain 1 quadrillion lifetime coins.', coinRequirement: 1e+15, unlocked: false },
+    { name: 'Coin Vortex', description: 'Obtain 10 quadrillion lifetime coins.', coinRequirement: 1e+16, unlocked: false },
+    { name: 'Coin-Shaped Black Hole', description: 'Obtain 100 quadrillion lifetime coins.', coinRequirement: 1e+17, unlocked: false },
+    { name: 'Quintillionaire', description: 'Obtain 1 quintillion lifetime coins.', coinRequirement: 1e+18, unlocked: false },
+    { name: 'Click Beyond', description: 'Obtain 10 quintillion lifetime coins.', coinRequirement: 1e+19, unlocked: false },
+    { name: 'Distant Beginning', description: 'Obtain 100 quintillion lifetime coins.', coinRequirement: 1e+20, unlocked: false },
+    { name: 'Sextillionaire', description: 'Obtain 1 sextillion lifetime coins.', coinRequirement: 1e+21, unlocked: false },
+    { name: 'Number Overflow', description: 'Obtain 10 sextillion lifetime coins.', coinRequirement: 1e+22, unlocked: false },
+    { name: 'Coin Universe', description: 'Obtain 100 sextillion lifetime coins.', coinRequirement: 1e+23, unlocked: false },
+    { name: 'Septillionaire', description: 'Obtain 1 septillion lifetime coins.', coinRequirement: 1e+24, unlocked: false },
+    { name: 'Why are you still here?', description: 'Obtain 10 septillion lifetime coins.', coinRequirement: 1e+25, unlocked: false },
+    { name: '20 Fingers', description: 'Obtain 100 septillion lifetime coins.', coinRequirement: 1e+26, unlocked: false },
+    { name: 'For The Worthy', description: 'Obtain 1 octillion lifetime coins.', coinRequirement: 1e+27, unlocked: false },
+    { name: 'Breaking Point', description: 'Obtain far more lifetime coins than you should have.', coinRequirement: Number.MAX_VALUE, unlocked: false },
+    { name: 'Cheater', description: 'Hack in some money using the debug console.', coinRequirement: null, unlocked: false }
+  ];
 
 var newAchievementUnlocked = false;
 
@@ -62,7 +63,7 @@ setInterval(() => {
     cheaterIcon.style.display = 'block';
   }
 
-  if (ach[25].unlocked) {
+  if (achievements[25].unlocked) {
     breakpoint.style.display = 'block';
     breakpointIcon.style.display = 'block';
   }
@@ -101,7 +102,7 @@ backToGame.addEventListener('click', () => {
 });
 
 // NOTE: Highly experimental. Not sure if this will work
-for (let i = 0; i < achievementButtons.length; i++ ) {
+for (let i = 0; i < achievementButtons.length; i++) {
   achievementButtons[i].addEventListener('click', () => {
     loadAchievementStrings(i);
   });

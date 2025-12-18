@@ -49,38 +49,37 @@ logChoices = ['Stay a while, and listen.',
 
 var debugScreenState = 'closed',
   debug = false,
-  debugAutoplay = false,
   forceBuff = false,
 
-  cmd = [],
-  arg = [],
-  cmdHist = [],
-  cmdHistInx = 1;
+  command = [],
+  keywords = [],
+  commandHistory = [],
+  commandHistoryIndex = 1;
 
 commandInput.value = '';
+
 debugConsole += 'Type \'help\' for a list of commands. You can press Alt+Y to get back to the game screen.\n';
+
 for (let i = 0; i < debugLogs.length; i++) console.debug(`%c [Debug] %c${debugLogs[i]}`, 'color: yellow', 'color: inherit');
 
-function randomMsg(arg) {
-  let selectedMsg,
-    yellow = 'color: yellow;',
-    def = 'color: inherit;';
+function randomMsg(argument) {
+  let selectedMsg;
 
-  if (!isNaN(parseInt(arg))) {
-    selectedMsg = logChoices[arg];
+  if (!isNaN(parseInt(argument))) {
+    selectedMsg = logChoices[argument];
     console.log(`=== %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
     debugConsole += `=== ${selectedMsg} ===\n`;
 
-  } else if (arg == 'all') {
+  } else if (argument == 'all') {
     for (let i = 0; i < logChoices.length; i++) {
       selectedMsg = logChoices[i];
-      console.log(`${i}: === %c${selectedMsg}%c ===`, yellow, def);
+      console.log(`${i}: === %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
       debugConsole += `${i}: === ${selectedMsg} ===\n`;
     }
 
   } else {
-    selectedMsg = logChoices[lib.rng(1, logChoices.length - 1)];
-    console.log(`=== %c${selectedMsg}%c ===`, yellow, def);
+    selectedMsg = logChoices[rng(1, logChoices.length - 1)];
+    console.log(`=== %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
     debugConsole += `=== ${selectedMsg} ===\n`;
   }
 }
@@ -94,7 +93,7 @@ function commandInterpret() {
       break;
 
     case 'echo':
-      debugConsole += `${arg}\n`;
+      debugConsole += `${keywords}\n`;
       break;
 
     case 'help':
@@ -117,7 +116,7 @@ function commandInterpret() {
       break;
 
     case 'pizza':
-      debugConsole += `You could buy ${(Math.floor(stats.Clicks / 30)).toLocaleString()} $30 pizzas with your current amount of coins.`;
+      debugConsole += `You could buy ${(Math.floor(stats.clicks / 30)).toLocaleString()} $30 pizzas with your current amount of coins.`;
       break;
 
     case 'rmsg':
@@ -125,7 +124,7 @@ function commandInterpret() {
       break;
 
     case 'clhist':
-      cmdHist = [];
+      commandHistory = [];
       break;
 
     case 'exit':
@@ -134,20 +133,20 @@ function commandInterpret() {
 
   }
 
-  if (cmd != 'clhis') { cmdHist.push(commandInput.value); cmdHistInx = cmdHist.length; }
-  cmd = [];
-  arg = [];
+  if (cmd != 'clhis') { commandHistory.push(commandInput.value); commandHistoryIndex = commandHistory.length; }
+  command = [];
+  keywords = [];
   commandInput.value = '';
 }
 
 function commandAssemble() {
-  for (let i = 0; i < commandInput.value.length; i++) { if (i < 5) cmd.push(commandInput.value[i]); else arg.push(commandInput.value[i]); }
+  for (let i = 0; i < commandInput.value.length; i++) { if (i < 5) command.push(commandInput.value[i]); else keywords.push(commandInput.value[i]); }
 
-  cmd = cmd.toString();
-  cmd = cmd.replace(/\,/g, '');
-  cmd = cmd.replace(/\s/g, '');
-  arg = arg.toString();
-  arg = arg.replace(/\,/g, '');
+  command = command.toString();
+  command = command.replace(/\,/g, '');
+  command = command.replace(/\s/g, '');
+  keywords = keywords.toString();
+  keywords = keywords.replace(/\,/g, '');
 }
 
-cmdForm.addEventListener("submit", function(event) { event.preventDefault(); commandInterpret(); });
+commandForm.addEventListener("submit", function(event) { event.preventDefault(); commandInterpret(); });
