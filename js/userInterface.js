@@ -26,11 +26,7 @@ const display = {
   screenHeight = window.innerHeight,
   screenWidth = window.innerWidth;
 
-var achStr = 'none',
-  gpAchIndex = 0,
-  newAchUnlocked = false,
-
-  increase = true,
+var increase = true,
   red = 0,
   green = 0,
 
@@ -128,7 +124,7 @@ function updateScreen() {
         superClickerGroup.style.display = 'block';
         superClickerImg.style.display = 'block';
         shop.SuperClickerUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (shop.SuperClickerUnlocked) {
         superClickerGroup.style.display = 'block';
         superClickerCPSString.textContent = `CpS: +${textArray[10]}`;
@@ -141,7 +137,7 @@ function updateScreen() {
         doublePointerGroup.style.display = 'block';
         doublePointerImg.style.display = 'block';
         shop.DoublePointerUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (shop.DoublePointerUnlocked) {
         doublePointerGroup.style.display = 'block';
         doublePointerCPSString.textContent = `CpS: +${textArray[13]}`;
@@ -154,44 +150,29 @@ function updateScreen() {
         if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Super Cursor unlocked!'; }
         superCursorGroup.style.display = 'block';
         uShop.SuperCursorUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (uShop.SuperCursorUnlocked) { superCursorGroup.style.display = 'block'; uShop.CursorCost = 'Owned.'; }
 
       if (uShop.CursorOwned && uShop.SuperCursorOwned && !uShop.EmployeeUnlocked && uShop.GodFingerUnlocked) {
         if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Employee unlocked!'; }
         employeeGroup.style.display = 'block';
         uShop.EmployeeUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (uShop.EmployeeUnlocked) { employeeGroup.style.display = 'block'; uShop.SuperCursorCost = 'Owned.'; }
 
       if (shop.ClickersOwned >= 75 && shop.SuperClickersOwned >= 20 && shop.DoublePointersOwned >= 3 && uShop.EmployeeUnlocked && !uShop.GodFingerUnlocked) {
         if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'God Finger unlocked!'; }
         godFingerGroup.style.display = 'block';
         uShop.GodFingerUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (uShop.GodFingerUnlocked) godFingerGroup.style.display = 'block';
 
       if (shop.ClickersOwned >= 150 && !uShop.ClickerFusionUnlocked) {
         if (init.DataLoaded) { sfx4.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Clicker Fusion unlocked!'; }
         clickerFusionGroup.style.display = 'block';
         uShop.ClickerFusionUnlocked = true
-        SHT = 500;
+        labelHideTimeout = 500;
       } else if (uShop.ClickerFusionUnlocked) clickerFusionGroup.style.display = 'block';
-
-      // Achievement unlock check
-      for (let i = 0; i < ach.length; i++) {
-        if (stats.LifetimeClicks >= ach[i][2] && ach[i][2] != null && !ach[i][3]) {
-          if (init.DataLoaded && i > 1 && i < 24) sfx3.play();
-          ach[i][3] = true;
-          stats.AchievementsUnlocked++;
-          if (init.DataLoaded) {
-            unlockString.textContent = `Achievement Unlocked: ${ach[i][0]}`;
-            newAchUnlocked = true;
-          }
-          setTimeout(function() { unlockString.style.display = 'block'; }, 1);
-          SHT = 500;
-        }
-      }
 
       let diffArr = [stats.Clicks - display.Clicks, stats.ClickValue - display.ClickValue, stats.RawClickVal - display.RawClickVal, stats.ClicksPS - display.ClicksPS, stats.RawClicksPS - display.RawClicksPS, stats.LifetimeClicks - display.LifetimeClicks, stats.LifetimeManualClicks - display.LifetimeManualClicks, stats.CoinClickCount - display.CoinClickCount, shop.ClickerCPS - display.ClickerCPS, shop.ClickerCost - display.ClickerCost, shop.SuperClickerCPS - display.SuperClickerCPS, shop.SuperClickerCost - display.SuperClickerCost, shop.DoublePointerCPS - display.DoublePointerCPS, shop.DoublePointerCost - display.DoublePointerCost, uShop.EmployeeCost - display.EmployeeCost];
 

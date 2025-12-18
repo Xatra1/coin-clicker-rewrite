@@ -7,20 +7,20 @@
 
 class baseStats {
   constructor() {
-    this.Clicks = 0;
-    this.TrueClicks = 0;
-    this.ClickValue = 1;
-    this.RawClickVal = 1;
-    this.ClicksPS = 0;
-    this.RawClicksPS = 0;
+    this.clicks = 0;
+    this.trueClicks = 0;
+    this.clickValue = 1;
+    this.rawClickValue = 1;
+    this.cps = 0;
+    this.rawCps = 0;
     this.Playtime = 0;
-    this.LifetimeClicks = 0;
-    this.LifetimeManualClicks = 0;
-    this.CoinClickCount = 0;
-    this.TotalClickHelpers = 0;
-    this.AchievementsUnlocked = 0;
-    this.HiddenAchievementsUnlocked = 0;
-    this.OfflineClicksPSPercen = 0;
+    this.lifetimeClicks = 0;
+    this.lifetimeManualClicks = 0;
+    this.coinClickCount = 0;
+    this.totalClickHelpers = 0;
+    this.achievementsUnlocked = 0;
+    this.hiddenAchievementsUnlocked = 0;
+    this.offlineCpsPercent = 0;
   }
 };
 
@@ -28,14 +28,18 @@ var stats = new baseStats();
 
 function cpsClick() {
   try {
-    stats.Clicks += stats.ClicksPS * 0.10;
-    stats.TrueClicks += stats.ClicksPS * 0.10;
-    stats.LifetimeClicks += stats.ClicksPS * 0.10;
-    stats.Clicks = Math.round(stats.Clicks);
-    stats.TrueClicks = Math.round(stats.TrueClicks);
-    stats.LifetimeClicks = Math.round(stats.LifetimeClicks);
+    stats.clicks += stats.cps * 0.10;
+    stats.trueClicks += stats.cps * 0.10;
+    stats.lifetimeClicks += stats.cps * 0.10;
+    stats.clicks = Math.round(stats.clicks);
+    stats.trueClicks = Math.round(stats.trueClicks);
+    stats.lifetimeClicks = Math.round(stats.lifetimeClicks);
   } catch (error) { errorHandler(error); }
 }
 
 setInterval(cpsClick, 100);
-setInterval(function() { if (ach[0][3]) stats.Playtime += 1000; buffRNGCalc(); }, 1000);
+
+setInterval(function() {
+  if (ach[0][3]) stats.playtime += 1000;
+  buffRNGCalc();
+}, 1000);

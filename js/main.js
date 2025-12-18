@@ -5,18 +5,6 @@
 
 // General functions and number formatting
 
-// NOTE: remove
-function errorHandler(err) {
-  error.className = 'err';
-  errorStack.className = 'err';
-  error.textContent = `${err}`;
-  errorStack.textContent = `${err.stack}`;
-  error.style.top = '-0.3vh';
-  errorStack.style.top = '3vh';
-  document.body.appendChild(error);
-  document.body.appendChild(errorStack);
-}
-
 var gameStarted = false,
   dataLoaded = false,
   buildNumber = 6.0,
@@ -31,13 +19,6 @@ buildString.textContent = `build ${buildNumber}`;
 
 function rng(min, max) {
   return Math.floor((Math.random() * (max - min) + min));
-}
-
-function achLabelSwitch(index) {
-  sfx.play();
-  achNameStr.textContent = ach[index][0];
-  achDescStr.textContent = ach[index][1];
-  achUnlockStr.textContent = ach[index][3] ? 'Unlocked.' : 'Not unlocked.';
 }
 
 function getFps() {

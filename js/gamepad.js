@@ -6,7 +6,8 @@
 // Gamepad support
 
 var buttonPressed = false,
-  gamepad;
+  gamepad,
+  gamepadAchievementIndex = 0;
 
 window.addEventListener('gamepadconnected', function(event) {
   event.gamepad.vibrationActuator.playEffect('dual-rumble',
@@ -33,7 +34,7 @@ window.addEventListener('gamepadconnected', function(event) {
   }, 1);
 
   unlockString.textContent = `Gamepad connected: ${event.gamepad.id}`;
-  SHT = 500;
+  labelHideTimeout = 500;
 });
 
 // Controls:

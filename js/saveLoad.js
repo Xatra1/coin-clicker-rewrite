@@ -15,12 +15,12 @@ var autosavePending = false,
   readyToSave = true,
   doAutosave = true,
   achCheck = true,
-  SHT;
+  labelHideTimeout;
 
 function saveGame(force) {
   try {
     if (readyToSave && init.GameStarted) {
-      if (buff != 'none' && !force) { savingString.textContent = 'You cannot save when a buff is occurring.'; savingString.style.display = 'block'; SHT = 500; } else {
+      if (buff != 'none' && !force) { savingString.textContent = 'You cannot save when a buff is occurring.'; savingString.style.display = 'block'; labelHideTimeout = 500; } else {
         readyToSave = false;
 
         savingString.textContent = 'Saving...';
@@ -74,7 +74,7 @@ function saveGame(force) {
 
         if (manualSave) { savingString.textContent = 'Game saved.'; manualSave = !manualSave; /*False*/ } else savingString.textContent = 'Game autosaved.';
 
-        SHT = 500;
+        labelHideTimeout = 500;
       }
     }
   } catch (error) { errorHandler(error) }
@@ -166,7 +166,7 @@ function loadGame() {
             unlockString.style.display = 'block';
             if (offlineCpS == 1) unlockString.textContent = `Your employees produced ${offlineCpS} coin while you were away.`; else unlockString.textContent = `Your employees produced ${offlineCpS} coins while you were away.`;
 
-            SHT = 500;
+            labelHideTimeout = 500;
           }
 
           if (loadData[20]) cmdHist = loadData[20];
@@ -282,7 +282,7 @@ function wipeSave(gamepadActive) {
     localStorage.removeItem('shopData');
     readyToSave = !readyToSave;
     unlockString.textContent = 'Save removed. Press R3 to confirm. You can save again to reverse this if this was a mistake.';
-    SHT = 500;
+    labelHideTimeout = 500;
   } else if (!readyToSave) readyToSave = true;
 }
 
@@ -296,12 +296,12 @@ setInterval(function() {
 }, 60000);
 
 setInterval(() => {
-  SHT--;
-  if (SHT == 0) {
+  labelHideTimeout--;
+  if (labelHideTimeout == 0) {
     savingString.textContent = '';
     unlockString.textContent = '';
     if (!debugAutoplay) readyToSave = true;
-    SHT = 500;
+    labelHideTimeout = 500;
   }
 }, 1000 / 60);
 
