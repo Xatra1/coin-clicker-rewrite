@@ -1,4 +1,9 @@
-var debugConsole = document.getElementById('debugConsole').textContent;
+// Spoilers ahead!
+//
+// This project is licensed under the GNU General Public License v2.
+// For more info, see docs/COPYING
+
+// All page element definitions
 
 const error = document.createElement('p'),
   errorStack = document.createElement('p'),
@@ -176,7 +181,7 @@ const error = document.createElement('p'),
   wipeSaveButton = document.getElementById('wipeSaveButton'),
   backToGameSettings = document.getElementById('backToGameSettings');
 
-  // Sound effects
+// Sound effects
 
 var sfxClick = document.getElementById('sfxClick'),
   sfxShopBuy = document.getElementById('sfxShopBuy'),
@@ -185,4 +190,11 @@ var sfxClick = document.getElementById('sfxClick'),
   sfxAchievementUnlock = document.getElementById('sfxAchievementUnlock'),
   sfxSpecialAchievementUnlock = document.getElementById('sfxSpecialAchievementUnlock'),
   sfxTitleWhoosh = document.getElementById('sfxTitleWhoosh'),
-  sfxTitleWhoosh2 = document.getElementById('sfxTitleWhoosh2');
+  sfxTitleWhoosh2 = document.getElementById('sfxTitleWhoosh2'),
+
+  // Background elements
+
+  bg = document.createElement('img'),
+  coinParticle = document.createElement('img'),
+
+  debugConsole = document.getElementById('debugConsole').textContent;
