@@ -133,4 +133,23 @@ If your gamepad is detected, it's name should appear near the bottom of the scre
 - The debug mode keybind is now Ctrl-Alt-D
 - The debug mode + debug autoplay keybind is now Ctrl-Alt-B
 
-# Build 6.0
+# Build 7.0b
+- Build number major versions are now synonymous with the game's version.
+- The code has been fully rewritten and several bugs have been fixed.
+- Changed Clicker Fusion's buff to only give you +1% CpS for every clicker you own when buying it.
+- The God Finger now only gives +10% click value
+- Removed debug autobuy and autoplay.
+- Removed debug key stuff.
+- Removed user agent sniffing stuff.
+- The stat scaling, cost scaling, and unlock requirements of items in the shop has been reworked.
+- The font has been changed from Courier to Courier Prime and is now sourced from Google's API page instead of being stored in the repo.
+- Gamepad support has been removed (I could not get my browser to recognize my controller, so I can't test it.)
+- Wiping a save now refreshes the page.
+- Coin attachments (the floating shop items around the coin) have been removed. (They were too complex for me to figure out how to do them properly, sorry.)
+- You can now save when a buff is occurring.
+- Bonus coins now count towards your lifetime coins.
+- Greatly improved the game's CSS.
+- CpS and click value boosts are now displayed as their own stats. Now, every time your CpS is modified, the boost is applied to your current CpS, rather than it only being applied when the boost is first obtained.
+- Added a toggle to change which formatting type the game uses for numbers.
+- 'Graphics Mode' has been renamed to 'Background Sprites'.
+- Added a toggle to pause CpS production.

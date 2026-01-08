@@ -4,53 +4,79 @@
 // For more info, see docs/COPYING
 
 // Settings menu events and toggles
+"use strict";
 
-var numberShorten = true,
-  graphicsMode = 'Quality',
-  volume = 1.0;
+// TODO: implement a toggle for number shortening
 
-bgGradCenterInput.value = '250, 224, 65';
-bgGradEdgeInput.value = '249, 160, 40';
-volumeInput.value = volume * 100;
+var settings = {
+  volume: 1.0,
+  backgroundGradientCenter: backgroundGradientCenterInput.value,
+  backgroundGradientEdge: backgroundGradientEdgeInput.value,
+  performanceMode: false,
+  numberShorten: true,
+  pauseProduction: false,
+}
 
-setInterval(function() {
-  if (graphicsMode == 'Quality') {
-    const particleClass = document.querySelectorAll('.coinparticle'),
-      bgParticleClass = document.querySelectorAll('.bg');
+backgroundGradientCenterInput.value = '250, 224, 65';
+backgroundGradientEdgeInput.value = '249, 160, 40';
+volumeInput.value = settings.volume * 100;
 
-    if (particleClass.length > 25) for (let i = 20; i > 0; i--) particleClass[i].parentNode.removeChild(particleClass[i]);
-    if (bgParticleClass.length > bgMax) for (let i = 35; i > 0; i--) bgParticleClass[i].parentNode.removeChild(bgParticleClass[i]);
-
-    if (game.style.display == 'none') $('.coinparticle').remove();
-    if (document.hidden) $('.bg').remove();
-  } else { $('.bg').remove() }
-}, 1000 / 60);
-
-
-bgGradCenterInput.addEventListener('change', function() { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
-bgGradEdgeInput.addEventListener('change', function() { document.body.style.backgroundImage = `radial-gradient(rgb(${bgGradCenterInput.value}), rgb(${bgGradEdgeInput.value})`; });
-
-graphicsBtn.addEventListener('click', function() { sfx.play(); if (graphicsMode == 'Quality') graphicsMode = 'Performance'; else graphicsMode = 'Quality'; graphicsBtn.textContent = graphicsMode; });
-
-settingsButton.addEventListener('click', function() { sfx.play(); settingsPanel.style.display = 'block'; game.style.display = 'none'; });
-backToGame2.addEventListener('click', function() { sfx.play(); game.style.display = 'block'; settingsPanel.style.display = 'none'; });
-
-volumeInput.addEventListener('change', function() {
-  try {
-    let sndArr = [sfx, sfx2, sfx3, sfx4, sfx5, sfx6, sfx7, sfx7point1];
-    if (volumeInput.value >= 0 && volumeInput.value <= 100 && readyToSave) {
-      volume = volumeInput.value / 100;
-      for (let i = 0; i < sndArr.length; i++) sndArr[i].volume = volume;
-    } else volumeInput.value = volume * 100;
-  } catch (error) { errorHandler(error); }
+backgroundGradientCenterInput.addEventListener('change', () => {
+  document.body.style.backgroundImage = `radial-gradient(rgb(${settings.backgroundGradientCenter = backgroundGradientCenterInput.value}), rgb(${settings.backgroundGradientEdge = backgroundGradientEdgeInput.value})`;
 });
 
+backgroundGradientEdgeInput.addEventListener('change', () => {
+  document.body.style.backgroundImage = `radial-gradient(rgb(${settings.backgroundGradientCenter = backgroundGradientCenterInput.value}), rgb(${settings.backgroundGradientEdge = backgroundGradientEdgeInput.value})`;
+});
 
-resetBgButton.addEventListener('click', function() {
-  let prompt = confirm('This is completely irreversible! Are you sure you wish to continue? (You will need to save again for these changes to stay.)');
+settingsButton.addEventListener('click', () => {
+  if (achievementsPanel.style.display === 'none') {
+    sfxClick.play();
+    settingsPanel.style.display = 'block';
+    gamePanel.style.display = 'none';
+  }
+});
+
+volumeInput.addEventListener('change', () => {
+  if (volumeInput.value >= 0 && volumeInput.value <= 100 && readyToSave) {
+    settings.volume = volumeInput.value / 100;
+    for (let i = 0; i < sounds.length; i++) sounds[i].volume = volume;
+  } else volumeInput.value = settings.volume * 100;
+});
+
+graphicsSettingButton.addEventListener('click', () => {
+  sfxClick.play();
+  settings.performanceMode = !settings.performanceMode;
+  graphicsSettingButton.textContent = settings.performanceMode ? 'Off' : 'On';
+});
+
+numberShortenButton.addEventListener('click', () => {
+  sfxClick.play();
+  settings.numberShorten = !settings.numberShorten;
+  numberShortenButton.textContent = settings.numberShorten ? 'Units' : 'Commas';
+})
+
+pauseProductionButton.addEventListener('click', () => {
+  sfxClick.play();
+  settings.pauseProduction = !settings.pauseProduction;
+  pauseProductionButton.textContent = settings.pauseProduction ? 'On' : 'Off';
+})
+
+resetBackgroundButton.addEventListener('click', function() {
+  let prompt = confirm('This will save the game. Continue?');
   if (prompt) {
-    bgGradCenterInput.value = '250, 224, 65';
-    bgGradEdgeInput.value = '249, 160, 40';
+    backgroundGradientCenterInput.value = '250, 224, 65';
+    backgroundGradientEdgeInput.value = '249, 160, 40';
     document.body.style.backgroundImage = 'radial-gradient(rgb(250, 224, 65), rgb(249, 160, 40))';
+    saveGame();
+  }
+});
+
+backToGameSettings.addEventListener('click', () => {
+  if (achievementsPanel.style.display === 'none') {
+    sfxClick.play();
+    gamePanel.style.display = 'block';
+    settingsPanel.style.display = 'none';
+    updateStars();
   }
 });

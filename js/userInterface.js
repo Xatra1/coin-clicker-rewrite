@@ -3,389 +3,504 @@
 // This project is licensed under the GNU General Public License v2.
 // For more info, see docs/COPYING
 
-// Visible UI e.g. screen updates, background particle effects etc.
+// Visible UI e.g. screen updates, background sprite effects etc.
+"use strict";
 
 const display = {
   clicks: 0,
   clickValue: 1,
   rawClickValue: 1,
   cps: 0,
-  rawClicksPS: 0,
+  rawCps: 0,
   lifetimeClicks: 0,
   lifetimeManualClicks: 0,
   coinClickCount: 0,
-  clickerCPS: 0,
+  clickerCps: 0,
   clickerCost: 0,
-  superClickerCPS: 0,
+  superClickerCps: 0,
   superClickerCost: 0,
-  doublePointerCPS: 0,
+  doublePointerCps: 0,
   doublePointerCost: 0,
   employeeCost: 0,
   playtime: 0
 },
-  screenHeight = window.innerHeight,
-  screenWidth = window.innerWidth;
+
+  ctx = canvas.getContext("2d");
 
 var increase = true,
   red = 0,
   green = 0,
 
-  startBgCreate = false,
-  createCoinBg = false,
-  prompting = false,
-  bgUpdInterval = 250,
-  bgMax = 100,
+  startCreatingCoinSprites = false,
+  backgroundSpriteUpdateInterval = 75,
+  backgroundSpriteMax = 75,
 
-  updInterval,
+  updateInterval,
 
   leftBorderX = 0,
   rightBorderX = 0,
 
-  // This is only used here, no point in putting it next to the stuff in shops.js
-  costArray = [Math.abs(shop.ClickerCost), Math.abs(shop.SuperClickerCost), Math.abs(shop.DoublePointerCost), Math.abs(uShop.CursorCost), Math.abs(uShop.SuperCursorCost), Math.abs(uShop.EmployeeCost), Math.abs(uShop.GodFingerCost)];
+  times = [],
+  fps,
 
-loadGame();
-graphicsMode == 'Quality' ? updInterval = 1000 / 60 : updInterval = 1000 / 30;
+  labelHideTimer = 1,
+  labelSwitch = false,
 
-document.body.style.backgroundImage = 'radial-gradient(rgb(250, 224, 65), rgb(249, 160, 40))';
+  formattedStrings = {};
 
 fpsLabel.style.display = 'none';
 achievementsPanel.style.display = 'none';
 settingsPanel.style.display = 'none';
 upgradeShopPanel.style.display = 'none';
 
-function updateScreen() {
-  try {
-    if (buff == 'none' && init.GameStarted) {
-      stats.RawClicksPS = stats.ClicksPS;
-      stats.RawClickVal = stats.ClickValue;
-      document.title = `${textArray[0]} coins | Coin Clicker v${buildNumber}`;
-    }
-    else if (init.GameStarted) document.title = `A buff is active! | Coin Clicker v${buildNumber}`;
-    else document.title = `Coin Clicker Beta v${buildNumber}`;
-
-    if (!document.hidden) {
-
-      intArray = [display.Clicks, display.ClickValue, display.ClicksPS, display.LifetimeClicks, display.LifetimeManualClicks, display.CoinClickCount, stats.TotalClickHelpers, display.ClickerCPS, display.ClickerCost, shop.ClickersOwned, display.SuperClickerCPS, display.SuperClickerCost, shop.SuperClickersOwned, display.DoublePointerCPS, display.DoublePointerCost, shop.DoublePointersOwned, display.EmployeeCost, uShop.EmployeesOwned, display.RawClickVal, display.RawClicksPS, shop.ClickerCPSWorth, shop.SuperClickerCPSWorth, shop.DoublePointerCPSWorth, stats.AchievementsUnlocked, clicksAdded, stats.TrueClicks, stats.OfflineClicksPSPercen * 100, uShop.CursorCost, uShop.SuperCursorCost, uShop.GodFingerCost];
-
-      numberFix();
-
-      document.getElementById('debugconsole').value = debugConsole;
-
-      clickString.textContent = `Coins: ${textArray[0]}`;
-      cpsString.textContent = `Coins per Second: ${textArray[2]}`;
-      clickValueString.textContent = `Click Value: ${textArray[1]}`;
-      clickerCPSString.textContent = `CpS: +${textArray[7]}`;
-      clickerCostString.textContent = `Cost: ${textArray[8]}`;
-      clickersOwnedString.textContent = `Owned: ${textArray[9]}`;
-
-      if (shop.ClickersOwned != 0) clickerInfo.textContent = `Your ${textArray[9]} clicker(s) account for ${textArray[20]} (${Math.round(intArray[20] / stats.RawClicksPS * 100)}%) raw CpS.`;
-      if (shop.SuperClickerCPSWorth != 0) superClickerInfo.textContent = `Your ${textArray[12]} super clicker(s) account for  ${textArray[21]} (${Math.round(intArray[21] / stats.RawClicksPS * 100)}%) raw CpS.`;
-      if (shop.DoublePointerCPSWorth != 0) doublePointerInfo.textContent = `Your ${textArray[15]} double pointer(s) account for ${textArray[22]} (${Math.round(intArray[22] / stats.RawClicksPS * 100)}%) raw CpS.`;
-
-      const upgVarArr = [uShop.CursorOwned, uShop.SuperCursorOwned, uShop.GodFingerOwned, uShop.ClickerFusionOwned],
-        upgStrArr = [cursorOwnedString, superCursorOwnedString, godFingerOwnedString, clickerFusionOwnedString],
-        upgCosArr = [textArray[27], textArray[28], textArray[29], 'None. Requires 150 clickers.'],
-        upgCosStrArr = [cursorCostString, superCursorCostString, godFingerCostString, clickerFusionCostString];
-
-      for (var i in upgVarArr) { if (upgVarArr[i]) { upgStrArr[i].textContent = 'Owned.'; upgCosStrArr[i].textContent = 'Cost: Bought.'; } else { upgStrArr[i].textContent = 'Not owned.'; upgCosStrArr[i].textContent = `Cost: ${upgCosArr[i]}`; } }
-      employeeCostString.textContent = `Cost: ${textArray[16]}`;
-      employeesOwnedString.textContent = `Owned: ${textArray[17]}`;
-
-      const reqSingle = [1000, 60000, 3600000],
-        units = ['second', 'minute', 'hour'],
-        req = [2000, 120000, 5400000],
-        unitsPlural = ['seconds', 'minutes', 'hours'];
-
-      for (let i = 0; i < req.length; i++) {
-        if (stats.Playtime >= req[i]) {
-          display.Playtime = (Math.floor(stats.Playtime / reqSingle[i])).toLocaleString();
-          timePlayedString.textContent = `You have played for ${display.Playtime} ${unitsPlural[i]}.`;
-        } else if (stats.Playtime >= reqSingle[i] && stats.Playtime < req[i]) {
-          display.Playtime = (Math.floor(stats.Playtime / reqSingle[i])).toLocaleString();
-          timePlayedString.textContent = `You have played for ${display.Playtime} ${units[i]}.`
-        }
-      }
-
-      stats.LifetimeClicks == 1 ? lifetimeClicksString.textContent = `You have obtained a total of ${textArray[3]} coin.` : lifetimeClicksString.textContent = `You have obtained a total of ${textArray[3]} coins.`;
-      stats.LifetimeManualClicks == 1 ? lifetimeManualClicksString.textContent = `You have gotten ${textArray[4]} coin from clicking.` : lifetimeManualClicksString.textContent = `You have gotten ${textArray[4]} coins from clicking.`;
-      stats.CoinClickCount == 1 ? coinClickCountString.textContent = `You have clicked the coin ${textArray[5]} time.` : coinClickCountString.textContent = `You have clicked the coin ${textArray[5]} times.`;
-      stats.TotalClickHelpers == 1 ? totalClickHelpersString.textContent = `You have bought ${textArray[6]} item.` : totalClickHelpersString.textContent = `You have bought ${textArray[6]} items.`;
-
-      achievementsUnlockedString.textContent = `You have unlocked ${textArray[23]} (${Math.round(intArray[23] / 25 * 100)}%) out of 25 achievements.`;
-      rawCPSString.textContent = `Your raw coins per second is ${textArray[19]}.`;
-      rawCVString.textContent = `Your raw click value is ${textArray[18]}.`;
-      offlineCPSString.textContent = `Your employees gather ${textArray[26].toFixed(1)}% of your coins per second while offline.`;
-
-      if (buff == 'bonusClicks') buffStr.textContent = `You got ${textArray[24]} bonus coins!`;
-
-      if (shop.ClickersOwned >= 25 && !shop.SuperClickerUnlocked) {
-        if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Super Clicker unlocked!'; }
-        superClickerGroup.style.display = 'block';
-        superClickerImg.style.display = 'block';
-        shop.SuperClickerUnlocked = true
-        labelHideTimeout = 500;
-      } else if (shop.SuperClickerUnlocked) {
-        superClickerGroup.style.display = 'block';
-        superClickerCPSString.textContent = `CpS: +${textArray[10]}`;
-        superClickerCostString.textContent = `Cost: ${textArray[11]}`;
-        superClickersOwnedString.textContent = `Owned: ${textArray[12]}`;
-      }
-
-      if (shop.ClickersOwned >= 50 && shop.SuperClickersOwned >= 10 && !shop.DoublePointerUnlocked) {
-        if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Double Pointer unlocked!'; }
-        doublePointerGroup.style.display = 'block';
-        doublePointerImg.style.display = 'block';
-        shop.DoublePointerUnlocked = true
-        labelHideTimeout = 500;
-      } else if (shop.DoublePointerUnlocked) {
-        doublePointerGroup.style.display = 'block';
-        doublePointerCPSString.textContent = `CpS: +${textArray[13]}`;
-        doublePointerCostString.textContent = `Cost: ${textArray[14]}`;
-        doublePointersOwnedString.textContent = `Owned: ${textArray[15]}`;
-      }
-
-      if (uShop.CursorOwned && init.DataLoaded) uShop.CursorCost = 'Owned.';
-      if (uShop.CursorOwned && !uShop.SuperCursorUnlocked) {
-        if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Super Cursor unlocked!'; }
-        superCursorGroup.style.display = 'block';
-        uShop.SuperCursorUnlocked = true
-        labelHideTimeout = 500;
-      } else if (uShop.SuperCursorUnlocked) { superCursorGroup.style.display = 'block'; uShop.CursorCost = 'Owned.'; }
-
-      if (uShop.CursorOwned && uShop.SuperCursorOwned && !uShop.EmployeeUnlocked && uShop.GodFingerUnlocked) {
-        if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Employee unlocked!'; }
-        employeeGroup.style.display = 'block';
-        uShop.EmployeeUnlocked = true
-        labelHideTimeout = 500;
-      } else if (uShop.EmployeeUnlocked) { employeeGroup.style.display = 'block'; uShop.SuperCursorCost = 'Owned.'; }
-
-      if (shop.ClickersOwned >= 75 && shop.SuperClickersOwned >= 20 && shop.DoublePointersOwned >= 3 && uShop.EmployeeUnlocked && !uShop.GodFingerUnlocked) {
-        if (init.DataLoaded) { sfx2.play(); unlockString.style.display = 'block'; unlockString.textContent = 'God Finger unlocked!'; }
-        godFingerGroup.style.display = 'block';
-        uShop.GodFingerUnlocked = true
-        labelHideTimeout = 500;
-      } else if (uShop.GodFingerUnlocked) godFingerGroup.style.display = 'block';
-
-      if (shop.ClickersOwned >= 150 && !uShop.ClickerFusionUnlocked) {
-        if (init.DataLoaded) { sfx4.play(); unlockString.style.display = 'block'; unlockString.textContent = 'Clicker Fusion unlocked!'; }
-        clickerFusionGroup.style.display = 'block';
-        uShop.ClickerFusionUnlocked = true
-        labelHideTimeout = 500;
-      } else if (uShop.ClickerFusionUnlocked) clickerFusionGroup.style.display = 'block';
-
-      let diffArr = [stats.Clicks - display.Clicks, stats.ClickValue - display.ClickValue, stats.RawClickVal - display.RawClickVal, stats.ClicksPS - display.ClicksPS, stats.RawClicksPS - display.RawClicksPS, stats.LifetimeClicks - display.LifetimeClicks, stats.LifetimeManualClicks - display.LifetimeManualClicks, stats.CoinClickCount - display.CoinClickCount, shop.ClickerCPS - display.ClickerCPS, shop.ClickerCost - display.ClickerCost, shop.SuperClickerCPS - display.SuperClickerCPS, shop.SuperClickerCost - display.SuperClickerCost, shop.DoublePointerCPS - display.DoublePointerCPS, shop.DoublePointerCost - display.DoublePointerCost, uShop.EmployeeCost - display.EmployeeCost];
-
-      for (let i = 0; i < diffArr.length; i++) diffArr[i] = Math.abs(diffArr[i]);
-
-      if (display.Clicks < stats.Clicks) display.Clicks += Math.ceil(diffArr[0] / 15); else if (display.Clicks > stats.Clicks) display.Clicks -= Math.ceil(diffArr[0] / 15);
-      if (display.ClickValue < stats.ClickValue) display.ClickValue += Math.ceil(diffArr[1] / 15); else if (display.ClickValue > stats.ClickValue) display.ClickValue -= Math.ceil(diffArr[1] / 15);
-      if (display.RawClickVal < stats.RawClickVal) display.RawClickVal += Math.ceil(diffArr[2] / 15); else if (display.RawClickVal > stats.RawClickVal) display.RawClickVal -= Math.ceil(diffArr[2] / 15);
-      if (display.ClicksPS < stats.ClicksPS) display.ClicksPS += Math.ceil(diffArr[3] / 15); else if (display.ClicksPS > stats.ClicksPS) display.ClicksPS -= Math.ceil(diffArr[3] / 15);
-      if (display.RawClicksPS < stats.RawClicksPS) display.RawClicksPS += Math.ceil(diffArr[4] / 15); else if (display.RawClicksPS > stats.RawClicksPS) display.RawClicksPS -= Math.ceil(diffArr[4] / 15);
-      if (display.LifetimeClicks < stats.LifetimeClicks) display.LifetimeClicks += Math.ceil(diffArr[5] / 15); else if (display.LifetimeClicks > stats.LifetimeClicks) display.LifetimeClicks -= Math.ceil(diffArr[5] / 15);
-      if (display.LifetimeManualClicks < stats.LifetimeManualClicks) display.LifetimeManualClicks += Math.ceil(diffArr[6] / 15); else if (display.LifetimeManualClicks > stats.LifetimeManualClicks) display.LifetimeManualClicks -= Math.ceil(diffArr[6] / 15);
-      if (display.CoinClickCount < stats.CoinClickCount) display.CoinClickCount += Math.ceil(diffArr[7] / 15); else if (display.CoinClickCount > stats.CoinClickCount) display.CoinClickCount -= Math.ceil(diffArr[7] / 15);
-      if (display.ClickerCPS < shop.ClickerCPS) display.ClickerCPS += Math.ceil(diffArr[8] / 15); else if (display.ClickerCPS > shop.ClickerCPS) display.ClickerCPS -= Math.ceil(diffArr[8] / 15);
-      if (display.ClickerCost < shop.ClickerCost) display.ClickerCost += Math.ceil(diffArr[9] / 15); else if (display.ClickerCost > shop.ClickerCost) display.ClickerCost -= Math.ceil(diffArr[9] / 15);
-      if (display.SuperClickerCPS < shop.SuperClickerCPS) display.SuperClickerCPS += Math.ceil(diffArr[10] / 15); else if (display.SuperClickerCPS > shop.SuperClickerCPS) display.SuperClickerCPS -= Math.ceil(diffArr[10] / 15);
-      if (display.SuperClickerCost < shop.SuperClickerCost) display.SuperClickerCost += Math.ceil(diffArr[11] / 15); else if (display.SuperClickerCost > shop.SuperClickerCost) display.SuperClickerCost -= Math.ceil(diffArr[11] / 15);
-      if (display.DoublePointerCPS < shop.DoublePointerCPS) display.DoublePointerCPS += Math.ceil(diffArr[12] / 15); else if (display.DoublePointerCPS > shop.DoublePointerCPS) display.DoublePointerCPS -= Math.ceil(diffArr[12] / 15);
-      if (display.DoublePointerCost < shop.DoublePointerCost) display.DoublePointerCost += Math.ceil(diffArr[13] / 15); else if (display.DoublePointerCost > shop.DoublePointerCost) display.DoublePointerCost -= Math.ceil(diffArr[13] / 15);
-      if (display.EmployeeCost < uShop.EmployeeCost) display.EmployeeCost += Math.ceil(diffArr[14] / 15); else if (display.EmployeeCost > uShop.EmployeeCost) display.EmployeeCost -= Math.ceil(diffArr[14] / 15);
-
-    } else $('.bg').remove();
-
-    setTimeout(updateScreen, updInterval);
-  } catch (error) { errorHandler(error); }
+function getFps() {
+  window.requestAnimationFrame(() => {
+    let now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) times.shift();
+    times.push(now);
+    fps = times.length;
+    fpsLabel.textContent = `FPS: ${fps}`;
+    getFps();
+  });
 }
 
-function numberFix() {
-  // TODO: implement a toggle of some sort for exponent formatting
-  if (!numberShorten) {
-    for (let i = 0; i < intArray.length; i++) {
-      intArray[i] = Math.abs(intArray[i]);
+getFps();
 
-      if (isNaN(intArray[i])) intArray[i] = 0;
+function updateScreen() {
+  formattedStrings = {
+    clicks: { integer: display.clicks, text: null },
+    clickValue: { integer: display.clickValue, text: null },
+    rawClickValue: { integer: display.rawClickValue, text: null },
+    cps: { integer: display.cps, text: null },
+    rawCps: { integer: display.rawCps, text: null },
+    lifetimeClicks: { integer: display.lifetimeClicks, text: null },
+    lifetimeManualClicks: { integer: display.lifetimeManualClicks, text: null },
+    coinClickCount: { integer: display.coinClickCount, text: null },
+    totalClickHelpers: { integer: stats.totalClickHelpers, text: null },
+    clickerCps: { integer: display.clickerCps, text: null },
+    clickerCost: { integer: display.clickerCost, text: null },
+    clickersOwned: { integer: shops.normalShop.clicker.amountOwned, text: null },
+    clickerCpsWorth: { integer: shops.normalShop.clicker.cpsWorth, text: null },
+    superClickerCps: { integer: display.superClickerCps, text: null },
+    superClickerCost: { integer: display.superClickerCost, text: null },
+    superClickersOwned: { integer: shops.normalShop.superClicker.amountOwned, text: null },
+    superClickerCpsWorth: { integer: shops.normalShop.superClicker.cpsWorth, text: null },
+    doublePointerCps: { integer: display.doublePointerCps, text: null },
+    doublePointerCost: { integer: display.doublePointerCost, text: null },
+    doublePointersOwned: { integer: shops.normalShop.doublePointer.amountOwned, text: null },
+    doublePointerCpsWorth: { integer: shops.normalShop.doublePointer.cpsWorth, text: null },
+    employeeCost: { integer: display.employeeCost, text: null },
+    employeesOwned: { integer: shops.upgradeShop.employee.amountOwned, text: null },
+    cursorCost: { integer: shops.upgradeShop.cursor.cost, text: null },
+    superCursorCost: { integer: shops.upgradeShop.superCursor.cost, text: null },
+    godFingerCost: { integer: shops.upgradeShop.godFinger.cost, text: null },
+    clicksAdded: { integer: clicksAdded, text: null },
+    offlineCoins: { integer: offlineCoins, text: null }
+  };
 
-      if (Number.prototype.toLocaleString() != undefined) intArray[i] >= 1000000000000000 ? textArray[i] = ((intArray[i]).toExponential(3)).toLocaleString() : textArray[i] = intArray[i].toLocaleString();
+  numberFormat();
 
-      else { // toLocaleString is unsupported
-        if (intArray[i] < 1000000000000000) {
-          textArray[i] = intArray[i].toString();
-          let pattern = /(-?\d+)(\d{3})/;
-          while (pattern.test(textArray[i])) textArray[i] = textArray[i].replace(pattern, '$1,$2');
-        } else textArray[i] = intArray[i].toExponential(3);
+  if (buff === 'none' && gameStarted)
+    document.title = `${formattedStrings.clicks.text} coins | Coin Clicker v${buildNumber}`;
+  else if (gameStarted) document.title = `A buff is active! | Coin Clicker v${buildNumber}`;
+  else document.title = `Coin Clicker v${buildNumber}`;
+
+  if (!document.hidden) {
+
+    clickString.textContent = `Coins: ${formattedStrings.clicks.text}`;
+    cpsString.textContent = `Coins per Second: ${formattedStrings.cps.text}`;
+    clickValueString.textContent = `Click Value: ${formattedStrings.clickValue.text}`;
+
+    const regularShopValueStrings = [
+      [clickerCpsString, `CpS: +${formattedStrings.clickerCps.text}`],
+      [clickerCostString, `Cost: ${formattedStrings.clickerCost.text}`],
+      [clickersOwnedString, `Owned: ${formattedStrings.clickersOwned.text}`],
+
+      [superClickerCpsString, `CpS: +${formattedStrings.superClickerCps.text}`],
+      [superClickerCostString, `Cost: ${formattedStrings.superClickerCost.text}`],
+      [superClickersOwnedString, `Owned: ${formattedStrings.superClickersOwned.text}`],
+
+      [doublePointerCpsString, `CpS: +${formattedStrings.doublePointerCps.text}`],
+      [doublePointerCostString, `Cost: ${formattedStrings.doublePointerCost.text}`],
+      [doublePointersOwnedString, `Owned: ${formattedStrings.doublePointersOwned.text}`]
+    ]
+
+    for (let i = 0; i < regularShopValueStrings.length; i++)
+      regularShopValueStrings[i][0].textContent = regularShopValueStrings[i][1];
+
+    const regularShopInfoStuff = [
+      [shops.normalShop.clicker, clickerInfo, "clickers(s)", formattedStrings.clickersOwned.text, formattedStrings.clickerCpsWorth.text, formattedStrings.clickerCpsWorth.integer],
+      [shops.normalShop.superClicker, superClickerInfo, "super clickers(s)", formattedStrings.superClickersOwned.text, formattedStrings.superClickerCpsWorth.text, formattedStrings.superClickerCpsWorth.integer],
+      [shops.normalShop.doublePointer, doublePointerInfo, "double pointer(s)", formattedStrings.doublePointersOwned.text, formattedStrings.doublePointerCpsWorth.text, formattedStrings.doublePointerCpsWorth.integer]
+    ]
+
+    function updateInfoStrings(array) {
+      if (array[0].amountOwned !== 0)
+        array[1].textContent = `Your ${array[3]} ${array[2]} account for ${array[4]} (${Math.round((array[5] / stats.rawCps) * 100)}%) of your raw CpS.`;
+    }
+
+    for (let i = 0; i < regularShopInfoStuff.length; i++) updateInfoStrings(regularShopInfoStuff[i]);
+
+    const upgradeInfo = [
+      [shops.upgradeShop.cursor.owned, cursorOwnedString, cursorCostString, formattedStrings.cursorCost.text],
+      [shops.upgradeShop.superCursor.owned, superCursorOwnedString, superCursorCostString, formattedStrings.superCursorCost.text],
+      [shops.upgradeShop.godFinger.owned, godFingerOwnedString, godFingerCostString, formattedStrings.godFingerCost.text,],
+      [shops.upgradeShop.clickerFusion.owned, clickerFusionOwnedString, clickerFusionCostString, '150 clickers']
+    ]
+
+    for (let i in upgradeInfo) {
+      if (upgradeInfo[i][0]) {
+        upgradeInfo[i][1].textContent = 'Owned.';
+        upgradeInfo[i][2].textContent = 'Cost: Bought.';
+      } else {
+        upgradeInfo[i][1].textContent = 'Not owned.';
+        upgradeInfo[i][2].textContent = `Cost: ${upgradeInfo[i][3]}`;
+      }
+    }
+
+    employeeCostString.textContent = `Cost: ${formattedStrings.employeeCost.text}`;
+    employeesOwnedString.textContent = `Owned: ${formattedStrings.employeesOwned.text}`;
+
+    const times = [1000, 60000, 3.6e+6],
+      timesPlural = [2000, 120000, 5.4e+6],
+      timeUnits = ['second', 'minute', 'hour'],
+      timeUnitsPlural = ['seconds', 'minutes', 'hours'];
+
+    for (let i = 0; i < times.length; i++) {
+      if (stats.playtime >= timesPlural[i]) {
+        display.playtime = ((stats.playtime / times[i]).toFixed(1)).toLocaleString();
+        timePlayedString.textContent = `You have played for ${display.playtime} ${timeUnitsPlural[i]}.`;
+      } else if (stats.playtime >= times[i] && stats.playtime < timesPlural[i]) {
+        display.playtime = ((stats.playtime / times[i]).toFixed(1)).toLocaleString();
+        timePlayedString.textContent = `You have played for ${display.playtime} ${timeUnits[i]}.`;
+      }
+    }
+
+    stats.lifetimeClicks === 1
+      ? lifetimeClicksString.textContent = `You have obtained a total of ${formattedStrings.lifetimeClicks.text} coin.`
+      : lifetimeClicksString.textContent = `You have obtained a total of ${formattedStrings.lifetimeClicks.text} coins.`;
+
+    stats.lifetimeManualClicks === 1
+      ? lifetimeManualClicksString.textContent = `You have obtained ${formattedStrings.lifetimeManualClicks.text} coin from clicking.`
+      : lifetimeManualClicksString.textContent = `You have obtained ${formattedStrings.lifetimeManualClicks.text} coins from clicking.`;
+
+    stats.coinClickCount === 1
+      ? coinClickCountString.textContent = `You have clicked the coin ${formattedStrings.coinClickCount.text} time.`
+      : coinClickCountString.textContent = `You have clicked the coin ${formattedStrings.coinClickCount.text} times.`;
+
+    stats.totalClickHelpers === 1
+      ? totalClickHelpersString.textContent = `You have bought ${formattedStrings.totalClickHelpers.text} item.`
+      : totalClickHelpersString.textContent = `You have bought ${formattedStrings.totalClickHelpers.text} items.`;
+
+    achievementsUnlockedString.textContent = `You have unlocked ${stats.achievementsUnlocked} (${Math.round(stats.achievementsUnlocked / 25 * 100)}%) out of 25 achievements.`;
+
+    rawCpsString.textContent = `Your raw coins per second is ${formattedStrings.rawCps.text}.`;
+    rawClickValueString.textContent = `Your raw click value is ${formattedStrings.rawClickValue.text}.`;
+
+    cpsMultiplierString.textContent = `Your coins per second stat is boosted by ${(stats.cpsMultiplier * 100).toFixed(2)}%.`
+
+    clickValueMultiplierString.textContent = `Your click value stat is boosted by ${(stats.clickValueMultiplier * 100).toFixed(1)}%.`;
+
+    stats.offlineCpsPercent.toString().slice(-1) === '5'
+      ? offlineCpsString.textContent = `Your employees gather ${(stats.offlineCpsPercent * 100).toFixed(3)}% of your coins per second while offline.`
+      : offlineCpsString.textContent = `Your employees gather ${(stats.offlineCpsPercent * 100).toFixed(2)}% of your coins per second while offline.`;
+
+    if (buff === 'bonusClicks') buffLabel.textContent = `You got ${formattedStrings.clicksAdded.text} bonus coins!`;
+
+    const displayArray = [
+      [stats.clicks, display.clicks],
+      [stats.clickValue, display.clickValue],
+      [stats.rawClickValue, display.rawClickValue],
+      [stats.cps, display.cps],
+      [stats.rawCps, display.rawCps],
+      [stats.lifetimeClicks, display.lifetimeClicks],
+      [stats.lifetimeManualClicks, display.lifetimeManualClicks],
+      [stats.coinClickCount, display.coinClickCount],
+      [shops.normalShop.clicker.cps, display.clickerCps],
+      [shops.normalShop.clicker.cost, display.clickerCost],
+      [shops.normalShop.superClicker.cps, display.superClickerCps],
+      [shops.normalShop.superClicker.cost, display.superClickerCost],
+      [shops.normalShop.doublePointer.cps, display.doublePointerCps],
+      [shops.normalShop.doublePointer.cost, display.doublePointerCost],
+      [shops.upgradeShop.employee.cost, display.employeeCost],
+    ];
+
+
+    for (let i = 0; i < displayArray.length; i++) {
+      for (let ii = 0; ii < displayArray[i].length; ii++)
+        displayArray[i][ii] = Math.abs(displayArray[i][ii]);
+
+      if (displayArray[i][1] < displayArray[i][0]) {
+        if (!((displayArray[i][0] - displayArray[i][1]) % 15) == 0) displayArray[i][1]++;
+        displayArray[i][1] += Math.abs(Math.ceil((displayArray[i][0] - displayArray[i][1]) / 15));
+      } else if (displayArray[i][1] > displayArray[i][0]) {
+        if (!((displayArray[i][0] - displayArray[i][1]) % 15) == 0) displayArray[i][1]--;
+        displayArray[i][1] -= Math.abs(Math.ceil((displayArray[i][0] - displayArray[i][1]) / 15));
       }
 
+      Object.keys(display).forEach((key, index) => {
+        if (index < displayArray.length) {
+          display[key] = displayArray[index][1];
+        }
+      });
+    }
+
+    debugOutputBox.value = debugConsole;
+  } else {
+    // When the tab is hidden CSS animations cannot play, but the background
+    // sprites still get created anyway. We remove them so they don't build
+    // up at the top of the page.
+    const backgroundSprites = document.querySelectorAll('.backgroundElements');
+    for (let i = 0; i < backgroundSprites.length; i++)
+      backgroundSprites[i].parentNode.removeChild(backgroundSprites[i]);
+  }
+}
+
+function numberFormat() {
+  if (!settings.numberShorten) {
+    for (const property in formattedStrings) {
+      if (Object.hasOwn(formattedStrings, property)) {
+        formattedStrings[property].integer = Math.abs(formattedStrings[property].integer);
+
+        if (isNaN(formattedStrings[property].integer)) formattedStrings[property].integer = 0;
+
+        if (formattedStrings[property].integer < 1e+15) {
+          formattedStrings[property].text = formattedStrings[property].integer.toString();
+          let pattern = /(-?\d+)(\d{3})/;
+          while (pattern.test(formattedStrings[property].text))
+            formattedStrings[property].text = formattedStrings[property].text.replace(pattern, '$1,$2');
+        } else formattedStrings[property].text = formattedStrings[property].integer.toExponential(3);
+      }
     }
   } else {
-    const req = [
-      1000,
-      1e+6,
-      1e+9,
-      1e+12,
-      1e+15,
-      1e+18,
-      1e+21,
-      1e+24,
-      1e+27,
-      1e+30,
-      1e+33,
-      1e+36,
-      1e+39,
-      1e+42,
-      1e+45,
-      1e+48,
-      1e+51,
-      1e+54,
-      1e+57,
-      1e+60,
-      1e+63,
-      1e+66,
-      1e+69,
-      1e+72,
-      1e+75,
-      1e+78,
-      1e+81,
-      1e+84,
-      1e+87,
-      1e+90,
-      1e+93,
-      1e+96,
-      1e+99
-    ],
-      units = [
-        'thousand',
-        'million',
-        'billion',
-        'trillion',
-        'quadrillion',
-        'quintillion',
-        'sextillion',
-        'septillion',
-        'octillion',
-        'nonillion',
-        'decillion',
-        'undecillion',
-        'duodecillion',
-        'tredecillion',
-        'quattuordecillion',
-        'quindecillion',
-        'sexdecillion',
-        'septemdecillion',
-        'octodecillion',
-        'novemdecillion',
-        'vigintillion',
-        'unvigintillion',
-        'duovigintiillion',
-        'trevigintillion',
-        'quattuorvigintiillion',
-        'quinvigintiillion',
-        'sexvigintiillion',
-        'septvigintiillion',
-        'octovigintillion',
-        'nonvigintillion',
-        'trigintillion',
-        'untrigintillion',
-        'duotrigintillion'
-      ];
+    const units = [
+      [1000, 'thousand'],
+      [1e+6, 'million'],
+      [1e+9, 'billion'],
+      [1e+12, 'trillion'],
+      [1e+15, 'quadrillion'],
+      [1e+18, 'quintillion'],
+      [1e+21, 'sextillion'],
+      [1e+24, 'septillion'],
+      [1e+27, 'octillion'],
+      [1e+30, 'nonillion'],
+      [1e+33, 'decillion'],
+      [1e+36, 'undecillion'],
+      [1e+39, 'duodecillion'],
+      [1e+42, 'tredecillion'],
+      [1e+45, 'quattuordecillion'],
+      [1e+48, 'quindecillion'],
+      [1e+51, 'sexdecillion'],
+      [1e+54, 'septemdecillion'],
+      [1e+57, 'octodecillion'],
+      [1e+60, 'novemdecillion'],
+      [1e+63, 'vigintillion'],
+      [1e+66, 'unvigintillion'],
+      [1e+69, 'duovigintiillion'],
+      [1e+72, 'trevigintillion'],
+      [1e+75, 'quattuorvigintiillion'],
+      [1e+78, 'quinvigintiillion'],
+      [1e+81, 'sexvigintiillion'],
+      [1e+84, 'septvigintiillion'],
+      [1e+87, 'octovigintillion'],
+      [1e+90, 'nonvigintillion'],
+      [1e+93, 'trigintillion'],
+      [1e+96, 'untrigintillion'],
+      [1e+99, 'duotrigintillion']
+    ];
+    for (let i = 0; i < units.length; i++) {
+      for (const property in formattedStrings) {
+        if (Object.hasOwn(formattedStrings, property)) {
+          if (formattedStrings[property].integer >= units[i][0])
+            formattedStrings[property].text = (Math.round((formattedStrings[property].integer / units[i][0]) * Math.pow(10, 3)) / Math.pow(10, 3)).toFixed(3) + ' ' + units[i][1];
+          else if (formattedStrings[property].integer < 1000) formattedStrings[property].text = formattedStrings[property].integer;
 
-    for (let i in req) {
-      for (let ii in intArray) {
-        if (intArray[ii] >= req[i]) textArray[ii] = (Math.round((intArray[ii] / req[i]) * Math.pow(10, 3)) / Math.pow(10, 3)).toFixed(3) + ' ' + units[i];
-        else if (intArray[ii] < 1000) textArray[ii] = intArray[ii];
-      }
-    }
-
-    for (let i = 0; i < intArray.length; i++) {
-      if (intArray[i] >= 9.99999e+101) var ii = i;
-      if (ii != undefined) {
-        if (Number.prototype.toLocaleString() != undefined) textArray[ii] = ((intArray[ii]).toExponential(3)).toLocaleString();
-        else textArray[ii] = intArray[ii].toExponential(3);
+          if (formattedStrings[property].integer >= 9.99999e+101)
+            formattedStrings[property].text = formattedStrings[property].integer.toExponential(3);
+        }
       }
     }
   }
 }
 
-function createBgElem() {
-  try {
-    if (startBgCreate && ach[3][3]) {
-      if (graphicsMode == 'Quality') {
+function createBackgroundSprites() {
 
-        bg = document.createElement('img');
-        bg.src = './img/bgdollar.png';
-        bg.id = 'bg';
-        bg.className = 'bg fixed';
-        bg.style.left = `${lib.rng(1, screenWidth)}px`;
-        document.body.appendChild(bg);
+  function createSprite(src) {
+    let sprite = document.createElement('img');
+    sprite.src = src;
+    sprite.id = 'backgroundElement';
+    sprite.className = 'backgroundElements';
+    sprite.style.left = `${rng(1, innerWidth) * 100 / innerWidth}vw`;
+    spriteLayer.appendChild(sprite);
+    setTimeout(() => {
+      // updateScreen() may have already removed the node if the tab was
+      // inactive
+      if (sprite.parentNode) sprite.parentNode.removeChild(sprite);
+    }, 4000);
+  }
 
-        if (ach[9][3]) {
-          if (graphicsMode == 'Quality') {
-            bg = document.createElement('img');
-            bg.src = './img/coin.png';
-            bg.id = 'bg';
-            bg.className = 'bg hasanim fixed';
-            bg.style.left = `${lib.rng(1, screenWidth)}px`;
-            document.body.appendChild(bg);
-          }
-        }
+  if (startCreatingCoinSprites
+    && achievements[3].unlocked
+    && spriteLayer.childElementCount < backgroundSpriteMax
+    && !settings.performanceMode
+  ) {
+    createSprite('./img/backgroundDollar.png');
 
-        if (ach[24][3]) {
-          bgMax = 275;
-          if (graphicsMode == 'Quality') {
-            bg = document.createElement('i');
-            bg.id = 'bg';
-            bg.className = 'fa-solid fa-star ach fixed hasanim bg';
-            // Create dynamic red stars instead of green if Cheater is unlocked
-            !ach[26][3] ? bg.style.color = `rgb(0, ${green}, 0)` : bg.style.color = `rgb(${red}, 0, 0)`;
-            bg.style.left = `${lib.rng(1, screenWidth)}px`;
-            bg.style.fontSize = '1.7vw';
-            document.body.appendChild(bg);
-          }
-        }
-      }
+    if (achievements[12].unlocked) createSprite('./img/coin.png');
 
-    } setTimeout(createBgElem, bgUpdInterval);
-  } catch (error) { errorHandler(error) }
+    if (achievements[24].unlocked) {
+      let sprite = document.createElement('i');
+      sprite.id = 'backgroundElement';
+      sprite.className = 'fa-solid fa-star achievements backgroundElements';
+
+      !achievements[26].unlocked
+        ? sprite.style.color = `rgb(0, ${green}, 0)`
+        : sprite.style.color = `rgb(${red}, 0, 0)`;
+
+      sprite.style.left = `${rng(1, innerWidth)}px`;
+      sprite.style.fontSize = '1.7vw';
+      spriteLayer.appendChild(sprite);
+      setTimeout(() => {
+        if (sprite.parentNode) sprite.parentNode.removeChild(sprite);
+      }, 4000);
+    }
+  }
+  setTimeout(createBackgroundSprites, backgroundSpriteUpdateInterval);
 }
 
-function rgChange() {
-  try {
-    if (increase) { red += 5; green += 5; } else { red -= 5; green -= 5; }
+function updateBackgroundSpriteLimit() {
+  if (achievements[6].unlocked) {
+    backgroundSpriteUpdateInterval = 35;
+    backgroundSpriteMax = 100;
+  }
 
-    if (green == 200) increase = !increase;
-    else if (green == 0) increase = !increase;
+  if (achievements[9].unlocked) {
+    backgroundSpriteUpdateInterval = 30;
+    backgroundSpriteMax = 125;
+  }
 
-    if (newAchUnlocked) {
-      achievementsButton.style.borderInlineColor = `rgb(${red}, 0, 0)`;
-      achievementsButton.style.borderBlockColor = `rgb(${red}, 0, 0)`;
-      achievementsButtonIcon.style.color = `rgb(${red}, 0, 0)`;
+  if (achievements[12].unlocked) {
+    // additional coin sprites get created when this achievement is unlocked,
+    // so having this lower would cause large gaps when the sprite limit is
+    // reached.
+    backgroundSpriteUpdateInterval = 50;
+    backgroundSpriteMax = 150;
+  }
+
+  if (achievements[15].unlocked) {
+    backgroundSpriteUpdateInterval = 43;
+    backgroundSpriteMax = 175;
+  }
+
+  if (achievements[18].unlocked) {
+    backgroundSpriteUpdateInterval = 38;
+    backgroundSpriteMax = 200;
+  }
+
+  if (achievements[21].unlocked) {
+    backgroundSpriteUpdateInterval = 25;
+    backgroundSpriteMax = 300;
+  }
+
+  if (achievements[24].unlocked)
+    backgroundSpriteMax = 400;
+
+}
+
+function colorShift() {
+  const costArray = [
+    [clickerCostString, shops.normalShop.clicker.cost],
+    [superClickerCostString, shops.normalShop.superClicker.cost],
+    [doublePointerCostString, shops.normalShop.doublePointer.cost],
+    [cursorCostString, shops.upgradeShop.cursor.cost],
+    [superCursorCostString, shops.upgradeShop.superCursor.cost],
+    [employeeCostString, shops.upgradeShop.employee.cost],
+    [godFingerCostString, shops.upgradeShop.godFinger.cost]
+  ];
+
+  if (increase) {
+    red += 5;
+    green += 5;
+  } else {
+    red -= 5;
+    green -= 5;
+  }
+
+  if (green === 200 || green === 0) increase = !increase;
+
+  if (newAchievementUnlocked) {
+    achievementsButton.style.borderInlineColor = `rgb(${red}, 0, 0)`;
+    achievementsButton.style.borderBlockColor = `rgb(${red}, 0, 0)`;
+    achievementsButtonIcon.style.color = `rgb(${red}, 0, 0)`;
+  }
+
+  forTheWorthy.style.borderInlineColor = `rgb(0, ${green}, 0)`;
+  forTheWorthy.style.borderBlockColor = `rgb(0, ${green}, 0)`;
+  forTheWorthyIcon.style.color = `rgb(0, ${green}, 0)`;
+
+  breakpoint.style.borderInlineColor = `rgb(0, ${green}, 0)`;
+  breakpoint.style.borderBlockColor = `rgb(0, ${green}, 0)`;
+  breakpointIcon.style.color = `rgb(0, ${green}, 0)`;
+
+  cheater.style.borderInlineColor = `rgb(${red}, 0, 0)`;
+  cheater.style.borderBlockColor = `rgb(${red}, 0, 0)`;
+  cheaterIcon.style.color = `rgb(${red}, 0, 0)`;
+
+  for (let i = 0; i < costArray.length; i++)
+    stats.clicks >= costArray[i][1]
+      ? costArray[i][0].style.color = `rgb(0, ${green}, 0)`
+      : costArray[i][0].style.color = 'rgb(0, 0, 0)';
+}
+
+function canvasDraw() {
+  const dpr = window.devicePixelRatio,
+    rect = canvas.getBoundingClientRect();
+
+  if (canvas.width !== innerWidth && canvas.height !== innerHeight) {
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+  }
+
+  let width = canvas.width,
+    height = canvas.height;
+
+  leftBorderX = width * 0.25;
+  rightBorderX = width * 0.75;
+
+  ctx.strokeStyle = 'rgb(0, 0, 0)';
+  ctx.lineWidth = 1;
+
+  ctx.beginPath();
+  ctx.moveTo(leftBorderX, 0);
+  ctx.lineTo(leftBorderX, height);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(rightBorderX, 0);
+  ctx.lineTo(rightBorderX, height);
+  ctx.stroke();
+}
+
+function labelTimerHandler() {
+  labelHideTimer--;
+  if (labelHideTimer === 0) {
+    savingString.style.display = 'none';
+    unlockString.style.display = 'none';
+
+    labelSwitch = !labelSwitch;
+    if (labelSwitch) saveInfoString.textContent = `Last Saved: ${lastSavedTime}`;
+    else {
+      if (doAutosave)
+        saveInfoString.textContent = 'Game autosaves every minute; You can also press Ctrl+S to save.';
+      else saveInfoString.textContent = 'Autosave is disabled.';
     }
 
-    forTheWorthy.style.borderInlineColor = `rgb(0, ${green}, 0)`;
-    forTheWorthy.style.borderBlockColor = `rgb(0, ${green}, 0)`;
-    ftwIcon.style.color = `rgb(0, ${green}, 0)`;
-
-    breakpoint.style.borderInlineColor = `rgb(0, ${green}, 0)`;
-    breakpoint.style.borderBlockColor = `rgb(0, ${green}, 0)`;
-    bpIcon.style.color = `rgb(0, ${green}, 0)`;
-
-    cheater.style.borderInlineColor = `rgb(${red}, 0, 0)`;
-    cheater.style.borderBlockColor = `rgb(${red}, 0, 0)`;
-    cheaterIcon.style.color = `rgb(${red}, 0, 0)`;
-
-    costArray = [Math.abs(shop.ClickerCost), Math.abs(shop.SuperClickerCost), Math.abs(shop.DoublePointerCost), Math.abs(uShop.CursorCost), Math.abs(uShop.SuperCursorCost), Math.abs(uShop.EmployeeCost), Math.abs(uShop.GodFingerCost)];
-
-    for (let i = 0; i < costArray.length - 1; i++) stats.Clicks >= costArray[i] ? costStringArr[i].style.color = `rgb(0, ${green}, 0)` : costStringArr[i].style.color = 'rgb(0, 0, 0)';
-  } catch (error) { errorHandler(error); }
+    labelHideTimer = 200;
+  }
 }
 
-setTimeout(createBgElem, bgUpdInterval);
-setTimeout(updateScreen, updInterval);
-setInterval(rgChange, 25);
-
-setInterval(() => {
-  if (ach[6][3]) { bgUpdInterval = 100; bgMax = 105; }
-  if (ach[9][3]) { bgUpdInterval = 50; createCoinBg = true; bgMax = 210; }
-}, 1000 / 60);
+setTimeout(createBackgroundSprites, backgroundSpriteUpdateInterval);
+setInterval(colorShift, 25);
+setInterval(updateScreen, 1000 / 60);
+setInterval(updateBackgroundSpriteLimit, 1000 / 60);
+setInterval(labelTimerHandler, 1000 / 60);

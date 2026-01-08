@@ -1,0 +1,204 @@
+.shopButtons {
+  background: transparent no-repeat center;
+  background-size: 90%;
+  height: 3vw;
+  width: 3vw;
+  cursor: pointer;
+  position: relative;
+  top: 3vh;
+}
+
+.shopInfoStrings {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  font-size: 0.8vw;
+  width: 13.5vw;
+  top: 15%;
+  left: 25vw;
+  height: 2.8vw;
+}
+
+.shopButtonContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 25%;
+  left: 0vw;
+}
+
+.shopStringsContainer {
+  position: absolute;
+  width: 25%;
+  left: 0vw;
+}
+
+.shopStrings {
+  top: -4.5vh;
+  position: relative;
+  width: 25vw;
+  font-size: 0.9vw;
+  margin: 0% 0;
+  height: 2vh;
+}
+
+#shopHeaderContainer,
+#upgradeShopHeaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  top: -1vh;
+  left: 0vw;
+  width: 25%;
+  height: 15%;
+}
+
+#shopIcon,
+#upgradeShopIcon {
+  position: relative;
+  height: 3vw;
+  width: 3vw;
+  margin: 0.5vw;
+}
+
+#shopString,
+#upgradeShopString {
+  position: relative;
+  font-size: 2.5vw;
+}
+
+#clickerHoverContainer .hover-trigger:hover+.hover-target,
+#superClickerHoverContainer .hover-trigger:hover+.hover-target,
+#doublePointerHoverContainer .hover-trigger:hover+.hover-target,
+#clickerFusionHoverContainer .hover-trigger:hover+.hover-target {
+  display: flex;
+}
+
+#clickerButtonContainer {
+  top: 8vh;
+}
+
+#clickerStringsContainer {
+  top: 22vh;
+}
+
+#clickerBuy {
+  background-image: url('../img/shop/clicker.png');
+}
+
+#superClickerButtonContainer {
+  top: 24vh;
+}
+
+#superClickerStringsContainer {
+  top: 38vh;
+}
+
+#superClickerBuy {
+  background-image: url('../img/shop/superClicker.png');
+}
+
+#doublePointerButtonContainer {
+  top: 40vh;
+}
+
+#doublePointerStringsContainer {
+  top: 54vh;
+}
+
+#doublePointerInfo {
+  font-size: 0.8vw;
+  width: 13.5vw;
+}
+
+#doublePointerBuy {
+  background-image: url('../img/shop/doublePointer.png');
+}
+
+#upgradeButton,
+#shopReturnButton {
+  height: 3vw;
+  width: 10vw;
+}
+
+#upgradeButtonContainer,
+#shopReturnButtonContainer {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 25%;
+  left: 0vw;
+  top: 90%;
+  height: 10vh;
+}
+
+/*
+ * Upgrade Shop Panel
+ */
+
+#cursorButtonContainer {
+  top: 8vh;
+}
+
+#cursorStringsContainer {
+  top: 22vh;
+}
+
+#cursorBuy {
+  background-image: url('../img/shop/cursor.png');
+}
+
+#superCursorButtonContainer {
+  top: 24vh;
+}
+
+#superCursorStringsContainer {
+  top: 38vh;
+}
+
+#superCursorBuy {
+  background-image: url('../img/shop/superCursor.png');
+}
+
+#employeeButtonContainer {
+  top: 40vh;
+}
+
+#employeeStringsContainer {
+  top: 54vh;
+}
+
+#employeeBuy {
+  background-image: url('../img/shop/employee.png');
+}
+
+#godFingerButtonContainer {
+  top: 56vh;
+}
+
+#godFingerStringsContainer {
+  top: 70vh;
+}
+
+#godFingerBuy {
+  background-image: url('../img/shop/godFinger.png');
+}
+
+#clickerFusionButtonContainer {
+  top: 72vh;
+}
+
+#clickerFusionStringsContainer {
+  top: 86vh;
+}
+
+#clickerFusionInfo {
+  height: 3.5vw;
+}
+
+#clickerFusionBuy {
+  background-image: url('../img/shop/clicker.png');
+}

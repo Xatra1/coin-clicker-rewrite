@@ -3,47 +3,15 @@
 // This project is licensed under the GNU General Public License v2.
 // For more info, see docs/COPYING
 
-// General functions and number formatting
+// General functions
+"use strict";
 
 var gameStarted = false,
-  dataLoaded = false,
-  buildNumber = 6.0,
-  times = [];
-  fps,
-
-  intArray = [],
-  textArray = [];
+  buildNumber = 7.0;
 
 updateString.textContent = `rewrite`;
-buildString.textContent = `build ${buildNumber}`;
+buildString.textContent = `version ${buildNumber}b`;
 
 function rng(min, max) {
   return Math.floor((Math.random() * (max - min) + min));
 }
-
-function getFps() {
-  window.requestAnimationFrame(() => {
-    let now = performance.now();
-    while (times.length > 0 && times[0] <= now - 1000) times.shift();
-    times.push(now);
-    fps = times.length;
-    fpsLabel.textContent = `FPS: ${fps}`;
-    lib.getFps();
-  });
-}
-
-function collides(element1, element2) {
-  try {
-    rect1 = element1.getBoundingClientRect();
-    rect2 = element2.getBoundingClientRect();
-    if (rect1.x < rect2.x + rect2.width && rect1.x + rect1.width > rect2.x && rect1.y < rect2.y + rect2.height && rect1.y + rect1.height > rect2.y) return true;
-    else return false;
-  } catch (err) {
-    errorHandler(err);
-  }
-}
-
-getFps();
-
-let loadEvent = new Event("loadEvemt");
-document.body.dispatchEvent(loadEvent);

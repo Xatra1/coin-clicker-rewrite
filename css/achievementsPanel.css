@@ -1,0 +1,155 @@
+.achievements.buttons {
+  background: transparent no-repeat center;
+  background-size: 90%;
+  height: 3vw;
+  width: 3vw;
+}
+
+.achievements.icons {
+  font-size: 2.2vw;
+  vertical-align: middle;
+  line-height: 3vw;
+  height: 3.1vw;
+  width: 3.1vw;
+  text-align: center;
+}
+
+#achievementsHeaderContainer {
+  width: 50%;
+  left: 25vw;
+  position: absolute;
+  top: 0vh;
+}
+
+#achievementsHeader {
+  position: relative;
+  text-align: center;
+  font-weight: 100;
+  font-size: 2vw;
+}
+
+#achievementStringsContainer {
+  position: absolute;
+  width: 50%;
+  height: 15vh;
+  top: 8vh;
+  left: 25vw;
+}
+
+#achievementNameString,
+#achievementDescriptionString,
+#isAchievementUnlockedString {
+  text-align: center;
+  position: relative;
+}
+
+#achievementButtonsContainer {
+  position: absolute;
+  width: 50%;
+  height: 45vh;
+  left: 26.1vw;
+  font-size: 0;
+  top: 25vh;
+}
+
+#journeyBegins,
+#aGoodStart,
+#gettingThere {
+  background-image: url('../img/achievements/thousandAchievements.png');
+}
+
+#millionare,
+#coinPool,
+#abundance {
+  background-image: url('../img/achievements/millionAchievements.png');
+}
+
+#billionare,
+#excess,
+#planetOfClicks {
+  background-image: url('../img/shop/clicker.png');
+}
+
+#trillionare,
+#pocketDimension,
+#farTooMany {
+  background-image: url('../img/shop/superClicker.png');
+}
+
+#quadrillionare,
+#coinVortex,
+#coinShapedBlackHole {
+  background-image: url('../img/shop/cursor.png');
+}
+
+#quintillionare,
+#clickBeyond,
+#distantBeginning {
+  background-image: url('../img/shop/doublePointer.png');
+}
+
+#sextillionare,
+#numberOverflow,
+#coinUniverse {
+  background-image: url('../img/shop/godFinger.png');
+}
+
+#septillionare,
+#why,
+#twentyFingers {
+  background-image: url('../img/achievements/septillionAchievements.png');
+}
+
+#secretAchievementsContainer {
+  position: absolute;
+  width: 50vw;
+  left: 26vw;
+  top: 75vh;
+  font-size: 0;
+}
+
+#secretAchievementsHeaderContainer {
+  position: absolute;
+  width: 50%;
+  top: 68vh;
+  left: 25vw;
+}
+
+#secretAchievementsHeader {
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+#forTheWorthyIcon,
+#breakpointIcon,
+#cheaterIcon {
+  top: 5000vh;
+  position: fixed;
+  z-index: -1;
+}
+
+#forTheWorthy:hover,
+#breakpoint:hover {
+  box-shadow: 0.05vw 0.05vw 0.01vw lightgreen, -0.05vw -0.05vw 0.01vw lightgreen;
+}
+
+#cheater:hover {
+  box-shadow: 0.05vw 0.05vw 0.2px red, -0.05vw -0.05vw 0.2px red;
+}
+
+#backToGameButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 90vh;
+  width: 50%;
+  left: 25vw;
+}
+
+#backToGame {
+  height: 3vw;
+  width: 10vw;
+  top: 90vh;
+}

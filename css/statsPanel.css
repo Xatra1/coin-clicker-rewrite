@@ -1,0 +1,39 @@
+.statStrings {
+  position: relative;
+  width: 25vw;
+  margin: 2vh auto;
+}
+
+#statsHeaderContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: absolute;
+  top: -1vh;
+  left: 75vw;
+  width: 25%;
+  height: 15%;
+}
+
+#statsString {
+  position: relative;
+  width: 8.5vw;
+  font-size: 2.5vw;
+}
+
+#statsIcon {
+  position: relative;
+  height: 3vw;
+  width: 3vw;
+  margin: 0vw;
+}
+
+#statsStringsContainer {
+  text-align: center;
+  position: absolute;
+  top: 11vh;
+  left: 75vw;
+  width: 25%;
+  height: 85%;
+}

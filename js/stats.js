@@ -4,42 +4,53 @@
 // For more info, see docs/COPYING
 
 // Stats calculations
+"use strict";
 
-class baseStats {
-  constructor() {
-    this.clicks = 0;
-    this.trueClicks = 0;
-    this.clickValue = 1;
-    this.rawClickValue = 1;
-    this.cps = 0;
-    this.rawCps = 0;
-    this.Playtime = 0;
-    this.lifetimeClicks = 0;
-    this.lifetimeManualClicks = 0;
-    this.coinClickCount = 0;
-    this.totalClickHelpers = 0;
-    this.achievementsUnlocked = 0;
-    this.hiddenAchievementsUnlocked = 0;
-    this.offlineCpsPercent = 0;
-  }
+var stats = {
+  clicks: 0,
+  trueClicks: 0,
+  clickValue: 1,
+  clickValueMultiplier: 0,
+  rawClickValue: 1,
+  cps: 0,
+  cpsMultiplier: 0,
+  rawCps: 0,
+  playtime: 0,
+  lifetimeClicks: 0,
+  lifetimeManualClicks: 0,
+  coinClickCount: 0,
+  totalClickHelpers: 0,
+  achievementsUnlocked: 0,
+  hiddenAchievementsUnlocked: 0,
+  offlineCpsPercent: 0,
 };
 
-var stats = new baseStats();
-
 function cpsClick() {
-  try {
-    stats.clicks += stats.cps * 0.10;
-    stats.trueClicks += stats.cps * 0.10;
-    stats.lifetimeClicks += stats.cps * 0.10;
-    stats.clicks = Math.round(stats.clicks);
-    stats.trueClicks = Math.round(stats.trueClicks);
-    stats.lifetimeClicks = Math.round(stats.lifetimeClicks);
-  } catch (error) { errorHandler(error); }
+  if (!settings.pauseProduction) {
+    stats.clicks += Math.round(stats.cps * 0.10);
+    stats.trueClicks += Math.round(stats.cps * 0.10);
+    stats.lifetimeClicks += Math.round(stats.cps * 0.10);
+  }
+}
+
+function updatePlaytimeAndRNG() {
+  if (achievements[0].unlocked) stats.playtime += 1000;
+  buffRNGCalculation();
+}
+
+function recalcCpsAndClickValue() {
+  stats.cps = stats.rawCps;
+  stats.clickValue = stats.rawClickValue;
+
+  if (buff === 'cpsDouble' && stats.cps !== stats.rawCps * 2)
+    stats.cps = stats.rawCps * 2;
+
+  if (buff === 'cv777%Cps' && stats.clickValue !== (stats.rawClickValue * Math.round(stats.cps * 777)))
+    stats.clickValue = stats.rawClickValue * Math.round(stats.cps * 777);
+
+  stats.cps += Math.round(stats.cps * stats.cpsMultiplier);
+  stats.clickValue += Math.round(stats.clickValue * stats.clickValueMultiplier);
 }
 
 setInterval(cpsClick, 100);
-
-setInterval(function() {
-  if (ach[0][3]) stats.playtime += 1000;
-  buffRNGCalc();
-}, 1000);
+setInterval(updatePlaytimeAndRNG, 1000);

@@ -1,0 +1,218 @@
+@keyframes backgroundMove {
+  from {
+    opacity: 40%;
+    transform: translate3d(0, 0, 0)
+  }
+
+  to {
+    opacity: 0%;
+    transform: translate3d(0, 22vw, 0)
+  }
+}
+
+@keyframes coinSpriteMove {
+  from {
+    opacity: 100%;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  to {
+    opacity: 0%;
+    transform: translate3d(0, 1.4vw, 0) rotate(720deg);
+  }
+}
+
+#borderCanvas {
+  top: 0%;
+  left: 0%;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: -4;
+}
+
+#backgroundElement {
+  position: fixed;
+  height: 2vw;
+  width: 2vw;
+  top: -4vh;
+  opacity: 40%;
+  z-index: -3;
+  animation: backgroundMove 4s linear forwards;
+}
+
+#coinContainer {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  left: 25%;
+  top: 30%;
+}
+
+#coin {
+  position: relative;
+  background-image: url('../img/coin.png');
+  border: none;
+  width: 10vw;
+  height: 10vw;
+  background-size: 150%;
+  transition: transform 0.2s;
+}
+
+#coin:hover {
+  transform: scale(1.1)
+}
+
+#coin:active {
+  transform: scale(1)
+}
+
+#coinSprite {
+  position: fixed;
+  border: none;
+  height: 2.5vw;
+  width: 2.5vw;
+  pointer-events: none;
+  opacity: 100%;
+  animation: coinSpriteMove 0.5s ease-in forwards;
+}
+
+#gameScreenStringsContainer {
+  position: absolute;
+  text-align: center;
+  z-index: -2;
+  top: 52.5%;
+  left: 25%
+}
+
+#clickString,
+#cpsString,
+#clickValueString,
+#unlockString,
+#buffLabel {
+  position: relative;
+  width: 50vw;
+  margin: 1vh auto;
+  cursor: default;
+}
+
+#unlockString,
+#buffLabel {
+  margin: 5vh auto;
+}
+
+#saveButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -1vh;
+  left: 45vw;
+  height: 10vh;
+  width: 10%;
+}
+
+#saveButton {
+  position: relative;
+  top: 10%;
+  height: 3vw;
+  width: 10vw;
+}
+
+#savingStringContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 50%;
+  left: 25%;
+  top: 12vh;
+  height: 3vh;
+}
+
+#savingString {
+  position: relative;
+  text-align: center;
+  width: 37vw;
+}
+
+#saveInfoStringContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 9vh;
+  left: -20vw;
+  width: 50vw;
+  height: 2vh;
+}
+
+#saveInfo {
+  width: 20vw;
+  height: 1vh;
+  font-size: 0.8vw;
+  text-align: center;
+}
+
+#achievementsLabel,
+#settingsLabel {
+  position: fixed;
+  text-align: center;
+  width: 7.7vw;
+}
+
+#achievementsButtonContainer,
+#achievementsButtonIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0vh;
+  left: 25%;
+}
+
+#achievementsButtonContainer {
+  height: 10vh;
+  width: 5%;
+}
+
+#achievementsButton {
+  position: relative;
+  height: 3vw;
+  width: 3vw;
+}
+
+#achievementsButtonIcon {
+  text-align: center;
+  position: fixed;
+  line-height: 3vw;
+  height: 3vw;
+  width: 3vw;
+  top: 5000vh;
+  z-index: -1;
+}
+
+#settingsButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0vh;
+  left: 70%;
+  height: 10vh;
+  width: 5%;
+}
+
+#settingsButton {
+  background-image: url('../img/settings/settings.png');
+  position: relative;
+  height: 3vw;
+  width: 3vw;
+}
+
+#fpsLabel {
+  display: none;
+  top: -0.5vw;
+}

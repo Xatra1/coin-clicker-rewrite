@@ -1,0 +1,225 @@
+@keyframes coinOpacity {
+  from {
+    opacity: 0%
+  }
+
+  to {
+    opacity: 100%
+  }
+}
+
+@keyframes smallCoinMove0 {
+  to {
+    transform: translateY(14vw) rotate(360deg)
+  }
+}
+
+@keyframes smallCoinMove1 {
+  to {
+    transform: translateY(-14vw) rotate(-360deg)
+  }
+}
+
+@keyframes smallCoinMove2 {
+  to {
+    transform: translateX(14vw) rotate(360deg)
+  }
+}
+
+@keyframes smallCoinMove3 {
+  to {
+    transform: translateX(-14vw) rotate(-360deg)
+  }
+}
+
+@keyframes smallCoinSpin0 {
+  from {
+    transform: rotate(0deg) translateY(14vw)
+  }
+
+  to {
+    transform: rotate(360deg) translateY(14vw)
+  }
+}
+
+@keyframes smallCoinSpin1 {
+  from {
+    transform: rotate(0deg) translateY(-14vw)
+  }
+
+  to {
+    transform: rotate(360deg) translateY(-14vw)
+  }
+}
+
+@keyframes smallCoinSpin2 {
+  from {
+    transform: rotate(0deg) translateX(14vw)
+  }
+
+  to {
+    transform: rotate(360deg) translateX(14vw)
+  }
+}
+
+@keyframes smallCoinSpin3 {
+  from {
+    transform: rotate(0deg) translateX(-14vw)
+  }
+
+  to {
+    transform: rotate(360deg) translateX(-14vw)
+  }
+}
+
+@keyframes startButtonMove {
+  to {
+    transform: translateY(-9.5vh)
+  }
+}
+
+@keyframes titleStringsMove {
+  to {
+    transform: translateY(0)
+  }
+}
+
+@keyframes bottomStringsMove {
+  to {
+    transform: translateY(0)
+  }
+}
+
+#smallCoin0 {
+  animation: coinOpacity 1s forwards,
+    smallCoinMove0 1.5s forwards 1.2s,
+    smallCoinSpin0 10s infinite linear 3s;
+}
+
+#smallCoin1 {
+  animation: coinOpacity 1s forwards,
+    smallCoinMove1 1.5s forwards 1.2s,
+    smallCoinSpin1 10s infinite linear 3s;
+}
+
+#smallCoin2 {
+  animation: coinOpacity 1s forwards,
+    smallCoinMove2 1.5s forwards 1.2s,
+    smallCoinSpin2 10s infinite linear 3s;
+}
+
+#smallCoin3 {
+  animation: coinOpacity 1s forwards,
+    smallCoinMove3 1.5s forwards 1.2s,
+    smallCoinSpin3 10s infinite linear 3s;
+}
+
+.bottomStrings {
+  animation: bottomStringsMove 1.5s ease-out 4s forwards;
+}
+
+#skipIntroString {
+  text-align: center;
+  position: relative;
+  top: -5vh;
+  transform: translateY(5vh);
+  animation: bottomStringsMove 1s ease-in 3.5s forwards;
+}
+
+#bottomStringsContainer {
+  position: absolute;
+  width: 100vw;
+  bottom: 2.5vh;
+}
+
+#buildString {
+  position: fixed;
+  bottom: 0%;
+  margin: 0 auto;
+  transform: translateY(5vh);
+}
+
+#githubLink {
+  position: fixed;
+  right: 0.5%;
+  bottom: 0%;
+  transform: translateY(5vh);
+}
+
+.coins {
+  height: 8.9vw;
+  width: 8.9vw;
+  position: fixed;
+  margin: auto;
+}
+
+#animatedCoinsContainer {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  height: 25%;
+  width: 25%;
+  margin-top: -22.5vh;
+  margin-left: -12.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleStrings {
+  font-weight: 100;
+  animation: titleStringsMove 1s ease-out 1.5s forwards;
+}
+
+#titleStringsContainer {
+  top: 55%;
+  left: 50%;
+  height: 25%;
+  width: 25%;
+  margin-top: -22.5vh;
+  margin-left: -12.5vw;
+  text-align: center;
+  position: absolute;
+}
+
+#title {
+  text-align: center;
+  position: relative;
+  font-size: 3.4vw;
+  height: 14vh;
+  width: 15vw;
+  margin: auto;
+  transform: translateY(-71.5vh);
+}
+
+#betaString {
+  position: relative;
+  font-size: 2.5vw;
+  height: 5.5vh;
+  margin: auto;
+  transform: translateY(-71.5vh);
+}
+
+#updateString {
+  position: relative;
+  font-size: 1.5vw;
+  height: 2.25vh;
+  margin: auto;
+  transform: translateY(-71.5vh)
+}
+
+#startButtonContainer {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  bottom: -7%;
+}
+
+#startButton {
+  position: relative;
+  height: 3vw;
+  width: 10vw;
+  animation: startButtonMove 1.2s ease-out 3s forwards;
+}

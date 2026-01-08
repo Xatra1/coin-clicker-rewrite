@@ -3,10 +3,9 @@
 // This project is licensed under the GNU General Public License v2.
 // For more info, see docs/COPYING
 
-// All page element definitions
+// All page element declarations
 
-const error = document.createElement('p'),
-  errorStack = document.createElement('p'),
+const spriteLayer = document.getElementById('spriteLayer'),
 
   // Title Screen
 
@@ -18,16 +17,20 @@ const error = document.createElement('p'),
   updateString = document.getElementById('updateString'),
   betaString = document.getElementById('betaString'),
   startButton = document.getElementById('startButton'),
-  smallCoin1 = document.getElementById('smallCoin1'),
-  smallCoin2 = document.getElementById('smallCoin2'),
-  smallCoin3 = document.getElementById('smallCoin3'),
-  smallCoin4 = document.getElementById('smallCoin4'),
-  titleScreenClicker = document.getElementById('titleScreenClicker'),
+
+  smallCoins = [
+    document.getElementById('smallCoin0'),
+    document.getElementById('smallCoin1'),
+    document.getElementById('smallCoin2'),
+    document.getElementById('smallCoin3')
+  ],
+
   title = document.getElementById('title'),
 
   // Game Panel
 
   gamePanel = document.getElementById('gameScreen'),
+  canvas = document.getElementById('borderCanvas'),
   coin = document.getElementById('coin'),
   clickString = document.getElementById('clickString'),
   cpsString = document.getElementById('cpsString'),
@@ -42,66 +45,57 @@ const error = document.createElement('p'),
   // Shop Panel
 
   shopPanel = document.getElementById('shopPanel'),
-  autoBuyString = document.getElementById('autoBuyString'),
 
   clickerBuy = document.getElementById('clickerBuy'),
-  clickerCPSString = document.getElementById('clickerCpsString'),
+  clickerCpsString = document.getElementById('clickerCpsString'),
   clickerCostString = document.getElementById('clickerCostString'),
   clickerInfo = document.getElementById('clickerInfo'),
   clickersOwnedString = document.getElementById('clickersOwnedString'),
-  clickerImage = document.getElementById('clickerImage'),
 
-  superClickerGroup = document.getElementById('superClicker'),
+  superClickerGroup = document.getElementById('superClickerContainer'),
   superClickerBuy = document.getElementById('superClickerBuy'),
-  superClickerCPSString = document.getElementById('superClickerCpsString'),
-  superClickerCostString = document.getElementById('superclickercoststring'),
+  superClickerCpsString = document.getElementById('superClickerCpsString'),
+  superClickerCostString = document.getElementById('superClickerCostString'),
   superClickersOwnedString = document.getElementById('superClickersOwnedString'),
   superClickerInfo = document.getElementById('superClickerInfo'),
-  superClickerImage = document.getElementById('superClickerImage'),
 
-  doublePointerGroup = document.getElementById('doublePointer'),
+  doublePointerGroup = document.getElementById('doublePointerContainer'),
   doublePointerBuy = document.getElementById('doublePointerBuy'),
-  doublePointerCPSString = document.getElementById('doublePointerCpsString'),
+  doublePointerCpsString = document.getElementById('doublePointerCpsString'),
   doublePointerCostString = document.getElementById('doublePointerCostString'),
   doublePointersOwnedString = document.getElementById('doublePointersOwnedString'),
-  doublePointerInfo = document.getElementById('doublePointerinfo'),
-  doublePointerImage = document.getElementById('doublePointerImage'),
+  doublePointerInfo = document.getElementById('doublePointerInfo'),
 
   // Upgrade Shop Panel
 
   upgradeShopPanel = document.getElementById('upgradeShopPanel'),
-  upgradeButton = document.getElementById('upgradeButton'),
+  upgradeShopButton = document.getElementById('upgradeButton'),
   upgradeShopReturn = document.getElementById('shopReturnButton'),
 
   cursorBuy = document.getElementById('cursorBuy'),
   cursorCostString = document.getElementById('cursorCostString'),
   cursorOwnedString = document.getElementById('cursorOwnedString'),
-  cursorImage = document.getElementById('cursorImage'),
 
-  superCursorGroup = document.getElementById('superCursor'),
+  superCursorGroup = document.getElementById('superCursorContainer'),
   superCursorBuy = document.getElementById('superCursorBuy'),
   superCursorCostString = document.getElementById('superCursorCostString'),
   superCursorOwnedString = document.getElementById('superCursorOwnedString'),
-  superCursorImage = document.getElementById('superCursorImage'),
 
-  employeeGroup = document.getElementById('employee'),
+  employeeGroup = document.getElementById('employeeContainer'),
   employeeBuy = document.getElementById('employeeBuy'),
   employeeCostString = document.getElementById('employeeCostString'),
   employeesOwnedString = document.getElementById('employeesOwnedString'),
-  employeeImage = document.getElementById('employeeImage'),
 
-  godFingerGroup = document.getElementById('godFinger'),
+  godFingerGroup = document.getElementById('godFingerContainer'),
   godFingerBuy = document.getElementById('godFingerBuy'),
   godFingerCostString = document.getElementById('godFingerCostString'),
   godFingerOwnedString = document.getElementById('godFingerOwnedString'),
-  godFingerImage = document.getElementById('godFingerImage'),
 
-  clickerFusionGroup = document.getElementById('clickerFusion'),
+  clickerFusionGroup = document.getElementById('clickerFusionContainer'),
   clickerFusionBuy = document.getElementById('clickerFusionBuy'),
   clickerFusionCostString = document.getElementById('clickerFusionCostString'),
   clickerFusionOwnedString = document.getElementById('clickerFusionOwnedString'),
   clickerFusionInfo = document.getElementById('clickerFusionInfo'),
-  clickerFusionImage = document.getElementById('clickerFusionImage'),
 
   // Stats panel
 
@@ -112,27 +106,31 @@ const error = document.createElement('p'),
   coinClickCountString = document.getElementById('coinClickCountString'),
   totalClickHelpersString = document.getElementById('totalClickHelpersString'),
   achievementsUnlockedString = document.getElementById('achievementsUnlockedString'),
-  rawCPSString = document.getElementById('rawCpsString'),
+  rawCpsString = document.getElementById('rawCpsString'),
   rawClickValueString = document.getElementById('rawClickValueString'),
-  offlineCPSString = document.getElementById('offlineCpsString'),
+  cpsMultiplierString = document.getElementById('cpsMultiplierString'),
+  clickValueMultiplierString = document.getElementById('clickValueMultiplierString'),
+  offlineCpsString = document.getElementById('offlineCpsString'),
 
   // Debug panel
 
-  debugScreen = document.getElementById('debugScreen'),
-  commandForm = document.getElementById('debugConsoleInput'),
-  commandInput = document.getElementById('debugCommamdInput'),
+  debugScreen = document.getElementById('debugScreenFlexContainer'),
+  debugInputBox = document.getElementById('debugInputBox'),
+  debugOutputBox = document.getElementById('debugOutputBox'),
+  commandInput = document.getElementById('debugCommandInput'),
 
   // Achievements
 
   achievementsButton = document.getElementById('achievementsButton'),
   achievementsButtonIcon = document.getElementById('achievementsButtonIcon'),
   achievementsLabel = document.getElementById('achievementsLabel'),
-  achievementsPanel = document.getElementById('achievementsScreen'),
+  achievementsPanel = document.getElementById('achievementsPanel'),
   achievementNameString = document.getElementById('achievementNameString'),
   achievementDescriptionString = document.getElementById('achievementDescriptionString'),
-  achievementUnlockString = document.getElementById('achievementUnlockedString'),
+  isAchievementUnlockedString = document.getElementById('isAchievementUnlockedString'),
+  secretAchievementHeaderString = document.getElementById('secretAchievementsHeader'),
 
-  achievmentButtons =
+  achievementButtons =
     [
       journeyBegins = document.getElementById('journeyBegins'),
       aGoodStart = document.getElementById('aGoodStart'),
@@ -173,30 +171,20 @@ const error = document.createElement('p'),
 
   settingsButton = document.getElementById('settingsButton'),
   settingsLabel = document.getElementById('settingsLabel'),
-  settingsPanel = document.getElementById('settingsScreen'),
+  settingsPanel = document.getElementById('settingsPanel'),
   volumeInput = document.getElementById('volumeInput'),
   backgroundGradientCenterInput = document.getElementById('backgroundGradientCenterInput'),
   backgroundGradientEdgeInput = document.getElementById('backgroundGradientEdgeInput'),
   graphicsSettingButton = document.getElementById('graphicsSetting'),
   graphicsSettingInfo = document.getElementById('graphicSettingInfo'),
+  numberShortenButton = document.getElementById('numberShortenToggle'),
+  pauseProductionButton = document.getElementById('cpsPauseToggle'),
   resetBackgroundButton = document.getElementById('resetBackgroundButton'),
   wipeSaveButton = document.getElementById('wipeSaveButton'),
   backToGameSettings = document.getElementById('backToGameSettings');
 
-// Sound effects
+debugOutputBox.value = '';
 
-var sfxClick = document.getElementById('sfxClick'),
-  sfxShopBuy = document.getElementById('sfxShopBuy'),
-  sfxCoinWhoosh = document.getElementById('sfxCoinWhoosh'),
-  sfxShopUnlock = document.getElementById('sfxShopUnlock'),
-  sfxAchievementUnlock = document.getElementById('sfxAchievementUnlock'),
-  sfxSpecialAchievementUnlock = document.getElementById('sfxSpecialAchievementUnlock'),
-  sfxTitleWhoosh = document.getElementById('sfxTitleWhoosh'),
-  sfxTitleWhoosh2 = document.getElementById('sfxTitleWhoosh2'),
+// Debug panel (variable)
 
-  // Background elements
-
-  backgroundSprite = document.createElement('img'),
-  coinSprite = document.createElement('img'),
-
-  debugConsole = document.getElementById('debugConsole').textContent;
+var debugConsole = document.getElementById('debugOutputBox').value;

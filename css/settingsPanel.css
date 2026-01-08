@@ -1,0 +1,92 @@
+#volumeInput,
+#backgroundGradientCenterInput,
+#backgroundGradientEdgeInput,
+#graphicsSetting,
+#numberShortenToggle,
+#cpsPauseToggle {
+  position: relative;
+  text-align: center;
+  border: solid 0.05vw black;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.2vw;
+  height: 1.9vw;
+  width: 10vw;
+  box-sizing: border-box;
+  margin: 0.09vw;
+}
+
+#settingsHeaderContainer {
+  position: absolute;
+  width: 50%;
+  left: 25vw;
+  top: 0vh;
+}
+
+#settingsHeader {
+  position: relative;
+  font-weight: 100;
+  font-size: 2.5vw;
+  text-align: center;
+}
+
+#settingsStringsContainer {
+  position: absolute;
+  width: 25%;
+  left: 24.5vw;
+  height: 1vh;
+  top: 10vh;
+  text-align: right;
+}
+
+#volumeString,
+#graphicsSettingString,
+#backgroundGradientCenterString,
+#backgroundGradientEdgeString,
+#numberShortenToggleString,
+#cpsPauseToggleString {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  font-size: 0.9vw;
+  height: 1.9vw;
+  margin: 0.15vw;
+}
+
+#settingsInputContainer {
+  position: absolute;
+  width: 10%;
+  left: 50.5vw;
+  top: 10vh;
+  height: 1vh;
+}
+
+#graphicsSetting,
+#numberShortenToggle {
+  height: 1.9vw;
+  width: 10vw;
+}
+
+#bottomSettingsButtonsContainer {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  height: 19.2vh;
+  width: 50%;
+  left: 25vw;
+  bottom: 4%;
+}
+
+#wipeSaveButton,
+#resetBackgroundButton,
+#backToGameSettings {
+  position: relative;
+  height: 3vw;
+  width: 10vw;
+}
+
+#wipeSaveButton {
+  border: solid 0.05vw red;
+  color: red;
+}

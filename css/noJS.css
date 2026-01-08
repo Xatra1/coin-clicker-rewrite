@@ -1,39 +1,12 @@
-#titleScreen {
-  display: none;
-}
-
-#gameScreen {
-  display: none;
-}
-
-#shopPanel {
-  display: none;
-}
-
-#upgradeShopPanel {
-  display: none;
-}
-
-#statsPanel {
-  display: none;
-}
-
-#achievementsScreen {
-  display: none;
-}
-
-#debugInputScreen {
-  display: none;
-}
-
-#debugScreen {
-  display: none;
-}
-
-#settingsScreen {
-  display: none;
-}
-
+#titleScreen,
+#gameScreen,
+#shopPanel,
+#upgradeShopPanel,
+#statsPanel,
+#achievementsScreen,
+#debugInputScreen,
+#debugScreen,
+#settingsScreen,
 #loadingScreen {
   display: none;
 }
@@ -43,16 +16,16 @@ body {
   font-weight: 100;
 }
 
-h1#ns {
+h1#nojs {
   font-size: 20px;
 }
 
-a#ns {
+a#nojs {
   font-size: 18px;
   color: black;
 }
 
-a#ns:hover {
+a#nojs:hover {
   -webkit-text-stroke: 0.2px;
   -webkit-text-stroke-color: black;
   text-decoration-thickness: 2px;

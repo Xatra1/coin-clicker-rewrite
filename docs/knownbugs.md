@@ -7,4 +7,4 @@ Bugs that are crossed out have already been fixed.
 - ~~Buffs can occur twice in a row. (Not strictly a bug, but unintended behavior)~~
 - ~~! The debug console no longer accepts Base64 keys.~~
 - ~~! Unlocking the 'Cheater' achievement shows the Breaking Point achievement in the menu.~~
-- The animation of some shop items will still play when wiping a save.
+- ~~The animation of some shop items will still play when wiping a save.~~

@@ -4,8 +4,9 @@
 // For more info, see docs/COPYING
 
 // Browser console and the games built-in debug console
+"use strict";
 
-logChoices = ['Stay a while, and listen.',
+const logChoices = ['Stay a while, and listen.',
   'Boo!',
   'I think you may have hit the wrong button.',
   'Looking for bugs?',
@@ -19,7 +20,6 @@ logChoices = ['Stay a while, and listen.',
   'Maybe you could buy a cookie with all the coins you have.',
   'Why not try tha \'pizza\' command?',
   'Legend says a hidden achievement will appear if you somehow obtain infinite coins... But who listens to stuff like that anyway?',
-  'Hey you should try running \'wipeSave();\' in the input box, it won\'t hurt anything I promise',
   'Oops, all coins!',
   'This whole random quote feature isn\'t a complete waste of time, I swear.',
   'Magic!',
@@ -27,66 +27,69 @@ logChoices = ['Stay a while, and listen.',
   `Imagine having only 0 coins`,
   'Finally! I\'ve been stuck on this island for years!',
   'NOTICE: Due to people trying to steal our coins from the local Coin Clicker Bank, players will now only be receiving 0.01% of their current coins per second. We apologize for the inconvenience.',
-  'Could you open a new window? It\'s hot in here!',
+  'Could you open a new browser window? It\'s hot in here!',
   'Get out of my room!',
   'Thank you for playing Coin Clicker.'
 ],
 
-  man = String.raw`Coin Clicker Debug Console
+  man = `Coin Clicker Debug Console
 
- clear - Clears the console.
- echo - Outputs the given arguments.
- help - Displays this manual.
- exec - Executes JavaScript code.
- eval - An alias for exec, has the same function.
- pizza - Tells you how many $30 pizzas you could buy with your current amount of coins.
- rmsg - Displays a random message. You can also log a specific message by passing an argument with a value of 1-25, or pass 'all' to log all of them.
- clhis - Clears the command history.
- exit - Hides the debug console. You can press Alt+Y to show the console again after running this command.
+clear - Clears the console.
 
- Typing any command into the console that isn't recognized will have the same effect as using the 'exec' or 'eval' commands.
- `;
+echo - Outputs the given arguments.
 
-var debugScreenState = 'closed',
-  debug = false,
-  forceBuff = false,
+help - Displays this manual.
 
-  command = [],
-  keywords = [],
+pizza - Tells you how many $30 pizzas you could buy with your current amount of coins.
+
+rmsg - Displays a random message. You can also choose a specific message by passing an argument with a value of 1-25, or pass 'all' to log all of them.
+
+clhis - Clears the command history.
+
+exit - Hides the debug console. You can press Alt+D to show the console again after running this command.
+
+Tip: You can access your command history using the up and down arrow keys. This list is saved with your stats.
+`;
+
+var debug = false,
+
   commandHistory = [],
-  commandHistoryIndex = 1;
+  commandHistoryIndex = 1,
+  command = [],
+  keywords = [];
 
-commandInput.value = '';
+commandInput.textContent = '';
 
-debugConsole += 'Type \'help\' for a list of commands. You can press Alt+Y to get back to the game screen.\n';
+debugConsole += 'Type \'help\' for a list of commands. You can press Alt+D to get back to the game screen.\n';
 
-for (let i = 0; i < debugLogs.length; i++) console.debug(`%c [Debug] %c${debugLogs[i]}`, 'color: yellow', 'color: inherit');
-
-function randomMsg(argument) {
-  let selectedMsg;
+function randomMessage(argument) {
+  let selectedMessage;
 
   if (!isNaN(parseInt(argument))) {
-    selectedMsg = logChoices[argument];
-    console.log(`=== %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
-    debugConsole += `=== ${selectedMsg} ===\n`;
+    selectedMessage = logChoices[argument];
+    console.log(`=== %c${selectedMessage}%c ===`, 'color: yellow', 'color: inherit');
+    debugConsole += `=== ${selectedMessage} ===\n`;
 
-  } else if (argument == 'all') {
+  } else if (argument === 'all') {
     for (let i = 0; i < logChoices.length; i++) {
-      selectedMsg = logChoices[i];
-      console.log(`${i}: === %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
-      debugConsole += `${i}: === ${selectedMsg} ===\n`;
+      selectedMessage = logChoices[i];
+      console.log(`${i}: === %c${selectedMessage}%c ===`, 'color: yellow', 'color: inherit');
+      debugConsole += `${i}: === ${selectedMessage} ===\n`;
     }
 
   } else {
-    selectedMsg = logChoices[rng(1, logChoices.length - 1)];
-    console.log(`=== %c${selectedMsg}%c ===`, 'color: yellow', 'color: inherit');
-    debugConsole += `=== ${selectedMsg} ===\n`;
+    selectedMessage = logChoices[rng(1, logChoices.length - 1)];
+    console.log(`=== %c${selectedMessage}%c ===`, 'color: yellow', 'color: inherit');
+    debugConsole += `=== ${selectedMessage} ===\n`;
   }
 }
 
 function commandInterpret() {
   commandAssemble();
-  switch (cmd) {
+  switch (command) {
+
+    case '':
+      break;
 
     case 'clear':
       debugConsole = 'Console cleared.\n';
@@ -100,47 +103,41 @@ function commandInterpret() {
       debugConsole += man;
       break;
 
-    case 'exec':
-    case 'eval':
-      try {
-        eval(arg);
-        debugConsole += 'Command executed.\n';
-      } catch (err) { debugConsole += `${err}\n`; }
-      break;
-
-    default:
-      try {
-        eval(commandInput.value);
-        debugConsole += 'Command executed.\n';
-      } catch (err) { debugConsole += `${err}\n`; }
-      break;
-
     case 'pizza':
-      debugConsole += `You could buy ${(Math.floor(stats.clicks / 30)).toLocaleString()} $30 pizzas with your current amount of coins.`;
+      debugConsole += `You could buy ${(Math.floor(stats.clicks / 30)).toLocaleString()} $30 pizzas with your current amount of coins.\n`;
       break;
 
     case 'rmsg':
-      randomMsg(arg);
+      randomMessage(keywords);
       break;
 
-    case 'clhist':
+    case 'clhis':
       commandHistory = [];
+      debugConsole += 'Command history cleared.\n'
       break;
 
     case 'exit':
       document.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'd', 'altKey': true }));
       break;
 
+    default:
+      debugConsole += `Unknown command. Try 'help' for a list of commands.\n`;
   }
 
-  if (cmd != 'clhis') { commandHistory.push(commandInput.value); commandHistoryIndex = commandHistory.length; }
+  if (command !== 'clhis') {
+    commandHistory.push(commandInput.value);
+    commandHistoryIndex = commandHistory.length;
+  }
   command = [];
   keywords = [];
   commandInput.value = '';
 }
 
 function commandAssemble() {
-  for (let i = 0; i < commandInput.value.length; i++) { if (i < 5) command.push(commandInput.value[i]); else keywords.push(commandInput.value[i]); }
+  for (let i = 0; i < commandInput.value.length; i++) {
+    if (i < 5) command.push(commandInput.value[i]);
+    else keywords.push(commandInput.value[i]);
+  }
 
   command = command.toString();
   command = command.replace(/\,/g, '');
@@ -149,4 +146,7 @@ function commandAssemble() {
   keywords = keywords.replace(/\,/g, '');
 }
 
-commandForm.addEventListener("submit", function(event) { event.preventDefault(); commandInterpret(); });
+debugInputBox.addEventListener("submit", (event) => {
+  event.preventDefault();
+  commandInterpret();
+});

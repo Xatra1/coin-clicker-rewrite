@@ -1,307 +1,426 @@
-<!-- This project is licensed under the GNU General Public License. -->
+<!-- This project is licensed under the GNU General Public License v2. -->
 <!-- For more info, see docs/COPYING -->
 
+<!-- Spoilers ahead! -->
 
 <!DOCTYPE html>
 <html lang='en-US'>
 
 <head>
-  <meta name='viewport' content='height=device-height, width=device-width' />
+  <meta name='viewport' content='height=device-height, width=device-width'>
 
-  <meta content='Coin Clicker' property='og:title' />
-  <meta content='A web-based idle clicker game developed by Xatra1. You can find the source code at https://github.com/Xatra1/coin-clicker-source' property='og:description' />
-  <meta content='https://xatra1.github.io/coin-clicker-rewrite' property='og:url' />
-  <meta content='https://xatra1.github.io/coin-clicker-rewrite/img/coin.png' property='og:image' />
-  <meta content='#DBCB14' data-react-helmet='true' name='theme-color' />
+  <meta content='Coin Clicker' property='og:title'>
+  <meta
+    content='A web-based idle clicker game developed by Xatra1. You can find the source code at https://github.com/Xatra1/coin-clicker-rewrite'
+    property='og:description'>
+  <meta content='https://xatra1.github.io/coin-clicker-rewrite' property='og:url'>
+  <meta content='https://xatra1.github.io/coin-clicker-rewrite/img/coin.png' property='og:image'>
+  <meta content='#DBCB14' data-react-helmet='true' name='theme-color'>
 
-  <link rel='stylesheet' href='./css/style.css' />
-  <link rel='icon' type='image/x-icon' href='./img/favicon.ico' />
+  <link rel='stylesheet' href='./css/style.css'>
+  <link rel='stylesheet' href='./css/titleScreen.css'>
+  <link rel='stylesheet' href='./css/shopPanel.css'>
+  <link rel='stylesheet' href='./css/achievementsPanel.css'>
+  <link rel='stylesheet' href='./css/gamePanel.css'>
+  <link rel='stylesheet' href='./css/settingsPanel.css'>
+  <link rel='stylesheet' href='./css/statsPanel.css'>
+  <link rel='icon' type='image/x-icon' href='./img/favicon.ico'>
 </head>
 
 <body>
 
   <noscript>
     <link rel='stylesheet' href='./css/noJS.css' />
-    <h1 id='ns'>This game requires the use of JavaScript, which you have disabled. Please enable it and refresh the
+    <h1 id='nojs'>This game requires the use of JavaScript, which you have disabled. Please enable it and refresh the
       page.</h1>
-    <a href='https://www.enable-javascript.com/' id='ns'>How do I enable Javascript?</a>
+    <a href='https://www.enable-javascript.com/' id='nojs'>How do I enable Javascript?</a>
   </noscript>
 
-  <!-- jQuery Libraries -->
-  <!-- NOTE: remove later, this is not needed -->
-  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js'></script>
+  <p id='fpsLabel' class='fixed hidden'>FPS: </p>
 
-  <div id='loadingScreen'>
-    <h1 id='loadString' class='center'>Loading...</h1>
+  <div id='spriteLayer'></div>
+
+  <!-- Title Screen -->
+
+  <div id='titleScreen'>
+
+    <p id='skipIntroString' class='hasAnimation'>Press the space bar to skip directly to the game.</p>
+
+    <div id='bottomStringsContainer'>
+      <a id='githubLink' class='hasAnimation bottomStrings' href='https://github.com/Xatra1/coin-clicker-rewrite'>This
+        project on GitHub</a>
+
+      <p id='buildString' class='hasAnimation bottomStrings'></p>
+    </div>
+
+    <div id='titleStringsContainer'>
+      <h1 id='title' class='hasAnimation titleStrings'>coin clicker</h1>
+      <h2 id='betaString' class='hasAnimation titleStrings'>beta v7</h2>
+      <h2 id='updateString' class='hasAnimation titleStrings center'></h2>
+    </div>
+
+    <div id='startButtonContainer'>
+      <button id='startButton' class='buttons hasAnimation'>Start</button>
+    </div>
+
+    <div id='animatedCoinsContainer'>
+      <img id='smallCoin0' class='coins' src='./img/coin.png'>
+      <img id='smallCoin1' class='coins' src='./img/coin.png'>
+      <img id='smallCoin2' class='coins' src='./img/coin.png'>
+      <img id='smallCoin3' class='coins' src='./img/coin.png'>
+    </div>
   </div>
 
-  <div id='hideLoading' class='hidden'>
-    <p id='fpsLabel' class='fixed hidden'>FPS: </p>
-    <div id='audio'>
-      <audio src='./snd/click.mp3' id='sfxClick'></audio>
-      <audio src='./snd/shopunlock.mp3' id='sfxShopUnlock'></audio>
-      <audio src='./snd/achievementunlock.mp3' id='sfxAchievementUnlock'></audio>
-      <audio src='./snd/specialachievementunlocksfx.mp3' id='sfxSpecialAchievementUnlock'></audio>
-      <audio src='./snd/shopbuy.mp3' id='sfxBuy'></audio>
-      <audio src='./snd/coinwhoosh.mp3' id='sfxCoinWhoosh'></audio>
-      <audio src='./snd/titlestrswhoosh.mp3' id='sfxTitleWhoosh'></audio>
-      <audio src='./snd/titlestrswhoosh.mp3' id='sfxTitleWhoosh2'></audio>
+  <canvas id="borderCanvas"></canvas>
+
+  <!-- Game Panel -->
+
+  <div id='gameScreen' class='hidden'>
+
+    <div id='coinContainer'>
+      <button tabindex='-1' id='coin' class='gameCoin buttons'></button>
     </div>
 
-    <div id='titleScreen' class='hidden'>
-      <p id='sourceNote' class='hasAnim fixed'></p>
-      <p id='skipIntroString' class='hasAnim fixed'>Press the space bar to skip directly to the game.</p>
-      <a id='githubLink' class='hasAnim bottomString fixed' href='https://github.com/Xatra1/coin-clicker-source'>This
-        project on GitHub</a>
-      <h2 id='betaString' class='hasAnim titleString fixed'>beta v7</h2>
-      <p id='buildString' class='hasAnim bottomString fixed'></p>
-      <h1 id='title' class='hasAnim titleString fixed'>coin clicker</h1>
-      <h2 id='updateString' class='hasAnim titleString center fixed'></h2>
-      <button id='startButton' class='buttons hasAnim bottomButton fixed'>Start</button>
+    <button tabindex='-1' id='employeeImage' class='coinAttachments shopButtons backgroundElement hidden'></button>
 
-      <img id='smallCoin1' class='hasAnim coins backgroundElement fixed' src='./img/coin.png'>
-      <img id='smallCoin2' class='hasAnim coins backgroundElement fixed' src='./img/coin.png'>
-      <img id='smallCoin3' class='hasAnim coins backgroundElement fixed' src='./img/coin.png'>
-      <img id='smallCoin4' class='hasAnim coins backgroundElement fixed' src='./img/coin.png'>
-
-      <img id='titleScreenClicker' class='hasAnim fixed backgroundElement titleScreenClicker' src='./img/shop/clicker.png'>
+    <div id='gameScreenStringsContainer'>
+      <p id='clickString'>Clicks: </p>
+      <p id='cpsString'>Clicks per Second: </p>
+      <p id='clickValueString'>Click Value: </p>
+      <p id='unlockString' class='fixed hidden'></p>
+      <p id='buffLabel' class='fixed hidden'></p>
     </div>
 
-    <div id='borders'>
-      <img id='leftBorder' class='borders fixed' src='./img/border.png'>
-      <img id='rightBorder' class='borders fixed' src='./img/border.png'>
-    </div>
-
-    <div id='gameScreen' class='hidden'>
-
-      <button tabindex='-1' id='coin' class='gamecoin buttons fixed'></button>
-      <button tabindex='-1' id='clickerImg' class='coinAttachments fixed shopbuttons hasAnim backgroundElement'></button>
-      <button tabindex='-1' id='superClickerImg'
-        class='coinAttachments fixed shopbuttons hasAnim backgroundElement hidden'></button>
-      <button tabindex='-1' id='doublePointerImg'
-        class='coinAttachments fixed shopbuttons hasAnim backgroundElement hidden'></button>
-      <button tabindex='-1' id='employeeImg' class='coinAttachments shopbuttons backgroundElement hasAnim fixed hidden'></button>
-
-      <p id='clickString' class='fixed center'>Clicks: </p>
-      <p id='cpsString' class='fixed center'>Clicks per Second: </p>
-      <p id='clickValueString' class='fixed center'>Click Value: </p>
-      <p id='unlockString' class='fixed center hidden'></p>
-
-      <div id='saveButtonHoverContainer'>
-        <button id='saveButton' class='buttons hover-trigger fixed'>Save</button>
-        <p id='saveInfo' class='hover-target fixed center hidden'>Game autosaves every minute; You can also press Ctrl+S
-          to
-          save.</p>
-        <p id='savingString' class='savingstring fixed center hidden'>Saving...</p>
-      </div>
-
-      <p id='buffLabel' class='fixed center hidden'></p>
-
+    <div id='achievementsButtonContainer'>
       <div id='achievementsButtonHoverContainer'>
-        <button id='achievementsButton' class='hover-trigger buttons fixed'></button>
-        <p id='achievementsLabel' class='hover-target label fixed center hidden'>Achievements</p>
+        <button id='achievementsButton' class='hover-trigger buttons'></button>
+        <p id='achievementsLabel' class='hover-target label hidden'>Achievements</p>
+        <i id='achievementsButtonIcon' class='fa-solid fa-star achievements icons'></i>
       </div>
-      <i id='achievementsButtonIcon' class='fa-solid fa-star ach icons fixed center backgroundElement'></i>
-
-      <div id='settingsButtonHoverContainer'>
-        <button id='settingsButton' class='hover-trigger buttons fixed'></button>
-        <p id='settingsLabel' class='hover-target label fixed center hidden'>Settings</p>
-      </div>
-
     </div>
-    
-    <div id='shopPanel' class='hidden'>
-      <p id='shopString' class='fixed'>Shop</p>
-      <p id='autoBuyString' class='fixed hidden center'>Autobuy is enabled.</p>
-      <img id='shopIcon' src='./img/shop/shoplogo.png' class='fixed'>
-      <button id='upgradeButton' class='buttons bottomButton fixed'>Upgrades</button>
 
+    <div id='saveButtonContainer'>
+      <button id='saveButton' class='buttons hover-trigger'>Save</button>
+      <div id='saveInfoStringContainer'>
+        <p id='saveInfo' class='hover-target center'></p>
+      </div>
+    </div>
+
+    <div id='savingStringContainer'>
+      <p id='savingString' class='savingstring center hidden'>Saving...</p>
+    </div>
+
+    <div id='settingsButtonContainer'>
+      <div id='settingsButtonHoverContainer'>
+        <button id='settingsButton' class='hover-trigger buttons'></button>
+        <p id='settingsLabel' class='hover-target label center hidden'>Settings</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Shop Panel -->
+
+  <div id='shopPanel' class='hidden'>
+
+    <div id='shopHeaderContainer'>
+      <img id='shopIcon' src='./img/shop/shopLogo.png'>
+      <p id='shopString'>Shop</p>
+    </div>
+
+    <div id='clickerButtonContainer' class='shopButtonContainer'>
       <div id='clickerHoverContainer'>
-        <button id='clickerBuy' class='hover-trigger shopbuttons fixed shopHover'></button>
-        <p id='clickerInfo' class='hover-target shopInfoStrings shopStrings fixed hidden'>You have no clickers.</p>
+        <button id='clickerBuy' class='hover-trigger shopButtons shopHover'></button>
+        <p id='clickerInfo' class='hover-target shopInfoStrings hidden'>You have no clickers.</p>
+      </div>
+    </div>
+
+    <div id='clickerStringsContainer' class='shopStringsContainer'>
+      <p id='clickerString' class='shopStrings'>clicker</p>
+      <p id='clickerCpsString' class='shopStrings'>CpS: </p>
+      <p id='clickerCostString' class='shopStrings'>Cost: </p>
+      <p id='clickersOwnedString' class='shopStrings'>Owned: </p>
+    </div>
+
+    <div id='superClickerContainer' class='hidden'>
+
+      <div id='superClickerButtonContainer' class='shopButtonContainer'>
+        <div id='superClickerHoverContainer'>
+          <button id='superClickerBuy' class='hover-trigger shopButtons shopHover'></button>
+          <p id='superClickerInfo' class='hover-target shopInfoStrings hidden'>You have no super
+            clickers.</p>
+        </div>
       </div>
 
-      <p id='clickerString' class='fixed shopStrings'>clicker</p>
-      <p id='clickerCpsString' class='fixed shopStrings'>CpS: </p>
-      <p id='clickerCostString' class='fixed shopStrings'>Cost: </p>
-      <p id='clickersOwnedString' class='fixed shopStrings'>Owned: </p>
-
-      <div id='superClicker' class='hidden'>
-        <div id='superClickerHoverContainer'>
-          <button id='superClickerBuy' class='hover-trigger shopbuttons fixed shopHover'></button>
-          <p id='superClickerInfo' class='hover-target shopInfoStrings shopStrings fixed hidden'>You have no super clickers.
-          </p>
-        </div>
-
-        <p id='superClickerInfoString' class='fixed shopStrings'>super clicker</p>
-        <P id='superClickerCpsString' class='fixed shopStrings'>CpS: </P>
+      <div id='superClickerStringsContainer' class='shopStringsContainer'>
+        <p id='superClickerString' class='fixed shopStrings'>super clicker</p>
+        <p id='superClickerCpsString' class='fixed shopStrings'>CpS: </p>
         <p id='superClickerCostString' class='fixed shopStrings'>Cost: </p>
         <p id='superClickersOwnedString' class='fixed shopStrings'>Owned: </p>
-
       </div>
-      <div id='doublePointer' class='hidden'>
 
+    </div>
+
+    <div id='doublePointerContainer' class='shopContainers hidden'>
+
+      <div id='doublePointerButtonContainer' class='shopButtonContainer'>
         <div id='doublePointerHoverContainer'>
-          <button id='doublePointerBuy' class='hover-trigger shopbuttons fixed shopHover'></button>
-          <p id='doublePointerInfo' class='hover-target shopInfoStrings shopStrings fixed hidden'>You have no double
+          <button id='doublePointerBuy' class='hover-trigger shopButtons shopHover'></button>
+          <p id='doublePointerInfo' class='hover-target shopInfoStrings hidden'>You have no double
             pointers.</p>
         </div>
+      </div>
 
+      <div id='doublePointerStringsContainer' class='shopStringsContainer'>
         <p id='doublePointerString' class='fixed shopStrings'>double pointer</p>
         <p id='doublePointerCpsString' class='fixed shopStrings'>CpS: </p>
         <p id='doublePointerCostString' class='fixed shopStrings'>Cost: </p>
         <p id='doublePointersOwnedString' class='fixed shopStrings'>Owned: </p>
-
-      </div>
-    </div>
-
-    <div id='upgradeShopPanel' class='hidden'>
-      
-      <div id='floatingUpgShopIcons'>
-        <button tabindex='-1' id='cursorImage' class='shopbuttons backgroundElement hasAnim fixed hidden'></button>
-        <button tabindex='-1' id='superCursorImage' class='shopbuttons backgroundElement hasAnim fixed hidden'></button>
-        <button tabindex='-1' id='godFingerImage' class='shopbuttons backgroundElement hasAnim fixed hidden'></button>
-        <button tabindex='-1' id='clickerFusionImage' class='shopbuttons backgroundElement hasAnim fixed hidden'></button>
-      </div>
-
-      <p id='upgradeString' class='fixed'>Upgrades</p>
-
-      <img id='upgradeShopIcon' src='./img/shop/shoplogo.png' class='fixed'>
-      <button id='shopReturnButton' class='buttons bottomButton fixed'>Back</button>
-      
-      <button id='cursorBuy' class='shopbuttons fixed shopHover'></button>
-      <p id='cursorString' class='upgradeShopStrings fixed'>cursor</p>
-      <p id='cursorCpsString' class='upgradeShopStrings fixed'>CpS: +100%</p>
-      <p id='cursorCostString' class='upgradeShopStrings fixed'>Cost: 1,000,000,000</p>
-      <p id='cursorOwnedString' class='upgradeShopStrings fixed'>Owned: </p>
-      
-      <div id='superCursor' class='hidden'>
-        <button id='superCursorBuy' class='shopbuttons fixed shopHover'></button>
-        <p id='superCursorString' class='upgradeShopStrings fixed'>super cursor</p>
-        <p id='superCursorCpsString' class='upgradeShopStrings fixed'>CpS: +150%</p>
-        <p id='superCursorCostString' class='upgradeShopStrings fixed'>Cost: 150,000,000,000</p>
-        <p id='superCursorOwnedString' class='upgradeShopStrings fixed'>Owned: </p>
-      </div>
-      
-      <div id='employee' class='hidden'>
-        <button id='employeeBuy' class='shopbuttons fixed shopHover'></button>
-        <p id='employeeString' class='upgradeShopStrings fixed'>employee</p>
-        <p id='employeeCpsString' class='upgradeShopStrings fixed'>CpS: +5% and +0.1% offline</p>
-        <p id='employeeCostString' class='upgradeShopStrings fixed'>Cost: 500,000,000,000</p>
-        <p id='employeesOwnedString' class='upgradeShopStrings fixed'>Owned: </p>
-      </div>
-      
-      <div id='godFinger' class='hidden'>
-        <button id='godFingerBuy' class='shopbuttons fixed shopHover'></button>
-        <p id='godFingerString' class='upgradeShopStrings fixed'>god finger</p>
-        <p id='godFingerPerkString' class='upgradeShopStrings fixed'>Perk: +35% Click Value</p>
-        <p id='godFingerCostString' class='upgradeShopStrings fixed'>Cost: 5,000,000,000,000</p>
-        <p id='godFingerOwnedString' class='upgradeShopStrings fixed'>Owned: </p>
-      </div>
-      
-      <div id='clickerFusion' class='hidden'>
-        <button id='clickerFusionBuy' class='shopbuttons fixed shopHover'
-          title='Fuse 150 clickers together to multiply their CpS by 150%. You can only do this once.'></button>
-        <p id='clickerFusionString' class='upgradeShopStrings fixed'>clicker fusion</p>
-        <p id='clickerFusionPerkString' class='upgradeShopStrings fixed'>Hover for info.</p>
-        <p id='clickerFusionCostString' class='upgradeShopStrings fixed'>Hover for info.</p>
-        <p id='clickerFusionOwnedString' class='upgradeShopStrings fixed'>Owned: </p>
       </div>
 
     </div>
 
-    <div id='statsPanel' class='hidden'>
-      <p id='statsString' class='fixed'>Stats</p>
-      <img id='statsIcon' src='./img/stats/statslogo.png' class='fixed'>
-      <p id='timeString' class='statstrs'>You have played for 0 seconds.</p>
-      <p id='lifetimeClicksString' class='statstrs'>You have obtained a total of 0 clicks.</p>
-      <p id='lifetimeManualClicksString' class='statstrs'>You have gotten 0 clicks from clicking.</p>
-      <p id='coinClickCountString' class='statstrs'>You have clicked the coin 0 times.</p>
-      <p id='totalClickHelpersString' class='statstrs'>You have bought 0 items.</p>
-      <p id='achievementsUnlockedString' class='statstrs'>You have unlocked 0 achievements.</p>
-      <p id='rawCpsString' class='statstrs'>Your raw clicks per second is 0.</p>
-      <p id='rawClickValueString' class='statstrs'>Your raw click value is 0.</p>
-      <p id='offlineCpsString' class='statstrs hidden'>You produce 0% of your clicks per second while offline.</p>
-    </div>
-
-    <div id='debugScreen' class='hidden'>
-      <textarea readonly id='debugConsole' class='fixed'></textarea>
-      <form id='debugConsoleInput' autocomplete='off'>
-        <label for='debugCommmandInput'></label>
-        <input type='text' name='debugCommandInput' placeholder='>_' id='debugCommandInput' class='fixed'>
-      </form>
-    </div>
-
-    <div id='achievementsScreen' class='hidden'>
-      <h2 id='achievementsHeader' class='fixed center'>Achievements</h2>
-      <p id='achievementNameString' class='fixed center'>Journey Begins</p>
-      <p id='achievementDescriptionString' class='fixed center'>Obtain 1 lifetime click.</p>
-      <p id='achievementUnlockedString' class='fixed center'>Unlocked: false</p>
-
-      <button id='journeyBegins' class='achievements buttons fixed'></button>
-      <button id='aGoodStart' class='achievements buttons fixed'></button>
-      <button id='gettingThere' class='achievements buttons fixed'></button>
-      <button id='millionare' class='achievements buttons fixed'></button>
-      <button id='coinPool' class='achievements buttons fixed'></button>
-      <button id='abundance' class='achievements buttons fixed'></button>
-      <button id='billionare' class='achievements buttons fixed'></button>
-      <button id='excess' class='achievements buttons fixed'></button>
-      <button id='planetOfClicks' class='achievements buttons fixed'></button>
-      <button id='trillionare' class='achievements buttons fixed'></button>
-      <button id='pocketDimension' class='achievements buttons fixed'></button>
-      <button id='farTooMany' class='achievements buttons fixed'></button>
-      <button id='quadrillionare' class='achievements buttons fixed'></button>
-      <button id='coinVortex' class='achievements buttons fixed'></button>
-      <button id='coinShapedBlackHole' class='achievements buttons fixed'></button>
-      <button id='quintillionare' class='achievements buttons fixed'></button>
-      <button id='clickBeyond' class='achievements buttons fixed'></button>
-      <button id='distantBeginning' class='achievements buttons fixed'></button>
-      <button id='sextillionare' class='achievements buttons fixed'></button>
-      <button id='numberOverflow' class='achievements buttons fixed'></button>
-      <button id='coinUniverse' class='achievements buttons fixed'></button>
-      <button id='septillionare' class='achievements buttons fixed'></button>
-      <button id='why' class='achievements buttons fixed'></button>
-      <button id='twentyFingers' class='achievements buttons fixed'></button>
-      <button id='forTheWorthy' class='achievements buttons fixed'></button>
-      <button id='breakpoint' class='achievements buttons fixed hidden'></button>
-      <button id='cheater' class='achievements buttons fixed hidden'></button>
-
-      <button id='backToGame' class='achievements buttons fixed'>Back</button>
-
-      <i id='forTheWorthyIcon' class='fa-solid fa-star achievements fixed icons center backgroundElement'></i>
-      <i id='breakpointIcon' class='fa-solid fa-star achievements fixed icons center backgroundElement hidden'></i>
-      <i id='cheaterIcon' class='fa-solid fa-star achievements fixed icons center backgroundElement hidden'></i>
-    </div>
-
-    <div id='settingsScreen' class='hidden'>
-      <h1 id='settingsHeader' class='fixed'>Settings</h1>
-      <label for='volumeInput'></label>
-      <p id='volumeString' class='fixed'>Volume (Accepts values between 0-100):</p>
-      <input name='volumeInput' id='volumeinput' class='fixed' type='text'>
-
-      <p id='autoBuySettingString' class='fixed'>Autobuy (Hover for info):</p>
-      <button id='autoBuySetting' class='buttons fixed'
-        title='Automatically buys items for you whenever you have enough clicks. Can be toggled at any time by pressing the B key.'>OFF</button>
-
-      <label for='backgroundGradientCenterInput'></label>
-      <p id='backgroundGradientCenterString' class='fixed'>Background Gradient Center (Format: R, G, B):</p>
-      <input name='backgroundGradientCenterInput' id='backgroundGradientCenterInput' type='text' class='input fixed'>
-
-      <label for='backgroundGradientEdgeInput'></label>
-      <p id='backgroundGradientEdgeString' class='fixed'>Background Gradient Edge (Format: R, G, B):</p>
-      <input name='backgroundGradientEdgeInput' id='backgroundGradientEdgeInput' type='text' class='input fixed'>
-
-      <p id='graphicsSettingString' class='fixed'>Graphics Mode (Hover for Info):</p>
-      <button id='graphicsSetting' class='buttons fixed'
-        title="Setting this option to 'Performance' will stop the creation of particle effects, drastically increasing the game's framerate. A refresh is required for changes to this setting to fully take effect.">Quality</button>
-
-      <button id='resetBackgroundButton' class='buttons fixed'>Reset Background</button>
-      <button id='wipeSaveButton' class='buttons bottomButton fixed'>Wipe Save</button>
-      <button id='backToGameSettings' class='buttons fixed'>Back</button>
+    <div id='upgradeButtonContainer'>
+      <button id='upgradeButton' class='buttons '>Upgrades</button>
     </div>
 
   </div>
-  <script src='./js/main.js'></script>
-</body>
 
-</html>
+  <!-- Upgrade Shop Panel -->
+
+  <div id='upgradeShopPanel' class='hidden'>
+
+    <div id='upgradeShopHeaderContainer'>
+      <img id='upgradeShopIcon' src='./img/shop/shopLogo.png'>
+      <p id='upgradeShopString'>Upgrades</p>
+    </div>
+
+    <div id='cursorContainer' class='shopContainers'>
+      <div id='cursorButtonContainer' class='shopButtonContainer'>
+        <button id='cursorBuy' class='shopButtons'></button>
+      </div>
+
+      <div id='cursorStringsContainer' class='shopStringsContainer'>
+        <p id='cursorString' class='shopStrings'>cursor</p>
+        <p id='cursorCpsString' class='shopStrings'>CpS: +100%</p>
+        <p id='cursorCostString' class='shopStrings'>Cost: 1,000,000,000</p>
+        <p id='cursorOwnedString' class='shopStrings'>Owned: </p>
+      </div>
+    </div>
+
+    <div id='superCursorContainer' class='shopContainers hidden'>
+      <div id='superCursorButtonContainer' class='shopButtonContainer'>
+        <button id='superCursorBuy' class='shopButtons'></button>
+      </div>
+
+      <div id='superCursorStringsContainer' class='shopStringsContainer'>
+        <p id='superCursorString' class='shopStrings'>super cursor</p>
+        <p id='superCursorCpsString' class='shopStrings'>CpS: +150%</p>
+        <p id='superCursorCostString' class='shopStrings'>Cost: 150,000,000,000</p>
+        <p id='superCursorOwnedString' class='shopStrings'>Owned: </p>
+      </div>
+    </div>
+
+    <div id='employeeContainer' class='shopContainers hidden'>
+      <div id='employeeButtonContainer' class='shopButtonContainer'>
+        <button id='employeeBuy' class='shopButtons'></button>
+      </div>
+
+      <div id='employeeStringsContainer' class='shopStringsContainer'>
+        <p id='employeeString' class='shopStrings'>employee</p>
+        <p id='employeeCpsString' class='shopStrings'>CpS: +0.05% and +0.001% offline</p>
+        <p id='employeeCostString' class='shopStrings'>Cost: 500,000,000,000</p>
+        <p id='employeesOwnedString' class='shopStrings'>Owned: </p>
+      </div>
+    </div>
+
+    <div id='godFingerContainer' class='shopContainers hidden'>
+      <div id='godFingerButtonContainer' class='shopButtonContainer'>
+        <button id='godFingerBuy' class='shopButtons'></button>
+      </div>
+
+      <div id='godFingerStringsContainer' class='shopStringsContainer'>
+        <p id='godFingerString' class='shopStrings'>god finger</p>
+        <p id='godFingerPerkString' class='shopStrings'>Perk: +10% Click Value</p>
+        <p id='godFingerCostString' class='shopStrings'>Cost: 5,000,000,000,000</p>
+        <p id='godFingerOwnedString' class='shopStrings'>Owned: </p>
+      </div>
+    </div>
+
+    <div id='clickerFusionContainer' class='shopContainers hidden'>
+      <div id='clickerFusionButtonContainer' class='shopButtonContainer'>
+        <div id='clickerFusionHoverContainer'>
+          <button id='clickerFusionBuy' class='shopButtons shopHover hover-trigger'></button>
+          <p id='clickerFusionInfo' class='shopInfoStrings hidden hover-target'>Adds 1% to your CpS boost for each
+            clicker you
+            own. You
+            can get this at any time, but only once.</p>
+        </div>
+      </div>
+
+      <div id='clickerFusionStringsContainer' class='shopStringsContainer'>
+        <p id='clickerFusionString' class='shopStrings'>clicker fusion</p>
+        <p id='clickerFusionPerkString' class='shopStrings'>Hover for info.</p>
+        <p id='clickerFusionCostString' class='shopStrings'>Cost: 150 clickers</p>
+        <p id='clickerFusionOwnedString' class='shopStrings'>Not owned.</p>
+      </div>
+
+    </div>
+
+    <div id='shopReturnButtonContainer'>
+      <button id='shopReturnButton' class='buttons '>Back</button>
+    </div>
+
+  </div>
+
+  <!-- Stats Panel -->
+
+  <div id='statsPanel' class='hidden'>
+
+    <div id='statsHeaderContainer'>
+      <img id='statsIcon' src='./img/stats/statsLogo.png'>
+      <p id='statsString'>Stats</p>
+    </div>
+
+    <div id='statsStringsContainer'>
+      <p id='timeString' class='statStrings'>You have played for 0 seconds.</p>
+      <p id='lifetimeClicksString' class='statStrings'>You have obtained a total of 0 clicks.</p>
+      <p id='lifetimeManualClicksString' class='statStrings'>You have gotten 0 clicks from clicking.</p>
+      <p id='coinClickCountString' class='statStrings'>You have clicked the coin 0 times.</p>
+      <p id='totalClickHelpersString' class='statStrings'>You have bought 0 items.</p>
+      <p id='achievementsUnlockedString' class='statStrings'>You have unlocked 0 achievements.</p>
+      <p id='rawCpsString' class='statStrings'>Your raw clicks per second is 0.</p>
+      <p id='rawClickValueString' class='statStrings'>Your raw click value is 0.</p>
+      <p id='cpsMultiplierString' class='statStrings'>Your coins per second stat is boosted by 0%.</p>
+      <p id='clickValueMultiplierString' class='statStrings'>Your click value stat is boosted by 0%.</p>
+      <p id='offlineCpsString' class='statStrings hidden'>You produce 0% of your clicks per second while offline.</p>
+    </div>
+
+  </div>
+
+  <!-- Debug Console -->
+
+  <div id='debugScreenFlexContainer' class='hidden'>
+    <div id='debugScreenGridContainer'>
+      <textarea readonly id='debugOutputBox'></textarea>
+      <form id='debugInputBox' autocomplete='off'>
+        <label for='debugCommmandInput'></label>
+        <input type='text' name='debugCommandInput' placeholder='>_' id='debugCommandInput'>
+      </form>
+    </div>
+  </div>
+
+  <!-- Achievements Panel -->
+
+  <div id='achievementsPanel' class='hidden'>
+    <div id='achievementsHeaderContainer'>
+      <h2 id='achievementsHeader' class='fixed center'>Achievements</h2>
+    </div>
+    <div id='achievementStringsContainer'>
+      <p id='achievementNameString' class='fixed center'>Journey Begins</p>
+      <p id='achievementDescriptionString' class='fixed center'>Obtain 1 lifetime click.</p>
+      <p id='isAchievementUnlockedString' class='fixed center'>Unlocked: false</p>
+    </div>
+
+    <div id='achievementButtonsContainer'>
+      <button id='journeyBegins' class='achievements buttons'></button>
+      <button id='aGoodStart' class='achievements buttons'></button>
+      <button id='gettingThere' class='achievements buttons'></button>
+      <button id='millionare' class='achievements buttons'></button>
+      <button id='coinPool' class='achievements buttons'></button>
+      <button id='abundance' class='achievements buttons'></button>
+      <button id='billionare' class='achievements buttons'></button>
+      <button id='excess' class='achievements buttons'></button>
+      <button id='planetOfClicks' class='achievements buttons'></button>
+      <button id='trillionare' class='achievements buttons'></button>
+      <button id='pocketDimension' class='achievements buttons'></button>
+      <button id='farTooMany' class='achievements buttons'></button>
+      <button id='quadrillionare' class='achievements buttons'></button>
+      <button id='coinVortex' class='achievements buttons'></button>
+      <button id='coinShapedBlackHole' class='achievements buttons'></button>
+      <button id='quintillionare' class='achievements buttons'></button>
+      <button id='clickBeyond' class='achievements buttons'></button>
+      <button id='distantBeginning' class='achievements buttons'></button>
+      <button id='sextillionare' class='achievements buttons'></button>
+      <button id='numberOverflow' class='achievements buttons'></button>
+      <button id='coinUniverse' class='achievements buttons'></button>
+      <button id='septillionare' class='achievements buttons'></button>
+      <button id='why' class='achievements buttons'></button>
+      <button id='twentyFingers' class='achievements buttons'></button>
+      <button id='forTheWorthy' class='achievements buttons'></button>
+    </div>
+
+    <i id='forTheWorthyIcon' class='fa-solid fa-star achievements icons center'></i>
+
+    <div id='secretAchievementsHeaderContainer'>
+      <h3 id='secretAchievementsHeader' class='hidden'>Secret Achievements</h4>
+    </div>
+
+    <div id='secretAchievementsContainer'>
+      <button id='breakpoint' class='achievements buttons hidden'></button>
+      <button id='cheater' class='achievements buttons hidden'></button>
+      <i id='breakpointIcon' class='fa-solid fa-star achievements icons center hidden'></i>
+      <i id='cheaterIcon' class='fa-solid fa-star achievements icons center hidden'></i>
+    </div>
+
+    <div id='backToGameButtonContainer'>
+      <button id='backToGame' class='achievements buttons'>Back</button>
+    </div>
+  </div>
+
+  <!-- Settings Panel -->
+
+  <div id='settingsPanel' class='hidden'>
+    <div id='settingsHeaderContainer'>
+      <h1 id='settingsHeader'>Settings</h1>
+    </div>
+
+    <div id='settingsStringsContainer'>
+      <p id='volumeString'>Volume</p>
+      <p id='backgroundGradientCenterString'>Background Gradient Center</p>
+      <p id='backgroundGradientEdgeString'>Background Gradient Edge</p>
+      <p id='graphicsSettingString'>Background Sprites</p>
+      <p id='numberShortenToggleString'>Number Formatting Type</p>
+      <p id='cpsPauseToggleString'>Pause CpS Production</p>
+    </div>
+
+    <div id='settingsInputContainer'>
+      <label>
+        <input name=' volumeInput' id='volumeInput' type='text' title='0-100'>
+      </label>
+
+      <label>
+        <input name='backgroundGradientCenterInput' id='backgroundGradientCenterInput' type='text' title='RGB format'>
+      </label>
+
+      <label>
+        <input name='backgroundGradientEdgeInput' id='backgroundGradientEdgeInput' type='text' title='RGB format'>
+      </label>
+
+      <button id='graphicsSetting' class='buttons'>On</button>
+      <button id='numberShortenToggle' class='buttons' title='When using comma formatting, any values greater than 1 quadrillion will use exponents.
+
+Numbers >= to 1e+102 will use exponents regardless of this setting.'>Units</button>
+      <button id='cpsPauseToggle' class='buttons'>Off</button>
+    </div>
+
+    <div id='bottomSettingsButtonsContainer'>
+      <button id='resetBackgroundButton' class='buttons'>Reset Background</button>
+      <button id='wipeSaveButton' class='buttons'>Wipe Save</button>
+      <button id='backToGameSettings' class='buttons'>Back</button>
+    </div>
+  </div>
+
+  <script src='./js/audio.js'></script>
+  <script src='./js/pageElements.js'></script>
+  <script src='./js/stats.js'></script>
+  <script src='./js/shops.js'></script>
+  <script src='./js/settings.js'></script>
+  <script src='./js/debugConsole.js'></script>
+  <script src='./js/achievements.js'></script>
+  <script src='./js/buffs.js'></script>
+  <script src='./js/main.js'></script>
+  <script src='./js/miscEventListeners.js'></script>
+  <script src='./js/userInterface.js'></script>
+  <script src='./js/saveLoad.js'></script>
+</body>
