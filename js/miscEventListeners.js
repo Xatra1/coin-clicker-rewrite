@@ -78,7 +78,8 @@ document.addEventListener('keydown', event => {
         event.preventDefault();
         if (gamePanel.style.display === 'none') {
           debugScreen.style.display = 'none';
-          gamePanel.style.display = 'block'
+          gamePanel.style.display = 'block';
+          updateStars();
         } else {
           debugScreen.style.display = 'flex';
           gamePanel.style.display = 'none';
