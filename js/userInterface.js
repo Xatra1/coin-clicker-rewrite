@@ -162,7 +162,7 @@ function updateScreen() {
     employeesOwnedString.textContent = `Owned: ${formattedStrings.employeesOwned.text}`;
 
     const times = [1000, 60000, 3.6e+6],
-      timesPlural = [2000, 120000, 5.4e+6],
+      timesPlural = [2000, 63000, 3.8e+6],
       timeUnits = ['second', 'minute', 'hour'],
       timeUnitsPlural = ['seconds', 'minutes', 'hours'];
 
