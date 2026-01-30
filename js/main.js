@@ -15,3 +15,21 @@ buildString.textContent = `version ${buildNumber}b`;
 function rng(min, max) {
   return Math.floor((Math.random() * (max - min) + min));
 }
+
+(function() {
+  let buttons = document.getElementsByTagName('button');
+
+  Array.prototype.forEach.call(buttons, (button) => {
+    button.addEventListener("click", () => {
+      button.blur();
+    });
+
+    document.body.addEventListener("keyup", () => {
+      button.blur();
+    });
+
+    document.body.addEventListener("keydown", () => {
+      button.blur();
+    })
+  })
+})()
